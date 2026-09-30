@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Твой добрый тренер</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f4f3ef;
+      color: #222;
+    }
+
+    .app {
+      max-width: 600px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 20px 16px 40px;
+    }
+
+    .header {
+      padding: 10px 4px 24px;
+    }
+
+    .header small {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .header h1 {
+      margin: 6px 0 0;
+      font-size: 30px;
+      line-height: 1.15;
+    }
+
+    .header p {
+      margin: 8px 0 0;
+      color: #666;
+      font-size: 15px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      margin: 8px 4px 14px;
+    }
+
+    .cards {
+      display: grid;
+      gap: 12px;
+    }
+
+    .card {
+      border: 0;
+      width: 100%;
+      text-align: left;
+      padding: 20px;
+      border-radius: 22px;
+      background: white;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .card:active {
+      transform: scale(0.98);
+    }
+
+    .card-icon {
+      font-size: 30px;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: 19px;
+    }
+
+    .card p {
+      margin: 0;
+      color: #777;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .back {
+      border: 0;
+      background: transparent;
+      padding: 8px 0 18px;
+      font-size: 15px;
+      color: #555;
+      cursor: pointer;
+    }
+
+    .workout-header {
+      background: #222;
+      color: white;
+      padding: 22px;
+      border-radius: 24px;
+      margin-bottom: 18px;
+    }
+
+    .workout-header h2 {
+      margin: 0 0 8px;
+      font-size: 25px;
+    }
+
+    .workout-header p {
+      margin: 0;
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    .exercise {
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    }
+
+    .exercise-number {
+      color: #888;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .exercise h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .exercise-info {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .video-placeholder {
+      height: 170px;
+      border-radius: 16px;
+      background: #e9e8e3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .footer {
+      text-align: center;
+      color: #999;
+      font-size: 12px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- ГЛАВНЫЙ ЭКРАН -->
+  <div id="home">
+
+    <div class="header">
+      <small>Твой добрый тренер</small>
+      <h1>Двигайся с заботой 🤍</h1>
+      <p>Тренировки без насилия над телом — с вниманием к движению.</p>
+    </div>
+
+    <h2 class="section-title">Тренировки</h2>
+
+    <div class="cards">
+
+      <button class="card" onclick="openWorkout()">
+        <div class="card-icon">💪</div>
+        <h3>Силовая тренировка</h3>
+        <p>Работаем над силой, стабильностью и контролем движения</p>
+      </button>
+
+      <button class="card">
+        <div class="card-icon">🧘</div>
+        <h3>Мобильность</h3>
+        <p>Мягкая работа с подвижностью суставов и качеством движения</p>
+      </button>
+
+      <button class="card">
+        <div class="card-icon">🌿</div>
+        <h3>Восстановление</h3>
+        <p>Спокойная тренировка для лёгкого и комфортного движения</p>
+      </button>
+
+    </div>
+
+    <div class="footer">
+      Твой добрый тренер
+    </div>
+
+  </div>
+
+
+  <!-- ЭКРАН ТРЕНИРОВКИ -->
+  <div id="workout" class="hidden">
+
+    <button class="back" onclick="goHome()">← Назад</button>
+
+    <div class="workout-header">
+      <h2>Силовая тренировка</h2>
+      <p>Начинаем спокойно. Контроль важнее скорости.</p>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-number">Упражнение 1</div>
+      <h3>Приседание</h3>
+      <div class="exercise-info">3 подхода × 10 повторений</div>
+
+      <div class="video-placeholder">
+        Здесь будет MP4-видео упражнения
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-number">Упражнение 2</div>
+      <h3>Ягодичный мост</h3>
+      <div class="exercise-info">3 подхода × 12 повторений</div>
+
+      <div class="video-placeholder">
+        Здесь будет MP4-видео упражнения
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-number">Упражнение 3</div>
+      <h3>Dead Bug</h3>
+      <div class="exercise-info">3 подхода × 8 повторений на сторону</div>
+
+      <div class="video-placeholder">
+        Здесь будет MP4-видео упражнения
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+  function openWorkout() {
+    document.getElementById("home").classList.add("hidden");
+    document.getElementById("workout").classList.remove("hidden");
+    window.scrollTo(0, 0);
+  }
+
+  function goHome() {
+    document.getElementById("workout").classList.add("hidden");
+    document.getElementById("home").classList.remove("hidden");
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
