@@ -1,272 +1,1229 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Твой добрый тренер</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Твой добрый тренер — Приложение 26</title>
+<style>
+:root{
+  --bg:#090909; --panel:rgba(31,29,27,.72); --panel2:rgba(24,23,22,.88);
+  --gold:#e8c38f; --gold2:#b9905c; --text:#f5f2ee; --muted:#aaa39b;
+  --line:rgba(232,195,143,.42); --nav:rgba(8,8,8,.94);
+}
+*{box-sizing:border-box} html,body{margin:0;background:#050505;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif}
+body{min-height:100vh}
+button{font:inherit;color:inherit}
+.app{width:min(100%,430px);min-height:100vh;margin:auto;background:
+ radial-gradient(circle at 80% 8%,rgba(151,104,57,.18),transparent 28%),
+ radial-gradient(circle at 10% 60%,rgba(103,75,47,.14),transparent 30%),
+ #090909;position:relative;overflow:hidden}
+.screen{display:none;padding:22px 18px 105px;min-height:100vh}
+.screen.active{display:block}
+.hero{height:350px;border:1px solid rgba(232,195,143,.35);border-radius:30px;overflow:hidden;position:relative;background:
+ linear-gradient(90deg,rgba(5,5,5,.96) 0%,rgba(5,5,5,.78) 48%,rgba(5,5,5,.15) 100%),
+ url("assets/hero.jpg") center/cover no-repeat;
+ box-shadow:0 18px 45px rgba(0,0,0,.38);padding:34px 28px}
+.hero:after{content:"ФОТО";position:absolute;right:22px;top:20px;font-size:11px;letter-spacing:3px;color:#d8d0c8}
+.kicker{font-size:12px;letter-spacing:1.8px;font-weight:700;color:#e8d6bd;margin-bottom:14px}
+h1{font-size:43px;line-height:.91;margin:0 0 20px;font-weight:900;letter-spacing:-1.8px}
+h1 span{color:var(--gold)}
+.hero p{max-width:245px;color:#ddd5cc;font-size:15px;line-height:1.3;margin:0 0 18px}
+.signature{font-size:18px;font-family:cursive;margin-bottom:3px}.role{font-size:12px;color:#aaa39b}
+.section-title{font-size:25px;font-weight:800;margin:25px 4px 13px}
+.card{position:relative;display:flex;align-items:stretch;min-height:108px;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:linear-gradient(100deg,rgba(45,40,36,.84),rgba(20,19,18,.72));margin:11px 0;box-shadow:0 8px 24px rgba(0,0,0,.22);cursor:pointer}
+.card .pic{width:34%;min-width:34%;background:center/cover no-repeat;position:relative}
+.card .pic:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.05),rgba(0,0,0,.35))}
+.card .content{padding:17px 36px 16px 16px;flex:1}
+.card h3{font-size:20px;margin:0 0 5px}.card p{font-size:13px;line-height:1.28;color:#bcb5ae;margin:0}
+.arrow{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:30px;color:#f0d0a2}
+.icon{width:50px;height:50px;border:1px solid rgba(232,195,143,.4);border-radius:15px;display:grid;place-items:center;color:var(--gold);font-size:23px;margin:15px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:18px}.back{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(30,27,24,.72);font-size:23px;cursor:pointer}.topbar h2{font-size:28px;margin:0}.sub{color:#aaa39b;font-size:13px;margin:0 0 17px}
+.filters{display:none}
+.info-btn{border:1px solid var(--line);border-radius:15px;background:rgba(46,40,34,.75);padding:11px 14px;margin:0 0 15px;width:100%;text-align:left;cursor:pointer;color:#ead4b5}
+.info-btn strong{display:block;font-size:15px}.info-btn span{display:block;font-size:12px;color:#aaa39b;margin-top:3px}
+.workout-card{min-height:116px}.workout-card .pic{width:29%}.meta{font-size:12px;color:#d1c7bc;margin-top:8px}.heart{position:absolute;right:14px;top:14px;background:none;border:0;font-size:24px;color:#eee;cursor:pointer;z-index:2}.heart.active{color:var(--gold)}
+.exercise{min-height:92px}.exercise .pic{width:27%}.exercise h3{font-size:18px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:flex-end;z-index:20}.modal.open{display:flex}.sheet{width:min(100%,430px);max-height:88vh;overflow:auto;margin:auto;background:#181615;border:1px solid var(--line);border-radius:28px 28px 0 0;padding:22px 20px 30px;box-shadow:0 -20px 50px rgba(0,0,0,.45)}.sheet h3{margin:0 0 8px;font-size:23px}.sheet p,.sheet li{color:#c1bbb4;line-height:1.45;font-size:14px}.sheet button{margin-top:14px;width:100%;padding:12px;border-radius:14px;border:1px solid var(--line);background:#28231e;color:#f1d3a8}.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.eyebrow{font-size:10px;letter-spacing:.16em;color:#b99562;margin-bottom:4px}.modal-x{width:38px!important;height:38px;padding:0!important;margin:0!important;border-radius:50%!important;font-size:24px;line-height:1;color:#bfb6ad!important}.modal-lead{margin:4px 0 14px}.method-tabs{display:flex;gap:7px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}.method-tabs::-webkit-scrollbar{display:none}.method-tab{flex:0 0 auto!important;width:auto!important;margin:0!important;padding:9px 12px!important;border-radius:999px!important;font-size:12px}.method-tab.active{background:#b8925f!important;color:#171411!important}.method-content{border:1px solid rgba(232,195,143,.16);background:rgba(46,40,34,.5);border-radius:16px;padding:15px;margin-top:2px}.method-content h4{margin:0 0 6px;font-size:17px}.method-content p{margin:0 0 9px}.method-content ul{margin:8px 0 0;padding-left:19px}.method-content .example{border-top:1px solid rgba(232,195,143,.12);padding-top:10px;margin-top:10px;color:#e7d1b1}.builder-box{margin-top:14px;border:1px solid rgba(232,195,143,.18);border-radius:17px;padding:14px;background:rgba(24,22,21,.8)}.builder-title{font-weight:700;margin-bottom:10px}.builder-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.builder-grid label{font-size:11px;color:#a9a19a}.builder-grid label:first-child{grid-column:1/-1}.builder-grid select{display:block;width:100%;margin-top:5px;padding:10px;border-radius:11px;border:1px solid rgba(232,195,143,.18);background:#24201d;color:#eee;font-size:14px}.builder-result{margin-top:11px;padding:11px 12px;border-radius:12px;background:#211e1b;color:#d8d0c8;font-size:13px;line-height:1.45}.sheet-close{margin-top:14px!important}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,430px);height:82px;background:var(--nav);border-top:1px solid rgba(255,255,255,.08);display:flex;z-index:10;padding-bottom:env(safe-area-inset-bottom)}
+.nav button{flex:1;border:0;background:none;color:#777;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-size:11px;cursor:pointer}.nav button .ni{font-size:23px}.nav button.active{color:var(--gold)}
+.empty{padding:30px 10px;text-align:center;color:#777}
+.note{font-size:12px;color:#777;margin:16px 4px}
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+.article-screen{padding-bottom:110px}.article{padding:4px 4px 24px}.article h3{font-size:20px;margin:24px 0 8px}.article p{font-size:15px;line-height:1.5;color:#d0c9c1;margin:0 0 12px}.article b{color:#f1d3a8}.photo-placeholder{height:190px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,rgba(52,47,42,.8),rgba(19,18,17,.85));display:grid;place-items:center;color:#9d958c;letter-spacing:3px;margin:10px 0;overflow:hidden}.contact-btn{width:100%;border:1px solid var(--line);border-radius:18px;background:linear-gradient(100deg,#4b3a27,#28211b);padding:15px;color:#f4d7ad;font-weight:800;font-size:16px;margin-top:10px;cursor:pointer}.fav-card{cursor:pointer}.fav-card .pic{width:30%}
 
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f4f3ef;
-      color: #222;
-    }
+    .access-box{margin:14px 0;padding:22px;border:1px solid rgba(255,244,218,.65);border-radius:24px;background:rgba(255,255,255,.08);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 10px 30px rgba(0,0,0,.18)}
+    .access-label{font-size:13px;opacity:.68;margin-bottom:8px;letter-spacing:.02em}
+    .access-title{font-size:23px;font-weight:750;margin-bottom:14px}
+    .access-date{font-size:15px;opacity:.9;margin-bottom:7px}
+    .access-days{font-size:17px}
 
-    .app {
-      max-width: 600px;
-      margin: 0 auto;
-      min-height: 100vh;
-      padding: 20px 16px 40px;
-    }
+/* APP 8 SAFE PATCH: only workout filters + exercise detail */
+.app8-filters{display:flex;gap:8px;overflow-x:auto;padding:2px 0 14px;scrollbar-width:none}
+.app8-filters::-webkit-scrollbar{display:none}
+.app8-filter{flex:0 0 auto;border:1px solid var(--line);background:#28231e;color:#aaa39b;border-radius:999px;padding:10px 15px;font-size:12px;cursor:pointer}
+.app8-filter.active{background:rgba(232,195,143,.18);color:#f1d3a8;border-color:var(--gold)}
+.app8-exercise-detail{padding-bottom:110px}
+.app8-video{width:100%;aspect-ratio:1/1;border-radius:22px;border:1px solid var(--line);background:linear-gradient(135deg,#3d3329,#111);display:grid;place-items:center;text-align:center;color:#d8c3a4;margin:8px 0 14px}
+.app8-info{border:1px solid var(--line);background:rgba(30,27,24,.65);border-radius:18px;padding:15px;margin:10px 0}
+.app8-info h3{font-size:18px;margin:0 0 8px}
+.app8-info p,.app8-info li{font-size:14px;line-height:1.5;color:#d0c9c1}
+.app8-info ul{padding-left:18px;margin:0}
+.app8-variants{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.app8-variant{aspect-ratio:1/1;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,#3d3329,#111);display:grid;place-items:center;text-align:center;color:#d8c3a4;font-size:12px;padding:8px}.app8-variant-video{display:block;position:relative;overflow:hidden;padding:0;background:#050505}.variant-kinescope{display:block;width:100%;height:100%;border:0;position:absolute;inset:0}.variant-caption{position:static;padding:9px 8px 10px;border-radius:0 0 15px 15px;background:#211e1b;color:#f1dfc4;font-weight:700;text-align:center;z-index:2;line-height:1.3}.variant-caption small{display:block;margin-top:3px;color:#a9a098;font-weight:500;font-size:10px}.variant-caption small{font-weight:500;color:#bdb4ab;font-size:10px}
 
-    .header {
-      padding: 10px 4px 24px;
-    }
+/* APP 11 — heart-rate calculator */
+.pulse-calculator{padding:14px;border:1px solid rgba(232,195,143,.28);border-radius:18px;background:rgba(255,255,255,.035);margin:14px 0 18px}
+.pulse-calculator label{display:block;font-size:13px;color:#cfc7bf}
+.pulse-calculator input{display:block;width:100%;box-sizing:border-box;margin-top:7px;padding:12px 13px;border:1px solid rgba(232,195,143,.25);border-radius:12px;background:#151311;color:#f2eee9;font-size:16px;outline:none}
+.pulse-calculator input:focus{border-color:var(--gold)}
+.pulse-calculator button{width:100%;margin-top:10px;border:0;border-radius:12px;padding:12px;background:var(--gold);color:#17120e;font-weight:700;font-size:14px;cursor:pointer}
+.pulse-result{margin-top:12px;padding:12px;border-radius:13px;background:rgba(232,195,143,.08);color:#eee6dd;line-height:1.45;font-size:13px}
+.zone-list{display:grid;gap:8px;margin:12px 0 18px}.zone-row{padding:12px 13px;border:1px solid rgba(232,195,143,.18);border-radius:14px;background:rgba(255,255,255,.025)}.zone-row b{display:block;color:#f1d3a8;font-size:14px;margin-bottom:4px}.zone-row span{display:block;color:#c7c0b8;font-size:13px;line-height:1.4}
 
-    .header small {
-      color: #777;
-      font-size: 14px;
-    }
+/* APP 15 — unified workout/exercise filters + favorites */
+.favorite-tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}.favorite-tabs::-webkit-scrollbar{display:none}.favorite-tab{flex:0 0 auto;border:1px solid var(--line);background:#28231e;color:#aaa39b;border-radius:999px;padding:9px 14px;font-size:12px;cursor:pointer}.favorite-tab.active{background:rgba(232,195,143,.18);color:#f1d3a8;border-color:var(--gold)}
+.card .heart{font-size:25px}.exercise .heart{top:10px;right:10px}.favorite-type{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:#a99f95;margin-bottom:5px}
+/* APP 9 — nutrition course */
+.nutrition-nav{position:sticky;top:0;z-index:5;display:flex;gap:8px;overflow-x:auto;padding:7px 0 12px;margin:0 -4px 6px;background:linear-gradient(#090909 75%,rgba(9,9,9,0));scrollbar-width:none}
+.nutrition-nav::-webkit-scrollbar{display:none}
+.nutrition-nav button{flex:0 0 auto;border:1px solid rgba(232,195,143,.38);background:rgba(38,33,29,.92);color:#aaa39b;border-radius:999px;padding:9px 13px;font-size:12px;cursor:pointer;white-space:nowrap}
+.nutrition-nav button.active{background:rgba(232,195,143,.18);border-color:var(--gold);color:#f1d3a8}
+.recovery-hero{}
+.nutrition-hero{padding:18px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(135deg,rgba(48,41,35,.9),rgba(22,20,18,.78));margin-bottom:14px}
+.nutrition-hero h3{font-size:25px;margin:0 0 7px}.nutrition-hero p{font-size:14px;line-height:1.45;color:#cfc7bf;margin:0}.updated{font-size:11px;letter-spacing:.8px;color:#d8bb92;text-transform:uppercase;margin-bottom:8px}
+.nutrition-section{scroll-margin-top:74px;border-top:1px solid rgba(232,195,143,.16);padding-top:10px;margin-top:24px}
+.nutrition-section h3{font-size:22px;margin:0 0 12px}.nutrition-section h4{font-size:16px;margin:18px 0 7px;color:#f1d3a8}.nutrition-section p,.nutrition-section li{font-size:14px;line-height:1.52;color:#d0c9c1}.nutrition-section ul{padding-left:19px}.nutrition-section .callout{padding:13px 14px;border:1px solid rgba(232,195,143,.28);border-radius:16px;background:rgba(255,255,255,.045);margin:12px 0}.nutrition-section .myth{border-left:3px solid #8c6f4c;padding-left:12px}.nutrition-section a{color:#e8c38f}
+.nutrition-mini-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.nutrition-mini{padding:13px;border:1px solid rgba(232,195,143,.25);border-radius:16px;background:rgba(255,255,255,.035)}.nutrition-mini b{display:block;color:#f1d3a8;margin-bottom:5px}.nutrition-mini span{font-size:12px;color:#b9b1a9;line-height:1.35}
 
-    .header h1 {
-      margin: 6px 0 0;
-      font-size: 30px;
-      line-height: 1.15;
-    }
 
-    .header p {
-      margin: 8px 0 0;
-      color: #666;
-      font-size: 15px;
-    }
+/* APP 10 — calorie estimator */
+.calorie-box{margin:14px 0 20px;padding:16px;border:1px solid rgba(232,195,143,.32);border-radius:22px;background:linear-gradient(135deg,rgba(45,39,33,.92),rgba(20,19,18,.82))}
+.calorie-box h3{font-size:21px;margin:0 0 6px}.calorie-box .lead{font-size:13px;line-height:1.45;color:#c5bdb4;margin:0 0 14px}
+.calorie-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.calorie-field label{display:block;font-size:11px;color:#aaa39b;margin:0 0 5px}.calorie-field input,.calorie-field select{width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.12);background:#211e1b;color:#eee;border-radius:13px;padding:12px;font-size:15px;outline:none}
+.calorie-field input:focus,.calorie-field select:focus{border-color:var(--gold)}.calorie-field.full{grid-column:1/-1}
+.calorie-actions{display:flex;gap:8px;margin-top:11px}.calorie-actions button{flex:1;border:1px solid var(--gold);background:rgba(232,195,143,.16);color:#f1d3a8;border-radius:14px;padding:12px;font-size:13px;font-weight:700;cursor:pointer}
+.calorie-result{display:none;margin-top:12px;padding:14px;border-radius:16px;background:rgba(255,255,255,.045);border:1px solid rgba(232,195,143,.2)}.calorie-result.show{display:block}.calorie-result .big{font-size:27px;font-weight:800;color:#f1d3a8}.calorie-result .unit{font-size:12px;color:#aaa39b}.calorie-result .small{font-size:12px;color:#aaa39b;line-height:1.45;margin-top:7px}.calorie-result .result-row{display:flex;justify-content:space-between;gap:12px;align-items:baseline}.calorie-result .result-row+.result-row{margin-top:8px}.calorie-error{font-size:12px;color:#d6a58e;margin-top:8px;display:none}.calorie-error.show{display:block}
+@media(max-width:360px){.calorie-grid{grid-template-columns:1fr}.calorie-field.full{grid-column:auto}}
 
-    .section-title {
-      font-size: 22px;
-      margin: 8px 4px 14px;
-    }
 
-    .cards {
-      display: grid;
-      gap: 12px;
-    }
+/* APP 14 — personal work */
+.personal-hero{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:4px 0 18px}
+.personal-photo{height:235px;border:1px solid rgba(232,195,143,.38);border-radius:24px;overflow:hidden;position:relative;background:linear-gradient(145deg,#3a332d,#151311);display:flex;align-items:flex-end}
+.personal-photo:first-child{background:linear-gradient(145deg,rgba(73,60,46,.95),rgba(18,17,15,.95))}
+.personal-photo:nth-child(2){background:linear-gradient(145deg,rgba(55,50,45,.95),rgba(16,15,14,.95))}
+.personal-photo .photo-label{padding:12px;width:100%;background:linear-gradient(transparent,rgba(0,0,0,.72));font-size:10px;letter-spacing:1.5px;color:#cfc4b7}
+.personal-lead{padding:18px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(135deg,rgba(48,41,35,.9),rgba(22,20,18,.78));margin-bottom:16px}
+.personal-lead .kicker{margin-bottom:8px}.personal-lead h3{font-size:26px;line-height:1.05;margin:0 0 9px}.personal-lead p{font-size:14px;line-height:1.45;color:#d0c9c1;margin:0}
+.personal-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0 20px}
+.personal-mini{padding:14px;border:1px solid rgba(232,195,143,.22);border-radius:17px;background:rgba(255,255,255,.03)}
+.personal-mini b{display:block;color:#f1d3a8;font-size:14px;margin-bottom:5px}.personal-mini span{display:block;color:#c7c0b8;font-size:12px;line-height:1.42}
+.personal-step{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(232,195,143,.13)}
+.personal-step:last-child{border-bottom:0}.personal-step .num{flex:0 0 34px;height:34px;border:1px solid var(--line);border-radius:11px;display:grid;place-items:center;color:#f1d3a8;font-weight:800;font-size:12px}
+.personal-step h4{margin:0 0 3px;font-size:15px}.personal-step p{margin:0!important;font-size:13px!important}
+.price-list{display:grid;gap:9px;margin:13px 0 7px}
+.price-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:14px 14px;border:1px solid rgba(232,195,143,.23);border-radius:16px;background:rgba(255,255,255,.035)}
+.price-row strong{font-size:15px}.price-row .price{font-size:17px;font-weight:800;color:#f1d3a8;white-space:nowrap}.price-row .detail{grid-column:1/-1;font-size:11px;color:#8f8982;margin-top:-5px}
+.personal-note{font-size:12px;color:#9f978f;line-height:1.45;margin:9px 3px 0}
+.boundary{padding:14px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.025);margin:12px 0}.boundary b{color:#f0d1a5}.boundary p{margin:7px 0 0!important}
+.personal-principle{padding:18px;border-radius:22px;border:1px solid rgba(232,195,143,.35);background:linear-gradient(135deg,rgba(75,59,39,.45),rgba(25,22,19,.8));margin:18px 0}.personal-principle .big{font-size:25px;font-weight:900;letter-spacing:-.5px;margin-bottom:8px;color:#f3d5ab}.personal-principle p{margin:0!important}
 
-    .card {
-      border: 0;
-      width: 100%;
-      text-align: left;
-      padding: 20px;
-      border-radius: 22px;
-      background: white;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-      cursor: pointer;
-      transition: transform 0.15s ease;
-    }
+/* APP 17 — clearer filter layout and method list */
+.workout-filters,.exercise-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;overflow:visible;padding:2px 0 14px}
+.exercise-filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+.workout-filters .workout-all,.exercise-filters .exercise-all{grid-column:1/-1;width:100%;}
+.app8-filters .app8-filter{min-width:0;width:100%;white-space:nowrap;padding:10px 8px}
+.method-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;overflow:visible;padding:2px 0 12px}
+.method-tab{width:100%!important;min-width:0;white-space:normal;line-height:1.15}
+@media (min-width:390px){.method-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
-    .card:active {
-      transform: scale(0.98);
-    }
+.tech-list{display:flex;flex-direction:column;gap:14px;margin-top:12px}
+.tech-card{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:linear-gradient(100deg,rgba(45,40,36,.84),rgba(20,19,18,.72));box-shadow:0 8px 24px rgba(0,0,0,.22);cursor:pointer}
+.tech-video{aspect-ratio:16/9;background:linear-gradient(135deg,#3d3329,#111);display:grid;place-items:center;position:relative;color:#d8c3a4}
+.tech-video:after{content:'▶';width:58px;height:58px;border:1px solid rgba(232,195,143,.6);border-radius:50%;display:grid;place-items:center;background:rgba(8,8,8,.48);font-size:22px;padding-left:3px}
+.tech-body{padding:15px 16px 17px}.tech-body h3{margin:0 0 5px;font-size:19px}.tech-body p{margin:0;color:#bcb5ae;font-size:13px;line-height:1.4}.tech-tag{display:inline-block;margin-top:10px;font-size:11px;color:#d9c09a;border:1px solid rgba(232,195,143,.24);border-radius:999px;padding:5px 9px}
+.tech-modal-video{aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:linear-gradient(135deg,#3d3329,#111);display:grid;place-items:center;color:#d8c3a4;margin:12px 0 15px}
+.test-video{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit;background:#050505}.exercise-preview-video{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit;background:#050505;border:0}.kinescope-square{width:100%;height:100%;display:block;border:0;background:#050505;border-radius:inherit}.kinescope-frame{width:100%;aspect-ratio:16/9;border:0;border-radius:18px;display:block;background:#050505}.workout-modal-video{width:100%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#050505;margin:12px 0 15px}
 
-    .card-icon {
-      font-size: 30px;
-      margin-bottom: 12px;
-    }
+/* App 31: square exercise video and lightweight Kinescope loading */
+.app8-video{aspect-ratio:1/1;}
+.app8-video .kinescope-square,.app8-video .test-video{width:100%;height:100%;display:block;border:0;border-radius:inherit;}
+.app8-variant-video{aspect-ratio:auto;display:flex;flex-direction:column;overflow:hidden;padding:0;background:#050505;}
+.app8-variant-video .variant-video-box{width:100%;aspect-ratio:1/1;position:relative;overflow:hidden;flex:0 0 auto;}
+.app8-variant-video .variant-caption{flex:0 0 auto;}
+.timer-live-layout .timer-live-video{aspect-ratio:1/1;height:auto;}
+.timer-live-exercise-video{width:100%;height:100%;display:block;border:0;border-radius:inherit;background:#050505;}
+</style>
 
-    .card h3 {
-      margin: 0 0 6px;
-      font-size: 19px;
-    }
+<style id="app21-layout-fix">
+/* APP 21 — isolated integration layout fixes */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border:1px solid rgba(232,195,143,.34);border-radius:14px;background:#28231e;color:#eee6dd;padding:11px 14px;font-size:14px;font-weight:750;cursor:pointer;text-decoration:none;box-shadow:none}
+.btn.main{background:linear-gradient(100deg,#4b3a27,#28211b);border-color:rgba(232,195,143,.55);color:#f4d7ad}
+.btn:active{transform:translateY(1px)}
+.panel{border:1px solid rgba(232,195,143,.22);background:rgba(31,29,27,.72);border-radius:20px;padding:15px;margin:12px 0}
+.current-workout{margin:12px 0 16px;padding:14px;border:1px solid rgba(232,195,143,.28);background:rgba(31,29,27,.78);border-radius:20px}
+.current-workout-head{align-items:center}
+.current-workout-list{gap:6px}
+.current-workout-row{min-height:36px;padding:7px 9px}
+.current-workout-row .clear-workout{width:28px;min-width:28px;height:28px;margin:0;padding:0;border:1px solid rgba(232,195,143,.18);border-radius:50%;background:rgba(0,0,0,.12);display:grid;place-items:center;font-size:17px;line-height:1}
+.start-current{display:flex!important;margin-top:12px!important;min-height:46px}
+.exercise{min-height:116px;padding-bottom:42px}
+.exercise .content{padding:16px 54px 54px 16px}
+.exercise .content p{max-width:100%}
+.add-ex-btn{left:calc(27% + 16px);right:auto;bottom:10px;max-width:calc(73% - 64px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:7px 10px;border-radius:10px;font-size:11px}
+.exercise .arrow{right:12px}
+/* App 33: floating contextual back navigation */
+.floating-back{
+  position:fixed;
+  right:max(18px, calc((100vw - 430px)/2 + 18px));
+  bottom:88px;
+  z-index:40;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:1px solid rgba(232,195,143,.58);
+  background:rgba(18,17,16,.92);
+  color:#f1d3a8;
+  box-shadow:0 8px 24px rgba(0,0,0,.38);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  line-height:1;
+  cursor:pointer;
+  backdrop-filter:blur(8px);
+}
+.floating-back.show{display:flex}
+.floating-back:active{transform:scale(.96)}
 
-    .card p {
-      margin: 0;
-      color: #777;
-      font-size: 14px;
-      line-height: 1.4;
-    }
+.timer-setup .section-title{margin:5px 0 10px}
+.timer-setup .panel{padding:14px}
+.timer-setup .presets{gap:8px}
+.timer-setup .preset{min-height:88px}
+.timer-setup>.btn.main{margin-top:12px}
+.timer-live-video{height:210px}
+.timer-list .timer-row{min-height:52px}
+@media(max-width:360px){.exercise .content{padding-right:46px}.add-ex-btn{left:calc(27% + 12px);max-width:calc(73% - 56px)}}
+</style>
 
-    .back {
-      border: 0;
-      background: transparent;
-      padding: 8px 0 18px;
-      font-size: 15px;
-      color: #555;
-      cursor: pointer;
-    }
+<style id="app20-timer-css">
+.current-workout{margin:12px 0 14px;padding:14px;border:1px solid rgba(232,195,143,.28);background:rgba(31,29,27,.78);border-radius:20px;display:none}.current-workout.show{display:block}.current-workout-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.current-workout-title{font-weight:800}.current-workout-count{font-size:12px;color:#b9905c}.current-workout-list{display:grid;gap:7px;margin-top:11px}.current-workout-row{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:12px;background:#211e1b}.current-workout-row .num{color:#b9905c;font-size:12px;width:18px}.current-workout-row .name{flex:1;font-size:13px}.add-ex-btn{position:absolute;right:48px;bottom:12px;border:1px solid rgba(232,195,143,.35);background:#211e1b;color:#e8c38f;border-radius:10px;padding:6px 9px;font-size:11px;font-weight:700;z-index:2}.add-ex-btn.added{background:rgba(232,195,143,.18);color:#f0d0a2}.exercise{position:relative}.clear-workout{border:0;background:transparent;color:#b9905c;font-size:12px;font-weight:700}.start-current{width:100%;margin-top:11px}
+.timer-setup .presets{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.timer-setup .preset{border:1px solid rgba(232,195,143,.32);background:#24201d;border-radius:13px;padding:11px 8px;color:#ddd0c1;font-size:12px;text-align:left}.timer-setup .preset strong{display:block;font-size:15px;color:#eee;margin-bottom:3px}.timer-setup .preset span{display:block;color:#9f968c;font-size:11px}.timer-setup .preset small{display:block;color:#b9905c;font-size:10px;margin-top:4px}.timer-setup .preset.active{background:rgba(232,195,143,.18);color:#e8c38f;border-color:#e8c38f}.timer-fields{display:grid;grid-template-columns:1fr 1fr;gap:11px}.timer-field label{display:block;color:#bdb4ab;font-size:12px;margin-bottom:6px}.timer-field input{width:100%;padding:12px;border-radius:13px;border:1px solid rgba(232,195,143,.22);background:#11100f;color:#fff;font-size:17px;outline:none}.timer-field.full{grid-column:1/-1}.timer-check{display:flex;align-items:center;gap:9px;color:#cfc6bc;font-size:13px;margin-top:13px}.timer-check input{accent-color:#e8c38f}.timer-live-video{height:210px;border-radius:18px;background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:13px;margin-bottom:13px;overflow:hidden}.timer-live-video .video-label{background:rgba(0,0,0,.65);padding:8px 11px;border-radius:11px;font-size:12px}.timer-ex-name{font-size:22px;font-weight:850;margin:0 0 4px}.timer-ex-cue{font-size:12px;color:#aaa39b;line-height:1.4;margin-bottom:13px}.timer-phase{font-size:13px;letter-spacing:2px;color:#e8c38f;font-weight:800;text-transform:uppercase}.timer-count{font-variant-numeric:tabular-nums;font-size:70px;line-height:1;margin:10px 0 13px;font-weight:850;letter-spacing:-3px}.timer-progress{height:7px;border-radius:99px;background:#2a2622;overflow:hidden}.timer-bar{height:100%;width:0;background:#e8c38f;transition:width .2s linear}.timer-roundinfo{display:flex;justify-content:space-between;color:#b9b0a7;font-size:13px;margin-top:12px}.timer-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}.timer-list{display:grid;gap:7px}.timer-row{display:flex;gap:10px;align-items:center;padding:9px 11px;border-radius:12px;background:#211e1b;color:#cfc6bc;font-size:12px}.timer-row.active{outline:1px solid rgba(232,195,143,.55);color:#f2d4aa}.timer-row img{width:42px;height:34px;border-radius:7px;object-fit:cover}.timer-done{text-align:center;padding:24px}.timer-done strong{display:block;font-size:26px;margin-bottom:8px}.timer-hint{font-size:11px;color:#777;line-height:1.4;margin-top:9px}
 
-    .workout-header {
-      background: #222;
-      color: white;
-      padding: 22px;
-      border-radius: 24px;
-      margin-bottom: 18px;
-    }
+/* APP 22 — live timer layout refinement */
+.timer-live-layout{display:flex;flex-direction:column}
+.timer-live-layout .timer-phase{order:1;text-align:center;font-size:24px;letter-spacing:2.2px;margin:2px 0 13px;color:#f0d0a2}
+.timer-live-layout .timer-live-video{order:2;height:auto;aspect-ratio:16/9;margin:0 0 15px;border-radius:20px;display:block;background-color:#111;position:relative}
+.timer-live-layout .timer-live-video .video-label{position:absolute;left:12px;bottom:12px}
+.timer-live-exercise-video{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit;background:#050505}
+.timer-live-layout .timer-ex-name{order:3;text-align:center;font-size:17px;margin:0 0 9px;font-weight:800}
+.timer-live-layout .timer-ex-cue{order:4;text-align:center;font-size:12px;margin:0 auto 9px;max-width:330px}
+.timer-live-layout .timer-count{order:5;text-align:center;font-size:78px;line-height:.94;margin:4px 0 12px;letter-spacing:-3.5px}
+.timer-live-layout .timer-progress{order:6}
+.timer-live-layout .timer-roundinfo{order:7;font-size:12px;margin-top:9px}
+.timer-live-layout .timer-controls{order:8;margin-top:13px}
+.timer-list{gap:5px}
+.timer-row{min-height:40px;padding:8px 12px;border-radius:12px;font-size:13px}
+.timer-row.active{background:rgba(232,195,143,.10)}
+.timer-row .timer-row-num{color:#b9905c;display:inline-block;width:24px;font-weight:700}
+@media(max-width:360px){.timer-live-layout .timer-phase{font-size:21px}.timer-live-layout .timer-count{font-size:68px}}
+</style>
 
-    .workout-header h2 {
-      margin: 0 0 8px;
-      font-size: 25px;
-    }
+<style id="app23-exercise-timer-hint">
+.exercise-timer-hint{display:flex;align-items:flex-start;gap:11px;margin:0 0 15px;padding:13px 14px;border:1px solid rgba(232,195,143,.24);border-radius:17px;background:rgba(232,195,143,.07);color:#d9d0c7}
+.exercise-timer-hint-icon{width:31px;height:31px;min-width:31px;border:1px solid rgba(232,195,143,.34);border-radius:10px;display:grid;place-items:center;color:#e8c38f;font-size:16px;background:rgba(0,0,0,.12)}
+.exercise-timer-hint strong{display:block;font-size:14px;color:#f0d0a2;margin:1px 0 4px}
+.exercise-timer-hint span{display:block;font-size:12px;line-height:1.4;color:#aaa39b}
+</style>
 
-    .workout-header p {
-      margin: 0;
-      color: #ccc;
-      font-size: 14px;
-    }
+<style id="app32-timer-and-variants">
+/* APP 32 — cleaner variants + square timer + compact phase placement */
+.app8-variant-video{
+  aspect-ratio:auto;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  overflow:visible;
+  padding:0;
+  background:transparent;
+  border:0;
+}
+.app8-variant-video .variant-video-box{
+  width:100%;
+  aspect-ratio:1/1;
+  position:relative;
+  overflow:hidden;
+  flex:0 0 auto;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#050505;
+}
+.app8-variant-video .variant-caption{
+  margin:8px 3px 0;
+  padding:0;
+  background:transparent;
+  color:#f1dfc4;
+  font-weight:700;
+  text-align:center;
+  line-height:1.3;
+  font-size:12px;
+}
+.app8-variant-video .variant-caption small{display:none}
+.timer-live-layout .timer-live-video{
+  order:2;
+  width:100%;
+  height:auto;
+  aspect-ratio:1/1;
+  margin:0 0 12px;
+  padding:0;
+  border-radius:20px;
+  display:block;
+  background:#050505;
+  position:relative;
+  overflow:hidden;
+}
+.timer-live-layout .timer-live-video .video-label{display:none}
+.timer-live-layout .timer-ex-name{order:3;text-align:center;font-size:17px;margin:0 0 4px;font-weight:800}
+.timer-live-layout .timer-ex-cue{order:4;text-align:center;font-size:12px;margin:0 auto 8px;max-width:330px}
+.timer-live-layout .timer-phase{order:5;text-align:center;font-size:16px;letter-spacing:1.8px;margin:2px 0 2px;color:#f0d0a2}
+.timer-live-layout .timer-count{order:6;text-align:center;font-size:78px;line-height:.94;margin:2px 0 10px;letter-spacing:-3.5px}
+.timer-live-layout .timer-progress{order:7}
+.timer-live-layout .timer-roundinfo{order:8;font-size:12px;margin-top:8px}
+.timer-live-layout .timer-controls{order:9;margin-top:12px}
+.timer-live-exercise-video{width:100%;height:100%;display:block;border:0;border-radius:inherit;background:#050505}
+@media(max-width:360px){.timer-live-layout .timer-phase{font-size:15px}.timer-live-layout .timer-count{font-size:68px}}
+</style>
 
-    .exercise {
-      background: white;
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 12px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
-    }
-
-    .exercise-number {
-      color: #888;
-      font-size: 13px;
-      margin-bottom: 5px;
-    }
-
-    .exercise h3 {
-      margin: 0 0 8px;
-      font-size: 18px;
-    }
-
-    .exercise-info {
-      color: #666;
-      font-size: 14px;
-    }
-
-    .video-placeholder {
-      height: 170px;
-      border-radius: 16px;
-      background: #e9e8e3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #888;
-      margin-top: 14px;
-      font-size: 14px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .footer {
-      text-align: center;
-      color: #999;
-      font-size: 12px;
-      margin-top: 30px;
-    }
-  </style>
 </head>
-
 <body>
-
 <div class="app">
+  <main id="home" class="screen active">
+    <section class="hero">
+      <div class="kicker">ТРЕНИРОВКИ · ЗДОРОВЬЕ · ДВИЖЕНИЕ</div>
+      <h1>ТВОЙ<br>ДОБРЫЙ<br><span>ТРЕНЕР</span></h1>
+      <p>Сильное тело для реальной жизни, а не только для внешнего вида</p>
+      <div class="signature">Артём Крылов</div><div class="role">Тренер по движению и здоровью</div>
+    </section>
+    <div class="section-title">Что хочешь сделать?</div>
+    <div class="card" onclick="show('workouts')"><div class="pic" style="background-image:url('assets/workouts.jpg')"></div><div class="content"><h3>Тренировки</h3><p>Готовые программы на разные цели</p></div><div class="arrow">›</div></div>
+    <div class="card" onclick="show('exercises')"><div class="pic" style="background-image:url('assets/exercises.jpg')"></div><div class="content"><h3>Упражнения</h3><p>База движений с видео, техникой и рекомендациями</p></div><div class="arrow">›</div></div>
+    <div class="card" onclick="show('inside')"><div class="pic" style="background-image:url('assets/inside.jpg')"></div><div class="content"><h3>Заглянуть вовнутрь</h3><p>Гайды, памятки и полезные материалы</p></div><div class="arrow">›</div></div>
+    <div class="card" onclick="show('personal')"><div class="pic" style="background-image:url('assets/personal.jpg')"></div><div class="content"><h3>Персональная работа</h3><p>Индивидуальный подход и сопровождение</p></div><div class="arrow">›</div></div>
+    <div class="card" onclick="show('profile')"><div class="pic" style="background-image:url('assets/profile.jpg')"></div><div class="content"><h3>Личный кабинет</h3><p>Ваш доступ, настройки и информация</p></div><div class="arrow">›</div></div>
+  </main>
 
-  <!-- ГЛАВНЫЙ ЭКРАН -->
-  <div id="home">
+  <main id="workouts" class="screen">
+    <div class="topbar"><button class="back" onclick="show('home')">‹</button><h2>Тренировки</h2></div>
+    <p class="sub">Все тренировки — новые сверху. Выбери категорию, если хочешь сузить список.</p>
+    <div class="app8-filters workout-filters" id="workoutFilters">
+      <button class="app8-filter active workout-all" data-cat="all" onclick="filterWorkouts('all')">Все тренировки</button>
+      <button class="app8-filter" data-cat="strength" onclick="filterWorkouts('strength')">Силовые</button>
+      <button class="app8-filter" data-cat="mobility" onclick="filterWorkouts('mobility')">Мобильность</button>
+      <button class="app8-filter" data-cat="warmup" onclick="filterWorkouts('warmup')">Разминки</button>
+    </div>
+    <div id="workoutCards">
+      <div class="card workout-card" data-category="strength" onclick="openWorkoutVideo()"><div class="pic" style="background:#050505;display:grid;place-items:center;font-size:30px;color:#e8c38f">▶</div><div class="content"><h3>Круговая тренировка на всё тело</h3><div class="meta">Тест · Kinescope</div><p>Открыть большое видео тренировки.</p></div><button class="heart" aria-label="Добавить в избранное" onclick="toggleFavorite(this,event,'workout')">♡</button><div class="arrow">›</div></div>
+      <div class="card workout-card" data-category="strength"><div class="pic" style="background-image:url('assets/workout2.jpg')"></div><div class="content"><h3>Ноги и ягодицы</h3><div class="meta">22 мин · средний</div><p>Сила и контроль. Минимум оборудования.</p></div><button class="heart" aria-label="Добавить в избранное" onclick="toggleFavorite(this,event,'workout')">♡</button></div>
+      <div class="card workout-card" data-category="strength"><div class="pic" style="background-image:url('assets/workout3.jpg')"></div><div class="content"><h3>Верх тела</h3><div class="meta">25 мин · средний</div><p>Спина, грудь, плечи и руки.</p></div><button class="heart" aria-label="Добавить в избранное" onclick="toggleFavorite(this,event,'workout')">♡</button></div>
+      <div class="card workout-card" data-category="mobility"><div class="pic" style="background-image:url('assets/workout4.jpg')"></div><div class="content"><h3>Мобильность всего тела</h3><div class="meta">16 мин · лёгкий</div><p>Суставы, амплитуда и контроль движения.</p></div><button class="heart" aria-label="Добавить в избранное" onclick="toggleFavorite(this,event,'workout')">♡</button></div>
+      <div class="card workout-card" data-category="warmup"><div class="pic" style="background-image:url('assets/workout4.jpg')"></div><div class="content"><h3>Разминка</h3><div class="meta">8 мин · лёгкий</div><p>Подготовь тело к основной работе.</p></div><button class="heart" aria-label="Добавить в избранное" onclick="toggleFavorite(this,event,'workout')">♡</button></div>
+    </div>
+  </main>
 
-    <div class="header">
-      <small>Твой добрый тренер</small>
-      <h1>Двигайся с заботой 🤍</h1>
-      <p>Тренировки без насилия над телом — с вниманием к движению.</p>
+  <main id="exercises" class="screen">
+    <div class="topbar"><button class="back" onclick="show('home')">‹</button><h2>Упражнения</h2></div>
+    <p class="sub">Все движения — новые сверху. Выбери направление, если хочешь найти нужную группу. Для функциональных — 3D, шаги, выпады и прыжки.</p>
+    <div class="app8-filters exercise-filters" id="exerciseFilters">
+      <button class="app8-filter active exercise-all" data-cat="all" onclick="filterExercises('all')">Все движения</button>
+      <button class="app8-filter" data-cat="upper" onclick="filterExercises('upper')">Верх</button>
+      <button class="app8-filter" data-cat="lower" onclick="filterExercises('lower')">Низ</button>
+      <button class="app8-filter" data-cat="core" onclick="filterExercises('core')">Кор</button>
+      <button class="app8-filter" data-cat="functional" onclick="filterExercises('functional')">Функциональные</button>
+    </div>
+    <button class="info-btn" onclick="openInfo()"><strong>Как составить тренировку?</strong><span>9 способов построения · примеры</span></button>
+    <div class="exercise-timer-hint"><div class="exercise-timer-hint-icon">⏱</div><div><strong>Собери тренировку прямо здесь</strong><span>Нажимай «＋ Добавить» у нужных движений. После выбора откроется встроенный таймер — задашь работу и отдых и начнёшь тренировку, не выходя из раздела.</span></div></div>
+    <div id="currentWorkout" class="current-workout">
+      <div class="current-workout-head"><div><div class="current-workout-title">Тренировка сейчас</div><div class="current-workout-count" id="currentWorkoutCount">0 движений</div></div><button class="clear-workout" onclick="clearCurrentWorkout()">Сбросить</button></div>
+      <div id="currentWorkoutList" class="current-workout-list"></div>
+      <button class="btn main start-current" onclick="openTimerSetup()">▶ Настроить таймер</button>
+    </div>
+    <div class="card exercise" data-category="lower" onclick="openExercise('squat')"><div class="pic" style="background-image:url('assets/ex1.jpg')"></div><div class="content"><h3>Приседание</h3><p>Техника, контроль коленей и корпуса</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','squat')">♡</button><button class="add-ex-btn" data-ex="squat" onclick="toggleCurrentExercise('squat',event)">＋ Добавить</button><div class="arrow">›</div></div>
+    <div class="card exercise" data-category="lower" onclick="openExercise('bridge')"><div class="pic" style="padding:0;background:#050505" onclick="event.stopPropagation()"><iframe loading="lazy" class="exercise-preview-video kinescope-square" src="https://kinescope.io/embed/4WpVh3TWDktoXn5LHTrNph?background=1&preload=false&quality=360p&autopause=1" title="Ягодичный мост — видео упражнения" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe></div><div class="content"><h3>Ягодичный мост</h3><p>Работа ягодиц и стабилизация таза</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','bridge')">♡</button><button class="add-ex-btn" data-ex="bridge" onclick="toggleCurrentExercise('bridge',event)">＋ Добавить</button><div class="arrow">›</div></div>
+    <div class="card exercise" data-category="lower" onclick="openExercise('lunge')"><div class="pic" style="background-image:url('assets/ex3.jpg')"></div><div class="content"><h3>Выпад</h3><p>Сила ног, баланс и контроль</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','lunge')">♡</button><button class="add-ex-btn" data-ex="lunge" onclick="toggleCurrentExercise('lunge',event)">＋ Добавить</button><div class="arrow">›</div></div>
+    <div class="card exercise" data-category="upper" onclick="openExercise('bandrow')"><div class="pic" style="background-image:url('assets/ex4.jpg')"></div><div class="content"><h3>Тяга резинки</h3><p>Спина, лопатки и положение корпуса</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','bandrow')">♡</button><button class="add-ex-btn" data-ex="bandrow" onclick="toggleCurrentExercise('bandrow',event)">＋ Добавить</button><div class="arrow">›</div></div>
+    <div class="card exercise" data-category="functional" onclick="openExercise('multidirectional')"><div class="pic" style="background-image:url('assets/ex3.jpg')"></div><div class="content"><h3>Выпад в разных направлениях</h3><p>3D-движение: вперёд, в сторону и по диагонали</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','multidirectional')">♡</button><button class="add-ex-btn" data-ex="multidirectional" onclick="toggleCurrentExercise('multidirectional',event)">＋ Добавить</button><div class="arrow">›</div></div>
+    <div class="card exercise" data-category="functional" onclick="openExercise('stepSquat')"><div class="pic" style="background-image:url('assets/ex1.jpg')"></div><div class="content"><h3>Шаг в сторону + присед</h3><p>Координация, сила и работа в нескольких плоскостях</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','stepSquat')">♡</button><button class="add-ex-btn" data-ex="stepSquat" onclick="toggleCurrentExercise('stepSquat',event)">＋ Добавить</button><div class="arrow">›</div></div>
+    <div class="card exercise" data-category="functional" onclick="openExercise('jumpLand')"><div class="pic" style="background-image:url('assets/ex3.jpg')"></div><div class="content"><h3>Прыжок + стабилизация</h3><p>Прыжок, мягкое приземление и контроль</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','jumpLand')">♡</button><button class="add-ex-btn" data-ex="jumpLand" onclick="toggleCurrentExercise('jumpLand',event)">＋ Добавить</button><div class="arrow">›</div></div>
+  </main>
+  <main id="exerciseDetail" class="screen app8-exercise-detail">
+    <div class="topbar"><button class="back" onclick="show('exercises')">‹</button><h2 id="exerciseTitle">Упражнение</h2><button id="exerciseDetailHeart" class="heart" style="position:static;margin-left:auto" aria-label="Добавить в избранное" onclick="toggleDetailFavorite(event)">♡</button></div>
+    <div id="exerciseContent"></div>
+  </main>
+
+  <main id="inside" class="screen">
+    <div class="topbar"><button class="back" onclick="show('home')">‹</button><h2>Заглянуть вовнутрь</h2></div>
+    <p class="sub">Материалы, которые помогают лучше понимать своё тело, питание и тренировки.</p>
+
+    <div class="card" onclick="show('nutrition')">
+      <div class="pic" style="background-image:url('assets/inside.jpg')"></div>
+      <div class="content"><h3>Питание</h3><p>Базовые принципы: калории, БЖУ, похудение, набор и принцип тарелки.</p></div><div class="arrow">›</div>
     </div>
 
-    <h2 class="section-title">Тренировки</h2>
-
-    <div class="cards">
-
-      <button class="card" onclick="openWorkout()">
-        <div class="card-icon">💪</div>
-        <h3>Силовая тренировка</h3>
-        <p>Работаем над силой, стабильностью и контролем движения</p>
-      </button>
-
-      <button class="card">
-        <div class="card-icon">🧘</div>
-        <h3>Мобильность</h3>
-        <p>Мягкая работа с подвижностью суставов и качеством движения</p>
-      </button>
-
-      <button class="card">
-        <div class="card-icon">🌿</div>
-        <h3>Восстановление</h3>
-        <p>Спокойная тренировка для лёгкого и комфортного движения</p>
-      </button>
-
+    <div class="card" onclick="show('cardio')">
+      <div class="pic" style="background-image:url('assets/inside2.jpg')"></div>
+      <div class="content"><h3>Кардио и пульс</h3><p>ЧСС, зоны нагрузки, измерение пульса и ориентиры для тренировок.</p></div><div class="arrow">›</div>
     </div>
 
-    <div class="footer">
-      Твой добрый тренер
+    <div class="card" onclick="show('recovery')">
+      <div class="pic" style="background-image:url('assets/inside2.jpg')"></div>
+      <div class="content"><h3>Восстановление</h3><p>Что делать между тренировками: сон, питание, движение, массаж и другие способы.</p></div><div class="arrow">›</div>
     </div>
 
-  </div>
+    <div class="card" onclick="show('technique')">
+      <div class="pic" style="background-image:url('assets/inside.jpg')"></div>
+      <div class="content"><h3>Техника упражнений</h3><p>Базовые упражнения в видео: как выполнять движение правильно, на что обратить внимание и какие ошибки не допускать.</p></div><div class="arrow">›</div>
+    </div>
+  </main>
 
+  <main id="technique" class="screen article-screen">
+    <div class="topbar"><button class="back" onclick="show('inside')">‹</button><h2>Техника упражнений</h2></div>
+    <p class="sub">Короткие видео с разбором базовых движений. Нажми на упражнение, чтобы посмотреть технику и основные акценты.</p>
+    <div class="tech-list">
+      <div class="tech-card" onclick="openTechnique('bridge')"><div class="tech-video"><iframe class="kinescope-frame" src="https://kinescope.io/embed/5CY5aRms9PyuAgdhQ3gYhh" title="Техника — Kinescope" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe></div><div class="tech-body"><h3>Ягодичный мост</h3><p>Положение таза, работа ягодиц и контроль движения без переразгибания поясницы.</p><span class="tech-tag">База · ягодицы</span></div></div>
+      <div class="tech-card" onclick="openTechnique('hinge')"><div class="tech-video">Видео упражнения</div><div class="tech-body"><h3>Наклон / хиндж</h3><p>Как двигаться тазом назад, сохранять нейтральное положение позвоночника и контролировать корпус.</p><span class="tech-tag">База · задняя цепь</span></div></div>
+      <div class="tech-card" onclick="openTechnique('squat')"><div class="tech-video">Видео упражнения</div><div class="tech-body"><h3>Приседание</h3><p>Стопа, колено, таз и корпус: основные ориентиры для уверенного приседа.</p><span class="tech-tag">База · ноги</span></div></div>
+      <div class="tech-card" onclick="openTechnique('lunge')"><div class="tech-video">Видео упражнения</div><div class="tech-body"><h3>Выпад</h3><p>Контроль опоры, положение колена и таза, устойчивость и направление движения.</p><span class="tech-tag">База · ноги</span></div></div>
+      <div class="tech-card" onclick="openTechnique('deadbug')"><div class="tech-video">Видео упражнения</div><div class="tech-body"><h3>Dead bug</h3><p>Как удерживать корпус и таз, не теряя контроль при движении рук и ног.</p><span class="tech-tag">База · кор</span></div></div>
+    </div>
+  </main>
 
-  <!-- ЭКРАН ТРЕНИРОВКИ -->
-  <div id="workout" class="hidden">
+  <div id="workoutVideoModal" class="modal"><div class="sheet"><div class="modal-head"><div><div class="eyebrow">ТРЕНИРОВКА · ТЕСТ</div><h3>Круговая тренировка на всё тело</h3></div><button class="modal-x" onclick="closeWorkoutVideo()">×</button></div><div class="workout-modal-video"><iframe class="kinescope-frame" src="https://kinescope.io/embed/5CY5aRms9PyuAgdhQ3gYhh" title="Тренировка — Kinescope" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe></div><div class="app8-info"><p style="margin:0">Тестовое большое видео Kinescope. Оно же используется в разделе «Техника упражнений».</p></div><button class="sheet-close" onclick="closeWorkoutVideo()">Закрыть</button></div></div>
 
-    <button class="back" onclick="goHome()">← Назад</button>
+  <div id="techniqueModal" class="modal"><div class="sheet"><div class="modal-head"><div><div class="eyebrow">ТЕХНИКА</div><h3 id="techniqueModalTitle">Упражнение</h3></div><button class="modal-x" onclick="closeTechnique()">×</button></div><div id="techniqueModalVideo" class="tech-modal-video">Здесь будет ваше видео</div><div id="techniqueModalText"></div><button class="sheet-close" onclick="closeTechnique()">Закрыть</button></div></div>
 
-    <div class="workout-header">
-      <h2>Силовая тренировка</h2>
-      <p>Начинаем спокойно. Контроль важнее скорости.</p>
+  <main id="nutrition" class="screen article-screen">
+    <div class="topbar"><button class="back" onclick="show('inside')">‹</button><h2>Питание</h2></div>
+    <div class="nutrition-hero">
+      <div class="updated">Базовый курс · версия 2026</div>
+      <h3>Питание без крайностей</h3>
+      <p>Практическая система: энергия, белок, качество рациона, режим, питание вокруг тренировок и спортивные добавки. Без запретов ради запретов и без обещаний «разогнать метаболизм».</p>
+    </div>
+    <div class="nutrition-nav" id="nutritionNav">
+      <button class="active" onclick="jumpNutrition('n0',this)">Калории</button>
+      <button onclick="jumpNutrition('n1',this)">Основы</button>
+      <button onclick="jumpNutrition('n2',this)">Похудение</button>
+      <button onclick="jumpNutrition('n3',this)">Набор</button>
+      <button onclick="jumpNutrition('n4',this)">Режим</button>
+      <button onclick="jumpNutrition('n5',this)">Планирование</button>
+      <button onclick="jumpNutrition('n6',this)">Застолья</button>
+      <button onclick="jumpNutrition('n7',this)">Спортпит</button>
+      <button onclick="jumpNutrition('n8',this)">Тренировка</button>
+      <button onclick="jumpNutrition('n9',this)">Кожа</button>
     </div>
 
-    <div class="exercise">
-      <div class="exercise-number">Упражнение 1</div>
-      <h3>Приседание</h3>
-      <div class="exercise-info">3 подхода × 10 повторений</div>
-
-      <div class="video-placeholder">
-        Здесь будет MP4-видео упражнения
+    <section id="n0" class="nutrition-section">
+      <div class="calorie-box">
+        <h3>Калькулятор калорий</h3>
+        <p class="lead">Получишь не «идеальную цифру», а стартовый ориентир: примерный расход энергии и диапазон для выбранной цели.</p>
+        <div class="calorie-grid">
+          <div class="calorie-field"><label for="calSex">Пол</label><select id="calSex"><option value="male">Мужчина</option><option value="female">Женщина</option></select></div>
+          <div class="calorie-field"><label for="calAge">Возраст, лет</label><input id="calAge" type="number" inputmode="numeric" min="18" max="100" placeholder="30"></div>
+          <div class="calorie-field"><label for="calHeight">Рост, см</label><input id="calHeight" type="number" inputmode="decimal" min="120" max="230" placeholder="175"></div>
+          <div class="calorie-field"><label for="calWeight">Вес, кг</label><input id="calWeight" type="number" inputmode="decimal" min="35" max="250" step="0.1" placeholder="80"></div>
+          <div class="calorie-field full"><label for="calActivity">Активность</label><select id="calActivity">
+            <option value="1.2">Низкая — мало движения, в основном сидячий день</option>
+            <option value="1.375">Лёгкая — тренировки/активность 1–3 раза в неделю</option>
+            <option value="1.55" selected>Средняя — тренировки примерно 3–5 раз в неделю</option>
+            <option value="1.725">Высокая — активность 6–7 дней в неделю</option>
+            <option value="1.9">Очень высокая — тяжёлая физическая работа и/или большой объём тренировок</option>
+          </select></div>
+          <div class="calorie-field full"><label for="calGoal">Цель</label><select id="calGoal"><option value="maintain">Поддержание веса</option><option value="loss">Плавное снижение веса</option><option value="gain">Постепенный набор массы</option></select></div>
+        </div>
+        <div class="calorie-actions"><button type="button" onclick="calcCalories()">Рассчитать</button></div>
+        <div id="calorieError" class="calorie-error" aria-live="polite">Заполни возраст, рост и вес корректно.</div>
+        <div id="calorieResult" class="calorie-result" aria-live="polite"></div>
       </div>
-    </div>
+      <div class="callout"><b>Как это считается?</b> Сначала оценивается расход энергии в покое по уравнению Mifflin–St Jeor, затем результат умножается на ориентир активности. Поэтому число является отправной точкой, а не точным измерением твоего расхода.</div>
+      <div class="callout"><b>Пример:</b> человек 80 кг, 175 см, 30 лет, со средней активностью получит один ориентир поддержания; для другого человека с тем же весом результат будет отличаться из-за роста, возраста, пола и уровня активности.</div>
+    </section>
 
-    <div class="exercise">
-      <div class="exercise-number">Упражнение 2</div>
-      <h3>Ягодичный мост</h3>
-      <div class="exercise-info">3 подхода × 12 повторений</div>
-
-      <div class="video-placeholder">
-        Здесь будет MP4-видео упражнения
+    <section id="n1" class="nutrition-section">
+      <h3>1. Основы</h3>
+      <p><b>Главное правило:</b> здоровый рацион должен быть достаточным, сбалансированным, умеренным и разнообразным. Основа — преимущественно минимально обработанные продукты, овощи и фрукты, цельные злаки, бобовые и подходящие источники белка.</p>
+      <div class="nutrition-mini-grid">
+        <div class="nutrition-mini"><b>Белок</b><span>Нужен для мышечной ткани и других функций организма. При регулярных силовых тренировках потребность может быть выше базовой.</span></div>
+        <div class="nutrition-mini"><b>Жиры</b><span>Нужны для клеточных мембран, гормональной системы и усвоения жирорастворимых витаминов.</span></div>
+        <div class="nutrition-mini"><b>Углеводы</b><span>Важный источник энергии, особенно при более объёмной и интенсивной физической работе.</span></div>
+        <div class="nutrition-mini"><b>Клетчатка</b><span>Помогает насыщению и нормальной работе ЖКТ; основные источники — овощи, фрукты, бобовые и цельные злаки.</span></div>
       </div>
-    </div>
+      <h4>Принцип тарелки</h4>
+      <p>Удобный визуальный ориентир: около половины тарелки — овощи/зелень, четверть — белковый продукт, четверть — источник углеводов. Это не математический закон, а простой способ собрать полноценный приём пищи.</p>
+      <div class="callout"><b>Важно:</b> не существует обязательной пропорции БЖУ, одинаковой для всех. Распределение зависит от цели, общей калорийности, активности, предпочтений и переносимости.</div>
+    </section>
 
-    <div class="exercise">
-      <div class="exercise-number">Упражнение 3</div>
-      <h3>Dead Bug</h3>
-      <div class="exercise-info">3 подхода × 8 повторений на сторону</div>
+    <section id="n2" class="nutrition-section">
+      <h3>2. Похудение</h3>
+      <p>Для снижения массы тела в среднем нужен <b>дефицит энергии</b>: организм расходует больше энергии, чем получает с пищей. Не требуется убирать ужин, хлеб или углеводы сами по себе.</p>
+      <h4>Что помогает сохранить результат</h4>
+      <ul>
+        <li>умеренный, а не экстремальный дефицит;</li>
+        <li>достаточный белок и силовые тренировки для сохранения мышечной массы;</li>
+        <li>продукты с хорошей насыщаемостью — овощи, фрукты, бобовые, цельные продукты;</li>
+        <li>регулярная бытовая активность и сон;</li>
+        <li>рацион, который реально соблюдать месяцами.</li>
+      </ul>
+      <div class="myth callout"><b>Миф:</b> углеводы после определённого часа автоматически превращаются в жир. На изменение жировой массы прежде всего влияет энергетический баланс за длительный период.</div>
+      <p>Если вес не меняется несколько недель, корректировать стоит общий рацион и/или активность, а не искать «магическое» время последнего приёма пищи.</p>
+    </section>
 
-      <div class="video-placeholder">
-        Здесь будет MP4-видео упражнения
+    <section id="n3" class="nutrition-section">
+      <h3>3. Набор мышечной массы</h3>
+      <p>Для набора массы обычно нужен небольшой профицит энергии, достаточный белок и прогрессирующие силовые тренировки. Большой избыток калорий ускоряет набор общей массы, но не пропорционально ускоряет рост мышц.</p>
+      <h4>Белок</h4>
+      <p>Для регулярно тренирующихся людей практичный ориентир часто находится примерно в диапазоне <b>1,6–2,0 г белка/кг массы тела в сутки</b>, с поправкой на индивидуальные условия. Это ориентир, а не обязательная цифра для каждого человека.</p>
+      <h4>Углеводы и жиры</h4>
+      <p>Не нужно строить набор только на белке. Углеводы помогают обеспечивать тренировочную работу, а жиры важны для нормального рациона. Остаток калорий можно распределять между ними в зависимости от предпочтений и переносимости.</p>
+      <div class="callout"><b>Практика:</b> если сложно съесть нужное количество калорий, выбирай более энергетически плотные продукты и добавляй калории небольшими порциями.</div>
+    </section>
+
+    <section id="n4" class="nutrition-section">
+      <h3>4. Режим питания</h3>
+      <p>Количество приёмов пищи не «разгоняет» метаболизм. Можно есть 3, 4 или 5 раз в день — выбор зависит от аппетита, графика, тренировок и удобства.</p>
+      <h4>Что действительно имеет значение</h4>
+      <ul>
+        <li>суточная калорийность и состав рациона;</li>
+        <li>достаточное количество белка;</li>
+        <li>удобное распределение еды вокруг тренировок;</li>
+        <li>отсутствие постоянного бесконтрольного перекусывания, если оно мешает цели.</li>
+      </ul>
+      <p>Нет необходимости выдерживать строго 3 или 6 часов между приёмами пищи и нет универсального правила «не есть после 18:00».</p>
+      <h4>Сон</h4><p>Стабильный режим сна и достаточная продолжительность сна важны для восстановления, аппетита и качества тренировок.</p>
+    </section>
+
+    <section id="n5" class="nutrition-section">
+      <h3>5. Планирование рациона</h3>
+      <p>Планирование заранее снижает вероятность случайных перекусов и помогает вписать любимые продукты в общий рацион.</p>
+      <h4>Простая схема</h4>
+      <ul>
+        <li>выбери 2–3 удобных источника белка;</li>
+        <li>добавь овощи и фрукты;</li>
+        <li>выбери источники углеводов под активность;</li>
+        <li>добавь источники жиров;</li>
+        <li>оставь место для продуктов, которые тебе нравятся.</li>
+      </ul>
+      <p>Не обязательно готовить десять разных блюд. Повторяемая база может быть удобнее, а разнообразие можно получать заменой отдельных продуктов.</p>
+      <div class="callout"><b>КБЖУ — инструмент, а не цель.</b> Если точный подсчёт вызывает постоянный стресс, можно использовать порции, принцип тарелки и контроль динамики веса/самочувствия.</div>
+    </section>
+
+    <section id="n6" class="nutrition-section">
+      <h3>6. Застолья и алкоголь</h3>
+      <p>Один праздничный приём пищи не отменяет результат. Не нужно «наказывать» себя голоданием до застолья или компенсировать его экстремальными ограничениями на следующий день.</p>
+      <h4>Перед застольем</h4><p>Лучше прийти умеренно голодным: обычный приём пищи с белком и клетчаткой обычно помогает контролировать аппетит.</p>
+      <h4>После</h4><p>Вернись к обычному рациону. Кратковременный рост веса после солёной и углеводной еды часто связан с водой и содержимым ЖКТ, а не только с жировой тканью.</p>
+      <h4>Алкоголь</h4><p>Алкоголь добавляет энергию и может ухудшать сон, восстановление и контроль аппетита. Чем больше доза, тем выше вероятность негативных эффектов. Не стоит представлять алкоголь как «часть жиросжигания» или как способ улучшить восстановление.</p>
+    </section>
+
+    <section id="n7" class="nutrition-section">
+      <h3>7. Спортивное питание</h3>
+      <p>Добавки — дополнение к рациону, а не замена нормального питания. Сначала закрываем энергию, белок, сон и тренировочный процесс.</p>
+      <h4>Протеин</h4><p>Обычный пищевой белок в удобной форме. Сывороточный, казеиновый, соевый и другие варианты могут использоваться, если помогают добрать белок. Сам по себе протеин не является «химией» и не создаёт мышцы без тренировок.</p>
+      <h4>Креатин</h4><p><b>Добавим современный блок:</b> креатин моногидрат — одна из наиболее изученных спортивных добавок для повышения способности выполнять высокоинтенсивную работу и поддержки прироста безжировой массы в сочетании с тренировками. Типичная поддерживающая схема — 3–5 г в сутки; специальное «окно» после тренировки не требуется.</p>
+      <h4>Кофеин</h4><p>Может повышать бодрость и снижать субъективную тяжесть нагрузки у некоторых людей. Но поздний приём способен ухудшать сон, поэтому дозу и время стоит подбирать индивидуально.</p>
+      <h4>Омега-3 и витамины</h4><p>Имеют смысл прежде всего при соответствующих особенностях рациона или дефицитах/показаниях. Не нужно принимать большие дозы «на всякий случай».</p>
+      <h4>Что не нужно превращать в обязательный список</h4><p>BCAA, глутамин, L-карнитин, «жиросжигатели» и сложные предтренировочные комплексы не являются базовой необходимостью для обычного человека. Эффект зависит от конкретного вещества, дозы, питания и контекста.</p>
+    </section>
+
+    <section id="n8" class="nutrition-section">
+      <h3>8. Питание вокруг тренировки</h3>
+      <h4>До</h4><p>За 1–3 часа до тренировки можно съесть обычный приём пищи с белком и углеводами. Чем ближе тренировка, тем меньше и проще может быть порция. Жирную и очень объёмную еду стоит учитывать по собственной переносимости.</p>
+      <h4>После</h4><p>Не нужно успевать поесть за «30 минут, иначе всё пропало». Важнее общий суточный белок и энергия. После тренировки удобно сделать обычный приём пищи с белком и углеводами.</p>
+      <h4>Если тренировка поздно</h4><p>Еда после тренировки допустима. Не нужно исключать белок или углеводы только из-за времени на часах. Если большой объём пищи мешает сну, выбери более лёгкий вариант.</p>
+      <div class="callout"><b>Ориентир:</b> самочувствие, качество тренировки, восстановление и общий рацион важнее жёстких «окон».</div>
+    </section>
+
+    <section id="n9" class="nutrition-section">
+      <h3>9. Кожа и целлюлит</h3>
+      <p>Целлюлит — распространённое состояние кожи и подкожной ткани. Он не является показателем того, что человек «плохо питается» или недостаточно тренируется.</p>
+      <h4>Что реально можно делать</h4>
+      <ul>
+        <li>поддерживать здоровую массу тела без экстремальных диет;</li>
+        <li>тренировать мышцы и поддерживать регулярную физическую активность;</li>
+        <li>ухаживать за кожей и использовать увлажняющие средства при сухости;</li>
+        <li>если хочется косметического эффекта — обсуждать процедуры с квалифицированным специалистом и учитывать временность результата.</li>
+      </ul>
+      <h4>Массаж, сухая щётка и обёртывания</h4><p>Массаж и некоторые косметические процедуры могут временно менять внешний вид кожи за счёт отёка/жидкости и механического воздействия, но не являются способом локально сжечь жир. Обёртывания также не заменяют питание и тренировки.</p>
+      <div class="callout"><b>Важно:</b> агрессивный массаж, банки или процедуры не должны оставлять выраженные синяки, боль или повреждение кожи.</div>
+    </section>
+
+    <div class="callout" style="margin-top:26px"><b>Примечание к курсу.</b> Это образовательный материал, а не индивидуальное медицинское или диетологическое назначение. При заболеваниях, беременности, расстройствах пищевого поведения, выраженных проблемах ЖКТ или других медицинских состояниях рацион стоит согласовать со специалистом.</div>
+  </main>
+
+  <main id="cardio" class="screen article-screen">
+    <div class="topbar"><button class="back" onclick="show('inside')">‹</button><h2>Кардио и пульс</h2></div>
+    <div class="article">
+      <h3>Что такое ЧСС</h3>
+      <p><b>ЧСС</b> — частота сердечных сокращений, то есть количество ударов сердца в минуту. Пульс помогает оценивать интенсивность нагрузки, но не является единственным показателем самочувствия.</p>
+
+      <h3>Калькулятор ЧСС и зон</h3>
+      <p>Введи возраст — приложение даст <b>ориентировочную максимальную ЧСС</b> и автоматически разобьёт её на 5 условных зон. Для расчёта используем формулу <b>208 − 0,7 × возраст</b>. Это оценка, а не индивидуально измеренный максимум.</p>
+      <div class="pulse-calculator">
+        <label>Возраст, лет<input id="pulseAge" type="number" inputmode="numeric" min="10" max="100" placeholder="Например, 30"></label>
+        <button type="button" onclick="calcPulseZones()">Рассчитать зоны</button>
+        <div id="pulseResult" class="pulse-result" aria-live="polite">Введи возраст, чтобы увидеть зоны ЧСС</div>
       </div>
+
+      <h3>Что означают зоны</h3>
+      <div class="zone-list">
+        <div class="zone-row"><b>Зона 1 · 50–60%</b><span>Очень легко — восстановление, разминка, спокойная активность.</span></div>
+        <div class="zone-row"><b>Зона 2 · 60–70%</b><span>Легко — комфортная аэробная работа, которую обычно можно поддерживать долго.</span></div>
+        <div class="zone-row"><b>Зона 3 · 70–80%</b><span>Умеренно — дыхание заметно учащается, но темп остаётся контролируемым.</span></div>
+        <div class="zone-row"><b>Зона 4 · 80–90%</b><span>Тяжело — высокая интенсивность, обычно работа отрезками.</span></div>
+        <div class="zone-row"><b>Зона 5 · 90–100%</b><span>Очень тяжело — близко к индивидуальному максимуму; не является обычной рабочей зоной для большинства людей.</span></div>
+      </div>
+
+      <div class="callout"><b>Пример.</b> Если человеку 30 лет, расчётная максимальная ЧСС ≈ <b>187 уд/мин</b>. Тогда зона 2 будет примерно <b>112–131 уд/мин</b>. После ввода возраста приложение посчитает эти значения автоматически.</div>
+
+      <h3>Как измерять пульс</h3>
+      <p>Самый удобный вариант — спортивные часы или нагрудный датчик. Вручную можно найти пульс на запястье или шее и посчитать удары за 15 секунд, затем умножить результат на 4.</p>
+
+      <h3>Пульс на силовой тренировке</h3>
+      <p>На силовой ЧСС может резко меняться от подхода к подходу. Поэтому не стоит пытаться всё время удерживать одну цифру. Смотри одновременно на технику, дыхание, субъективную тяжесть и восстановление между подходами.</p>
+
+      <h3>А что с расходом калорий?</h3>
+      <p>Более высокий пульс обычно означает более высокую интенсивность работы, но пульс сам по себе не показывает точный расход калорий. Часы и приложения дают оценку, а не прямое измерение.</p>
+
+      <h3>Важно</h3>
+      <p>При боли в груди, выраженной одышке, головокружении, обморочном состоянии или необычном сердцебиении тренировку нужно прекратить и обратиться за медицинской помощью.</p>
+    </div>
+  </main>
+
+  <main id="recovery" class="screen article-screen">
+    <div class="topbar"><button class="back" onclick="show('inside')">‹</button><h2>Восстановление</h2></div>
+    <div class="nutrition-hero">
+      <div class="updated">Версия 2026 · по данным систематических обзоров и метаанализов</div>
+      <h3>Что действительно помогает восстановлению?</h3>
+      <p>Восстановление — это не одна процедура. Сначала закрываем базу: сон, достаточное питание, жидкость и разумную тренировочную нагрузку. Остальные методы могут быть полезны как дополнение — главным образом для самочувствия, боли, расслабления или кратковременного восстановления работоспособности.</p>
+    </div>
+    <div class="nutrition-nav" id="recoveryNav">
+      <button class="active" onclick="jumpRecovery('r0',this)">Главное</button>
+      <button onclick="jumpRecovery('r1',this)">Активное</button>
+      <button onclick="jumpRecovery('r2',this)">Тепло и холод</button>
+      <button onclick="jumpRecovery('r3',this)">Массаж и МФР</button>
+      <button onclick="jumpRecovery('r4',this)">Мифы</button>
+      <button onclick="jumpRecovery('r5',this)">После тренировки</button>
     </div>
 
-  </div>
+    <section id="r0" class="nutrition-section">
+      <h3>1. Что стоит поставить на первое место</h3>
+      <div class="nutrition-mini-grid">
+        <div class="nutrition-mini"><b>😴 Сон — №1</b><span>Недостаток сна ухудшает восстановление и физическую работоспособность. Увеличение продолжительности сна и дневной сон имеют наиболее убедительную практическую поддержку среди вмешательств для спортсменов.</span></div>
+        <div class="nutrition-mini"><b>🍽 Энергия и белок</b><span>Недостаток энергии затрудняет восстановление. Достаточное потребление белка поддерживает адаптацию мышц; белковый порошок не обязателен, если белка хватает из обычной еды.</span></div>
+        <div class="nutrition-mini"><b>💧 Жидкость</b><span>Сильное обезвоживание ухудшает работоспособность и терморегуляцию. После обычной тренировки не нужно насильно вливать в себя литры воды — восполняй реальные потери жидкости.</span></div>
+        <div class="nutrition-mini"><b>📈 Дозировка нагрузки</b><span>Если тренировочного стресса больше, чем организм успевает переносить, никакая ванна или массаж не компенсируют постоянный перегруз. Планируй тяжёлые и лёгкие дни.</span></div>
+      </div>
+      <div class="callout"><b>Главный принцип:</b> восстановление начинается не с МФР и не с бани. Сначала сон + питание + жидкость + адекватная нагрузка. Именно эти факторы определяют большую часть результата.</div>
+    </section>
 
+    <section id="r1" class="nutrition-section">
+      <h3>2. Активное восстановление</h3>
+      <p>Лёгкое движение может быть полезным, если оно помогает почувствовать себя лучше и не добавляет заметного тренировочного стресса.</p>
+      <div class="zone-list">
+        <div class="zone-row"><b>🚶 Ходьба</b><span>Спокойная прогулка 10–30 минут — простой вариант в день отдыха. Ориентир: после неё ты не должен чувствовать себя более уставшим.</span></div>
+        <div class="zone-row"><b>🚴 Лёгкое кардио</b><span>Велотренажёр, прогулка, плавание и другие низкоинтенсивные варианты могут помочь краткосрочному восстановлению некоторых показателей, особенно после тяжёлой работы.</span></div>
+        <div class="zone-row"><b>🧘 Мобильность</b><span>Мягкие движения могут уменьшить ощущение скованности. Не нужно превращать восстановительный день в ещё одну интенсивную растяжку.</span></div>
+        <div class="zone-row"><b>🛌 Отдых</b><span>Если усталость высокая, полный отдых может быть полезнее активного восстановления. «Нужно обязательно размяться на следующий день» — миф.</span></div>
+      </div>
+      <div class="callout"><b>Тест:</b> если после лёгкой активности тебе субъективно легче — оставь её. Если она добавляет усталость — снизь объём или отдыхай.</div>
+    </section>
+
+    <section id="r2" class="nutrition-section">
+      <h3>3. Тепло, холод, баня и ванна</h3>
+      <div class="nutrition-mini-grid">
+        <div class="nutrition-mini"><b>🛁 Тёплая ванна / душ</b><span>Может помочь расслаблению и сну. Это хороший инструмент комфорта, но не обязательная процедура для восстановления мышц.</span></div>
+        <div class="nutrition-mini"><b>🔥 Баня / сауна</b><span>Тепловые процедуры вызывают выраженную физиологическую нагрузку. Есть интересные данные о влиянии на адаптацию и сон, но доказательств, что сауна после каждой тренировки резко ускоряет восстановление, недостаточно.</span></div>
+        <div class="nutrition-mini"><b>🧊 Холодная вода</b><span>Может уменьшать болезненность и помогать краткосрочному ощущению восстановления. Но регулярное применение сразу после силовой тренировки может быть не лучшим выбором, если приоритет — мышечная адаптация.</span></div>
+        <div class="nutrition-mini"><b>🔄 Контраст</b><span>Может субъективно освежать и менять ощущение усталости, но это не обязательная часть восстановления и не замена сну, питанию и дозированию нагрузки.</span></div>
+      </div>
+      <div class="callout"><b>Важно:</b> пот после сауны ≠ «выведение токсинов». После тепла главным образом теряется жидкость. Её нужно восполнять.</div>
+    </section>
+
+    <section id="r3" class="nutrition-section">
+      <h3>4. Массаж и МФР</h3>
+      <div class="zone-list">
+        <div class="zone-row"><b>💆 Массаж</b><span>Систематические обзоры показывают небольшое улучшение мышечной болезненности и гибкости, но не устойчивый прирост силы, скорости или выносливости. Хороший инструмент самочувствия, а не «ремонт мышц руками».</span></div>
+        <div class="zone-row"><b>🟤 МФР / ролик</b><span>Может временно улучшать объём движений и уменьшать ощущение мышечной болезненности. Эффекты обычно небольшие; сильнее давить не значит восстановиться быстрее.</span></div>
+        <div class="zone-row"><b>🧘 Растяжка</b><span>Полезна для мобильности и субъективного ощущения тела, но сама по себе не показала убедительного эффекта как средство ускорения восстановления после повреждения мышц.</span></div>
+      </div>
+      <div class="callout"><b>Не нужно терпеть боль:</b> массаж и МФР не должны оставлять выраженные синяки, сильную боль или ухудшение самочувствия.</div>
+    </section>
+
+    <section id="r4" class="nutrition-section">
+      <h3>5. Мифы: что не стоит переоценивать</h3>
+      <div class="zone-list">
+        <div class="zone-row"><b>❌ «Нужно обязательно растянуться после тренировки, иначе мышцы будут забиты»</b><span>Нет. Растяжка может быть частью занятия, но обязательного правила для ускорения восстановления нет.</span></div>
+        <div class="zone-row"><b>❌ «Нужно вывести молочную кислоту»</b><span>После нагрузки лактат не остаётся в мышцах на несколько дней и не является причиной обычной крепатуры. Поэтому массаж, сауна или растяжка не нужны для его «выведения».</span></div>
+        <div class="zone-row"><b>❌ «Чем сильнее болят мышцы, тем лучше тренировка»</b><span>Нет. DOMS показывает непривычную или значительную нагрузку, но не является мерой эффективности тренировки.</span></div>
+        <div class="zone-row"><b>❌ «Чем сильнее промять роликом, тем быстрее восстановлюсь»</b><span>Нет. Большая интенсивность не гарантирует большего эффекта и может раздражать ткани.</span></div>
+        <div class="zone-row"><b>❌ «Алкоголь помогает расслабиться и восстановиться»</b><span>Расслабление субъективно возможно, но алкоголь не является восстановительной процедурой: он добавляет энергию и может ухудшать сон, гидратацию и восстановительные процессы.</span></div>
+        <div class="zone-row"><b>❌ «БАД нужен, чтобы мышцы восстановились»</b><span>Нет универсальной добавки, которая заменяет сон, питание и нормальную тренировочную программу. Добавки имеют смысл только под конкретную задачу и с учётом рациона.</span></div>
+        <div class="zone-row"><b>❌ «Если хорошо пропотеть, организм очистится и восстановится»</b><span>Потоотделение регулирует температуру тела. Оно не является механизмом «детокса» и не заменяет восстановление.</span></div>
+        <div class="zone-row"><b>❌ «Нужно полностью лежать после тяжёлой тренировки»</b><span>Не обязательно. Лёгкая бытовая активность и прогулка обычно совместимы с восстановлением. Но при выраженной усталости отдых важнее попыток «разогнать кровь».</span></div>
+      </div>
+    </section>
+
+    <section id="r5" class="nutrition-section">
+      <h3>6. Простая схема после тренировки</h3>
+      <div class="zone-list">
+        <div class="zone-row"><b>1 → Успокойся</b><span>Несколько минут спокойно походи и дай дыханию и пульсу постепенно снизиться.</span></div>
+        <div class="zone-row"><b>2 → Восполни жидкость</b><span>Пей по жажде и учитывай потери, особенно в жару и при длительной нагрузке.</span></div>
+        <div class="zone-row"><b>3 → Поешь</b><span>Обычный приём пищи с белком и углеводами — особенно если впереди ещё одна тренировка или активный день.</span></div>
+        <div class="zone-row"><b>4 → Выспись</b><span>Если нужно выбрать между ещё одной процедурой и нормальным сном — сон обычно важнее.</span></div>
+        <div class="zone-row"><b>5 → Добавь процедуру по необходимости</b><span>Ванна, массаж, МФР, лёгкая прогулка или холод — только если конкретный метод помогает тебе и не мешает следующей тренировке.</span></div>
+      </div>
+    </section>
+
+    <div class="callout" style="margin-top:26px"><b>Формула восстановления:</b> сон → питание → жидкость → управление нагрузкой → лёгкое движение при необходимости → дополнительные методы по ситуации.</div>
+    <div class="callout" style="margin-top:12px"><b>На чём основан раздел:</b> систематические обзоры и метаанализы по сну, питанию, активному восстановлению, массажу, МФР, теплу и холоду. Доказательность отдельных методов неодинакова, поэтому они не представлены как равноценные.</div>
+  </main>
+
+  <main id="personal" class="screen article-screen">
+    <div class="topbar"><button class="back" onclick="show('home')">‹</button><h2>Персональная работа</h2></div>
+
+    <div class="personal-hero">
+      <div class="personal-photo"><div class="photo-label">ФОТО 1 · ЗАМЕНИМ НА ТВОЮ ФОТОГРАФИЮ</div></div>
+      <div class="personal-photo"><div class="photo-label">ФОТО 2 · ЗАМЕНИМ НА ТВОЮ ФОТОГРАФИЮ</div></div>
+    </div>
+
+    <div class="personal-lead">
+      <div class="kicker">АРТЁМ КРЫЛОВ · 7 ЛЕТ В ТРЕНЕРСТВЕ</div>
+      <h3>Персональная тренировка онлайн — вживую, один на один</h3>
+      <p>Ты тренируешься — я нахожусь с тобой на видеосвязи, вижу выполнение упражнений в моменте, слежу за техникой и сразу корректирую движение, темп и нагрузку.</p>
+    </div>
+
+    <div class="article">
+      <h3>Обо мне</h3>
+      <p>Я персональный и групповой тренер. Мой путь начался с танцев и постоянной работы с движением. Затем я продолжил обучение в направлениях TRX и stretching, функционального и нейромоторного тренинга, а также продолжаю развиваться в Pilates.</p>
+      <p>За <b>7 лет официальной тренерской работы</b> я работал с людьми разного уровня — от тех, кто только начинает, до тех, кто возвращается к тренировкам после большого перерыва.</p>
+      <p>Мне важно не просто дать человеку упражнения, а увидеть, <b>как именно он двигается</b>, почувствовать его состояние и подобрать нагрузку, от которой есть результат без ненужного давления.</p>
+
+      <h3>С чем я работаю</h3>
+      <div class="personal-grid">
+        <div class="personal-mini"><b>💪 Сила и форма</b><span>Развиваем силу, выносливость и функциональные качества тела.</span></div>
+        <div class="personal-mini"><b>🧘 Мобильность</b><span>Работаем над подвижностью, контролем и качеством движений.</span></div>
+        <div class="personal-mini"><b>🤸 Pilates</b><span>Контроль, стабилизация, координация и осознанное движение.</span></div>
+        <div class="personal-mini"><b>🏠 Домашние тренировки</b><span>Полноценная работа с тем оборудованием, которое у тебя есть.</span></div>
+        <div class="personal-mini"><b>🔄 Возвращение к нагрузкам</b><span>Постепенное возвращение после перерыва и адаптация нагрузки к текущему уровню.</span></div>
+        <div class="personal-mini"><b>🎯 Индивидуальные задачи</b><span>Программа меняется под твою цель, состояние, график и возможности.</span></div>
+      </div>
+
+      <h3>Кому подойдёт</h3>
+      <p>Формат особенно удобен, если ты хочешь заниматься дома, не хочешь тратить время на дорогу в зал, давно не тренировался или просто хочешь научиться выполнять упражнения качественно и безопасно.</p>
+      <div class="zone-list">
+        <div class="zone-row"><b>Начинаешь с нуля</b><span>Разберём базовые движения и постепенно сформируем тренировочную привычку.</span></div>
+        <div class="zone-row"><b>Возвращаешься после перерыва</b><span>Не будем пытаться сразу вернуться к прежним нагрузкам — начнём с того уровня, который подходит сейчас.</span></div>
+        <div class="zone-row"><b>Уже тренируешься</b><span>Можем работать над силой, мобильностью, техникой, контролем и качеством движения.</span></div>
+        <div class="zone-row"><b>Хочешь просто быть в хорошей форме</b><span>Без цели превращаться в профессионального спортсмена — просто сильное, подвижное и функциональное тело.</span></div>
+      </div>
+
+      <h3>Как проходит тренировка</h3>
+      <div class="personal-step"><div class="num">01</div><div><h4>Определяем запрос</h4><p>Перед началом обсуждаем цель, самочувствие, предыдущий опыт, ограничения и условия для тренировки.</p></div></div>
+      <div class="personal-step"><div class="num">02</div><div><h4>Подбираем нагрузку</h4><p>Я адаптирую упражнения и интенсивность под твоё текущее состояние, уровень и оборудование.</p></div></div>
+      <div class="personal-step"><div class="num">03</div><div><h4>Тренируемся вживую</h4><p>Мы созваниваемся напрямую. Я постоянно вижу тебя и могу сразу скорректировать технику, амплитуду, темп или упражнение.</p></div></div>
+      <div class="personal-step"><div class="num">04</div><div><h4>Постепенно прогрессируем</h4><p>Когда тело готово, меняем упражнения или увеличиваем нагрузку. Если сегодня состояние другое — тренировку можно адаптировать.</p></div></div>
+
+      <div class="callout"><b>⏱ 45–55 минут · 1 на 1 · видеосвязь</b><br>Тренироваться можно дома, в поездке или в другом удобном месте, где есть интернет и достаточно пространства для безопасного выполнения упражнений.</div>
+
+      <h3>Что понадобится</h3>
+      <p>Минимум — телефон, планшет или ноутбук с интернетом и место, где я смогу видеть тебя в полный рост. Коврик и фитнес-резинки пригодятся, но программа может быть построена и без них. Если есть гантели, гири или другой инвентарь — добавим его по необходимости.</p>
+
+      <div class="boundary">
+        <b>Важно про травмы и операции</b>
+        <p>Я не занимаюсь медицинской реабилитацией и не заменяю врача или реабилитолога. Если после операции или при заболевании тебе уже разрешена физическая активность, мы можем обсуждать базовую тренировочную работу в пределах разрешённой нагрузки. Сложные случаи и медицинская реабилитация — зона профильного специалиста.</p>
+      </div>
+
+      <div class="personal-principle">
+        <div class="big">70% заботы · 30% дисциплины</div>
+        <p>Тренировка может быть сложной, но не должна быть наказанием. Для меня хороший результат — когда ты лучше чувствуешь тело, увереннее двигаешься, становишься сильнее и начинаешь делать то, что раньше не получалось.</p>
+      </div>
+
+      <h3>Формат и стоимость</h3>
+      <div class="price-list">
+        <div class="price-row"><strong>🔎 Пробное занятие</strong><span class="price">1 000 ₽</span><span class="detail">Первое знакомство с форматом и твоими задачами</span></div>
+        <div class="price-row"><strong>🏋️ Разовая тренировка</strong><span class="price">2 700 ₽</span><span class="detail">45–55 минут · индивидуально · онлайн</span></div>
+        <div class="price-row"><strong>📦 Блок на 4 занятия</strong><span class="price">10 000 ₽</span><span class="detail">≈ 2 500 ₽ за занятие · абонемент 1 месяц</span></div>
+        <div class="price-row"><strong>📦 Блок на 8 занятий</strong><span class="price">18 400 ₽</span><span class="detail">≈ 2 300 ₽ за занятие · абонемент 1 месяц</span></div>
+        <div class="price-row"><strong>📦 Блок на 12 занятий</strong><span class="price">25 200 ₽</span><span class="detail">≈ 2 100 ₽ за занятие · абонемент 1 месяц</span></div>
+      </div>
+      <p class="personal-note">Заморозка абонемента — до 2 недель. Расписание согласовываем заранее, чтобы тренировки удобно вписывались в твою неделю.</p>
+
+      <h3>Готов попробовать?</h3>
+      <p>Напиши мне о своей цели, текущем уровне и том, что сейчас мешает тебе тренироваться. Обсудим формат и поймём, подходит ли тебе персональная работа.</p>
+      <button class="contact-btn" onclick="contactMe()">Написать мне</button>
+    </div>
+  </main>
+
+  <main id="timer" class="screen">
+    <div class="topbar"><button class="back" onclick="exitTimerToExercises()">‹</button><h2>Интервальный таймер</h2></div>
+    <div id="timerSetup" class="timer-setup">
+      <p class="sub">Твои выбранные движения уже в порядке тренировки. Настрой интервалы и запускай.</p>
+      <div class="panel"><div class="section-title">Быстрый режим</div><div class="timer-hint" style="margin-top:-5px;margin-bottom:11px">Интенсивность ориентировочная: она зависит от упражнения, темпа и вашей подготовки.</div><div class="presets">
+        <button class="preset" data-w="30" data-r="30" onclick="selectTimerPreset(this)"><strong>30 / 30</strong><span>Работа / отдых</span><small>Лёгкая нагрузка</small></button>
+        <button class="preset" data-w="40" data-r="20" onclick="selectTimerPreset(this)"><strong>40 / 20</strong><span>Работа / отдых</span><small>Умеренная нагрузка</small></button>
+        <button class="preset" data-w="50" data-r="10" onclick="selectTimerPreset(this)"><strong>50 / 10</strong><span>Работа / отдых</span><small>Высокая нагрузка</small></button>
+        <button class="preset" data-w="60" data-r="30" onclick="selectTimerPreset(this)"><strong>60 / 30</strong><span>Работа / отдых</span><small>Продолжительная нагрузка</small></button>
+      </div></div>
+      <div class="panel"><div class="section-title">Настройка тренировки</div><div class="timer-fields">
+        <div class="timer-field"><label>Работа, сек</label><input id="timerWork" type="number" min="5" max="3600" value="40"></div>
+        <div class="timer-field"><label>Отдых между движениями, сек</label><input id="timerRest" type="number" min="0" max="3600" value="20"></div>
+        <div class="timer-field"><label>Количество движений</label><input id="timerExercises" type="number" min="1" max="50" value="1" readonly></div>
+        <div class="timer-field"><label>Количество кругов</label><input id="timerRounds" type="number" min="1" max="30" value="3"></div>
+        <div class="timer-field full"><label>Отдых между кругами, сек</label><input id="timerRoundRest" type="number" min="0" max="3600" value="60"></div>
+      </div><label class="timer-check"><input id="timerBeep" type="checkbox" checked> Звуковой сигнал + вибрация на переходах</label><div class="timer-hint">На iPhone звук может потребовать первого нажатия «Старт». Вибрация зависит от браузера и устройства.</div></div>
+      <button class="btn main" style="width:100%;font-size:16px;padding:15px" onclick="startIntegratedTimer()">▶ Запустить таймер</button>
+    </div>
+    <div id="timerLive" style="display:none">
+      <div class="panel timer-live-layout">
+        <div id="timerPhase" class="timer-phase">Работа</div>
+        <div id="timerVideo" class="timer-live-video"><iframe id="timerExerciseVideo" class="timer-live-exercise-video" src="about:blank" title="Видео упражнения" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe><div class="video-label">▶ Видео упражнения</div></div>
+        <div id="timerExerciseName" class="timer-ex-name">Упражнение</div>
+        <div id="timerExerciseCue" class="timer-ex-cue">Сохраняй контроль движения и не спеши.</div>
+        <div id="timerCount" class="timer-count">00:40</div>
+        <div class="timer-progress"><div id="timerBar" class="timer-bar"></div></div>
+        <div class="timer-roundinfo"><span id="timerRoundInfo">Круг 1 / 3</span><span id="timerExerciseInfo">Движение 1 / 1</span></div>
+        <div class="timer-controls"><button class="btn" onclick="skipIntegratedPhase()">Пропустить</button><button id="timerPauseBtn" class="btn main" onclick="toggleIntegratedPause()">Пауза</button><button class="btn" onclick="stopIntegratedTimer()">Стоп</button></div>
+      </div>
+      <div class="panel"><div class="section-title">Порядок движений</div><div id="timerList" class="timer-list"></div></div>
+    </div>
+    <div id="timerDone" class="panel timer-done" style="display:none"><strong>Тренировка завершена</strong><div class="small">Все выбранные движения и круги выполнены</div><button class="btn main" style="width:100%;margin-top:18px" onclick="finishTimerAndReturn()">Вернуться к упражнениям</button></div>
+  </main>
+
+<main id="favorites" class="screen">
+    <div class="topbar"><button class="back" onclick="show('home')">‹</button><h2>Избранное</h2></div>
+    <p class="sub">Сохраняй тренировки и упражнения, чтобы быстро находить их снова.</p>
+    <div class="favorite-tabs" id="favoriteTabs">
+      <button class="favorite-tab active" data-type="all" onclick="filterFavorites('all')">Все</button>
+      <button class="favorite-tab" data-type="workout" onclick="filterFavorites('workout')">Тренировки</button>
+      <button class="favorite-tab" data-type="exercise" onclick="filterFavorites('exercise')">Упражнения</button>
+    </div>
+    <div id="favoritesList"><div class="empty">Пока здесь ничего нет.<br>Нажми ♡ на тренировке или упражнении, чтобы сохранить его.</div></div>
+  </main>
+  <main id="profile" class="screen">
+    <div class="topbar"><button class="back" onclick="show('home')">‹</button><h2>Личный кабинет</h2></div>
+    <div class="access-box">
+      <div class="access-label">Доступ к приложению</div>
+      <div class="access-date">Доступ до <strong id="accessUntil">31 октября 2026</strong></div>
+      <div class="access-days">Осталось <strong id="accessDays">30 дней</strong></div>
+    </div>
+  </main>
+
+  <button id="floatingBack" class="floating-back" aria-label="Назад" onclick="goBackFromScreen()">←</button>
+  <nav class="nav">
+    <button class="active" data-screen="home" onclick="show('home')"><span class="ni">⌂</span>Главная</button>
+    <button data-screen="workouts" onclick="show('workouts')"><span class="ni">◈</span>Тренировки</button>
+    <button data-screen="exercises" onclick="show('exercises')"><span class="ni">⊞</span>Упражнения</button>
+    <button data-screen="favorites" onclick="show('favorites')"><span class="ni">♡</span>Избранное</button>
+    <button data-screen="profile" onclick="show('profile')"><span class="ni">♙</span>Профиль</button>
+  </nav>
 </div>
 
+<div id="modal" class="modal" onclick="if(event.target===this)closeInfo()">
+  <div class="sheet workout-builder-sheet">
+    <div class="modal-head"><div><div class="eyebrow">КОНСТРУКТОР</div><h3>Как составить тренировку?</h3></div><button class="modal-x" type="button" onclick="closeInfo()">×</button></div>
+    <p class="modal-lead">Ниже — основные способы построения тренировки. Выбери любой вариант, чтобы увидеть принцип, объём и пример.</p>
+    <div class="method-tabs" id="methodTabs">
+      <button class="method-tab active" data-method="circuit" onclick="selectMethod('circuit')">Круговая</button>
+      <button class="method-tab" data-method="asym" onclick="selectMethod('asym')">Асимметричная</button>
+      <button class="method-tab" data-method="block" onclick="selectMethod('block')">Блоковая</button>
+      <button class="method-tab" data-method="superset" onclick="selectMethod('superset')">Суперсет</button>
+      <button class="method-tab" data-method="triset" onclick="selectMethod('triset')">Трисет</button>
+      <button class="method-tab" data-method="pyramid" onclick="selectMethod('pyramid')">Пирамида</button>
+      <button class="method-tab" data-method="interval" onclick="selectMethod('interval')">Интервальная</button>
+      <button class="method-tab" data-method="goal" onclick="selectMethod('goal')">Одна цель</button>
+      <button class="method-tab" data-method="combo" onclick="selectMethod('combo')">Комбинированная</button>
+    </div>
+    <div id="methodContent" class="method-content"></div>
+    <button class="sheet-close" type="button" onclick="closeInfo()">Готово</button>
+  </div>
+</div>
 
 <script>
-  function openWorkout() {
-    document.getElementById("home").classList.add("hidden");
-    document.getElementById("workout").classList.remove("hidden");
-    window.scrollTo(0, 0);
+function calcPulseZones(){
+  const input=document.getElementById('pulseAge');
+  const out=document.getElementById('pulseResult');
+  const age=Number(input?.value);
+  if(!Number.isFinite(age) || age<10 || age>100){
+    out.textContent='Введи возраст от 10 до 100 лет.';
+    return;
   }
+  const max=Math.round(208-0.7*age);
+  const zones=[
+    [1,0.50,0.60,'восстановление / разминка'],
+    [2,0.60,0.70,'лёгкая аэробная работа'],
+    [3,0.70,0.80,'умеренная работа'],
+    [4,0.80,0.90,'высокая интенсивность'],
+    [5,0.90,1.00,'очень высокая интенсивность']
+  ];
+  const rows=zones.map(([n,lo,hi,label])=>{
+    const a=Math.round(max*lo), b=Math.round(max*hi);
+    return `<div style="padding:7px 0;border-top:1px solid rgba(232,195,143,.12)"><b>Зона ${n}</b> · ${a}–${b} уд/мин <span style="color:#aaa199">— ${label}</span></div>`;
+  }).join('');
+  out.innerHTML=`<b>Расчётная максимальная ЧСС: ${max} уд/мин</b><div style="margin-top:8px">${rows}</div><div style="margin-top:9px;color:#a9a19a;font-size:12px">Это ориентировочные зоны. Реальный максимум и реакция на нагрузку могут отличаться.</div>`;
+}
 
-  function goHome() {
-    document.getElementById("workout").classList.add("hidden");
-    document.getElementById("home").classList.remove("hidden");
-    window.scrollTo(0, 0);
+const favoriteData = [];
+let activeFavoriteFilter = 'all';
+let currentExerciseId = null;
+
+const floatingBackTargets={
+  workouts:'home',
+  exercises:'home',
+  inside:'home',
+  personal:'home',
+  profile:'home',
+  favorites:'home',
+  exerciseDetail:'exercises',
+  nutrition:'inside',
+  cardio:'inside',
+  recovery:'inside',
+  technique:'inside',
+  timer:'exercises'
+};
+let detailBackTarget='exercises';
+let timerBackTarget='exercises';
+
+function updateFloatingBack(id){
+  const b=document.getElementById('floatingBack');
+  if(!b) return;
+  const visible=id!=='home' && !!floatingBackTargets[id];
+  b.classList.toggle('show',visible);
+}
+
+function goBackFromScreen(){
+  const active=document.querySelector('.screen.active');
+  if(!active) return;
+  let target=floatingBackTargets[active.id]||'home';
+  if(active.id==='exerciseDetail') target=detailBackTarget||'exercises';
+  if(active.id==='timer') target=timerBackTarget||'exercises';
+  show(target);
+}
+
+function show(id){
+  if(id==='exercises' && document.getElementById('timer')?.classList.contains('active')) resetTimerSetup();
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const target=document.getElementById(id); if(!target) return;
+  target.classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));
+  if(id==='favorites') renderFavorites();
+  updateFloatingBack(id);
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+function favoriteKey(type,id){ return type+':'+id; }
+
+function toggleFavorite(btn,e,type,id){
+  e.stopPropagation();
+  const card=btn.closest('.card');
+  const title=card?.querySelector('h3')?.textContent || 'Материал';
+  const pic=card?.querySelector('.pic')?.style.backgroundImage || '';
+  const meta=card?.querySelector('.meta')?.textContent || '';
+  const desc=card?.querySelector('.content p')?.textContent || '';
+  const key=favoriteKey(type,id || title);
+  const index=favoriteData.findIndex(x=>x.key===key);
+  if(index>=0){
+    favoriteData.splice(index,1);
+    setHeart(btn,false);
+  } else {
+    favoriteData.push({key,type,id:id||title,title,pic,meta,desc});
+    setHeart(btn,true);
   }
+  if(document.getElementById('favorites')?.classList.contains('active')) renderFavorites();
+}
+
+function setHeart(btn,active){
+  if(!btn) return;
+  btn.classList.toggle('active',active);
+  btn.textContent=active?'♥':'♡';
+}
+
+function syncExerciseHearts(){
+  document.querySelectorAll('.exercise .heart').forEach(btn=>{
+    const card=btn.closest('.exercise');
+    const onclick=btn.getAttribute('onclick')||'';
+    const m=onclick.match(/'exercise','([^']+)'/);
+    const id=m?m[1]:null;
+    setHeart(btn,!!id && favoriteData.some(x=>x.key===favoriteKey('exercise',id)));
+  });
+}
+
+function syncWorkoutHearts(){
+  document.querySelectorAll('.workout-card .heart').forEach(btn=>{
+    const card=btn.closest('.card');
+    const title=card?.querySelector('h3')?.textContent||'';
+    setHeart(btn,favoriteData.some(x=>x.key===favoriteKey('workout',title)));
+  });
+}
+
+function renderFavorites(){
+  const box=document.getElementById('favoritesList');
+  const items=activeFavoriteFilter==='all'?favoriteData:favoriteData.filter(x=>x.type===activeFavoriteFilter);
+  document.querySelectorAll('#favoriteTabs .favorite-tab').forEach(b=>b.classList.toggle('active',b.dataset.type===activeFavoriteFilter));
+  if(!items.length){
+    const text=activeFavoriteFilter==='workout'?'Пока нет сохранённых тренировок.':activeFavoriteFilter==='exercise'?'Пока нет сохранённых упражнений.':'Пока здесь ничего нет.';
+    box.innerHTML=`<div class="empty">${text}<br>Нажми ♡ на нужном материале, чтобы сохранить его.</div>`;
+    return;
+  }
+  box.innerHTML=items.map(x=>`<div class="card fav-card" onclick="openFavorite('${x.type}','${String(x.id).replace(/'/g,"\'")}')"><div class="pic" style="background-image:${x.pic}"></div><div class="content"><div class="favorite-type">${x.type==='workout'?'Тренировка':'Упражнение'}</div><h3>${x.title}</h3><div class="meta">${x.meta}</div><p>${x.desc}</p></div><button class="heart active" aria-label="Удалить из избранного" onclick="removeFavorite('${x.key}',event)">♥</button></div>`).join('');
+}
+
+function filterFavorites(type){activeFavoriteFilter=type;renderFavorites();}
+function removeFavorite(key,e){
+  e.stopPropagation();
+  const item=favoriteData.find(x=>x.key===key);
+  const idx=favoriteData.findIndex(x=>x.key===key);
+  if(idx>=0) favoriteData.splice(idx,1);
+  renderFavorites();
+  syncWorkoutHearts();
+  syncExerciseHearts();
+  if(item && currentExerciseId===item.id) syncDetailHeart();
+}
+function openFavorite(type,id){
+  if(type==='exercise') openExercise(id);
+  else { show('workouts'); syncWorkoutHearts(); }
+}
+
+const methodInfo = {
+  circuit:{title:'Круговая тренировка',desc:'Упражнения выполняются последовательно одно за другим. После последнего движения начинается новый круг.',items:['Для всего тела можно собрать 2 движения на ноги, 2 на верх и 2 на кор.','Ориентир: 2–4 круга.','Пример интервала: 50 сек работы → 10 сек перехода; после круга 1 мин отдыха.'],example:'Пример: присед → ягодичный мост → тяга резинки → жим/отжимание → упражнение на кор → упражнение на кор → повтор.'},
+  asym:{title:'Асимметричная тренировка',desc:'Схема учитывает правую и левую стороны тела и помогает организовать одностороннюю работу.',items:['Правая сторона → левая сторона.','Можно чередовать ноги, верх и кор.','2–4 круга; объём подбирается по уровню и упражнению.'],example:'Пример: правая нога → левая нога → правая рука → левая рука → поворот/стабилизация вправо → влево.'},
+  block:{title:'Блоковая тренировка',desc:'Сначала выполняется отдельный блок упражнений, затем переход к следующему.',items:['Обычно 3–5 упражнений в блоке.','Каждый блок можно повторить 2–3 раза.','Можно сделать всю тренировку только на одну цель: например, ноги.'],example:'Пример: блок ног × 3 → блок верха × 3 → блок кора × 3.'},
+  superset:{title:'Суперсет',desc:'Два упражнения выполняются подряд, после чего идёт отдых.',items:['2 упражнения → отдых → повтор.','Можно сочетать разные мышечные группы или движения.','Обычно 2–4 серии.'],example:'Пример: присед → ягодичный мост → отдых → повтор.'},
+  triset:{title:'Трисет',desc:'Три упражнения объединяются в одну серию и выполняются подряд.',items:['3 движения → отдых → повтор.','Подходит для одной зоны или связанных задач.','Обычно 2–4 серии.'],example:'Пример для ног: присед → выпад → ягодичный мост → отдых.'},
+  pyramid:{title:'Пирамида',desc:'Нагрузка меняется от серии к серии — по повторениям, времени или сопротивлению.',items:['Повторения могут идти вверх: 10 → 12 → 14.','Или вниз: 14 → 12 → 10.','При увеличении сопротивления повторения часто уменьшаются.'],example:'Пример: 12 → 10 → 8 повторений с постепенным увеличением нагрузки.'},
+  interval:{title:'Интервальная тренировка',desc:'Работа организуется по времени, а не только по количеству повторений.',items:['Пример: 40 сек работы → 20 сек отдыха.','Или 50 сек работы → 10 сек перехода.','6–10 упражнений можно повторить 2–4 круга.'],example:'Пример: 6 упражнений × 40/20 × 3 круга.'},
+  goal:{title:'Тренировка на одну цель',desc:'Вся тренировка строится вокруг одной задачи или одной области.',items:['Ноги: 4–6 упражнений.','Верх: 4–6 упражнений.','Кор: 4–6 упражнений.','Можно использовать круговую, блоковую или суперсет-схему.'],example:'Пример: 5 упражнений на ноги → 3 круга → отдых между кругами.'},
+  combo:{title:'Комбинированная тренировка',desc:'В одной тренировке соединяются разные способы организации нагрузки.',items:['Разминка → блок ног → суперсет верха → блок кора.','Количество серий и отдых подбираются отдельно для каждого блока.','Это полезно, когда хочется разнообразить структуру занятия.'],example:'Пример: разминка → ноги × 3 → верх 2 упражнения × 3 → кор × 3 → мобильность.'}
+};
+function selectMethod(method){
+  document.querySelectorAll('#methodTabs .method-tab').forEach(b=>b.classList.toggle('active',b.dataset.method===method));
+  const x=methodInfo[method]||methodInfo.circuit;
+  document.getElementById('methodContent').innerHTML=`<h4>${x.title}</h4><p>${x.desc}</p><ul>${x.items.map(i=>`<li>${i}</li>`).join('')}</ul><div class="example"><b>Пример:</b> ${x.example}</div>`;
+  const bm=document.getElementById('builderMethod'); if(bm && [...bm.options].some(o=>o.value===method)) bm.value=method;
+}
+function updateBuilder(){
+  const goal=document.getElementById('builderGoal')?.value||'Всё тело';
+  const method=document.getElementById('builderMethod')?.value||'circuit';
+  const volume=document.getElementById('builderVolume')?.value||'3';
+  const names={circuit:'Круговая',block:'Блоковая',superset:'Суперсет',triset:'Трисет',interval:'Интервальная',pyramid:'Пирамида'};
+  let result='';
+  if(method==='circuit') result=`${goal}: выбери 6–8 движений → выполни ${volume} круга. Для интервального варианта можно начать с 40–50 сек работы и 10–20 сек перехода.`;
+  else if(method==='block') result=`${goal}: собери 3–5 упражнений в блок → повтори блок ${volume} раза → затем при необходимости добавь следующий блок.`;
+  else if(method==='superset') result=`${goal}: выбери 2 упражнения → выполни их подряд → отдохни → повтори ${volume} серии.`;
+  else if(method==='triset') result=`${goal}: выбери 3 упражнения → выполни подряд → отдохни → повтори ${volume} серии.`;
+  else if(method==='interval') result=`${goal}: выбери 6–8 движений → 40 сек работа / 20 сек отдых → ${volume} круга.`;
+  else result=`${goal}: ${names[method]} — начни с ${volume} серий и подбирай объём так, чтобы сохранялись техника и контроль движения.`;
+  document.getElementById('builderResult').textContent=result;
+}
+function openInfo(){document.getElementById('modal').classList.add('open');selectMethod('circuit');updateBuilder()}
+function closeInfo(){document.getElementById('modal').classList.remove('open')}
+function contactMe(){alert('Здесь будет ссылка на связь с Артёмом. Добавим Telegram/WhatsApp, когда ты дашь нужный контакт.')}
+
+  // В дальнейшем дата доступа будет приходить из системы оплаты. Пока используется тестовая дата.
+  (function(){
+    const expiry = new Date('2026-10-31T23:59:59');
+    const now = new Date();
+    const ms = expiry - now;
+    const days = Math.max(0, Math.ceil(ms / 86400000));
+    const el = document.getElementById('accessDays');
+    if(el){
+      const n = days % 10 === 1 && days % 100 !== 11 ? 'день' : (days % 10 >= 2 && days % 10 <= 4 && !(days % 100 >= 12 && days % 100 <= 14) ? 'дня' : 'дней');
+      el.textContent = days + ' ' + n;
+    }
+  })();
+
+// --- App 8: safe additions ---
+const exerciseData = {
+  squat:{title:'Приседание',img:'assets/ex1.jpg',muscles:'Квадрицепс, ягодичные, задняя поверхность бедра, мышцы корпуса',desc:'Базовое движение для ног с контролем коленей, таза и корпуса.',errors:['Колени уходят внутрь.','Пятки теряют устойчивость.','Поясница теряет контроль.'],tech:'Стопы устойчиво стоят на полу. Отведи таз назад, согни колени и поднимись, сохраняя контроль.',variants:['Присед с паузой','Присед с резинкой','Присед с дополнительной нагрузкой']},
+  bridge:{title:'Ягодичный мост',img:'assets/ex2.jpg',muscles:'Большая ягодичная, задняя поверхность бедра, мышцы корпуса',desc:'Базовое упражнение для разгибания таза и контроля корпуса.',errors:['Переразгибание поясницы.','Колени уходят внутрь.','Слишком быстрое опускание таза.'],tech:'Стопы устойчиво стоят на полу. Подними таз за счёт ягодиц, сохраняя корпус собранным.',variants:['Мост с паузой','Мост на одной ноге','Мост с дополнительной нагрузкой']},
+  lunge:{title:'Выпад',img:'assets/ex3.jpg',muscles:'Ягодичные, квадрицепс, задняя поверхность бедра, мышцы корпуса',desc:'Движение для силы ног, ягодиц и контроля таза.',errors:['Колено заваливается внутрь.','Потеря устойчивости стопы.','Нет контроля в нижней точке.'],tech:'Сделай шаг назад, опустись вниз и вернись через опору передней ноги.',variants:['Выпад с опорой','Выпад с паузой','Болгарский сплит-присед']},
+  bandrow:{title:'Тяга резинки',img:'assets/ex4.jpg',muscles:'Широчайшие, ромбовидные, задняя дельта, бицепс',desc:'Тяговое движение для мышц спины и контроля лопаток.',errors:['Плечи поднимаются к ушам.','Компенсация поясницей.','Резинка возвращается рывком.'],tech:'Контролируй лопатки, выполни тягу и плавно верни руки.',variants:['Тяга с паузой','Тяга одной рукой','Тяга с более сильной резинкой']},
+  multidirectional:{title:'Выпад в разных направлениях',img:'assets/ex3.jpg',muscles:'Ягодичные, квадрицепс, мышцы корпуса, стабилизаторы',desc:'Функциональное 3D-движение: шаги и выпады вперёд, в сторону и по диагонали.',errors:['Колено теряет направление стопы.','Корпус резко заваливается.','Шаг слишком большой для контроля.'],tech:'Двигайся в разные стороны, сохраняй устойчивую стопу и контролируй возвращение в исходное положение.',variants:['Выпад вперёд + в сторону','Выпад по диагонали','Мультинаправленный выпад с резинкой']},
+  stepSquat:{title:'Шаг в сторону + присед',img:'assets/ex1.jpg',muscles:'Ягодичные, квадрицепс, приводящие, мышцы корпуса',desc:'Связка шага и приседания для координации, силы и контроля в нескольких плоскостях.',errors:['Стопа теряет опору.','Колени уходят внутрь.','Движения выполняются рывком.'],tech:'Сделай шаг в сторону, присядь с контролем и вернись в исходное положение.',variants:['Шаг + присед с паузой','Шаг + присед с резинкой','Шаги в разные стороны']},
+  jumpLand:{title:'Прыжок + стабилизация',img:'assets/ex3.jpg',muscles:'Ягодичные, квадрицепс, икроножные, мышцы корпуса',desc:'Функциональное движение с прыжком, приземлением и последующей стабилизацией.',errors:['Жёсткое приземление.','Колени уходят внутрь.','Потеря равновесия после приземления.'],tech:'Прыгай только в пределах контроля, мягко приземляйся и удерживай устойчивое положение.',variants:['Низкоамплитудный прыжок','Прыжок вперёд + стоп','Прыжок в сторону + стабилизация']}
+};
+function filterWorkouts(cat){
+  document.querySelectorAll('#workoutFilters .app8-filter').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat));
+  document.querySelectorAll('#workoutCards .workout-card').forEach(c=>c.style.display=(cat==='all'||c.dataset.category===cat)?'flex':'none');
+}
+function filterExercises(cat){
+  document.querySelectorAll('#exerciseFilters .app8-filter').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat));
+  document.querySelectorAll('#exercises .exercise').forEach(c=>c.style.display=(cat==='all'||c.dataset.category===cat)?'flex':'none');
+}
+function syncDetailHeart(){
+  const btn=document.getElementById('exerciseDetailHeart');
+  if(btn) setHeart(btn,!!currentExerciseId && favoriteData.some(x=>x.key===favoriteKey('exercise',currentExerciseId)));
+}
+function toggleDetailFavorite(e){
+  e.stopPropagation();
+  if(!currentExerciseId) return;
+  const x=exerciseData[currentExerciseId]; if(!x) return;
+  const key=favoriteKey('exercise',currentExerciseId);
+  const idx=favoriteData.findIndex(v=>v.key===key);
+  if(idx>=0) favoriteData.splice(idx,1);
+  else favoriteData.push({key,type:'exercise',id:currentExerciseId,title:x.title,pic:`url('${x.img}')`,meta:'Упражнение',desc:x.desc});
+  syncDetailHeart(); syncExerciseHearts();
+}
+function openExercise(id){
+  const x=exerciseData[id]; if(!x) return;
+  currentExerciseId=id;
+  document.getElementById('exerciseTitle').textContent=x.title;
+  document.getElementById('exerciseContent').innerHTML=`
+    <div class="app8-video" style="padding:0;background:#050505;overflow:hidden">
+      ${id==='bridge'?`<iframe class="test-video kinescope-square" src="https://kinescope.io/embed/4WpVh3TWDktoXn5LHTrNph?background=1&preload=true&quality=480p" title="Ягодичный мост — Kinescope" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe>`:`<div style="background:rgba(0,0,0,.58);padding:12px 18px;border-radius:14px">▶<br><small>Здесь будет зацикленное MP4</small></div>`}
+    </div>
+    <div class="app8-info"><h3>Описание</h3><p>${x.desc}</p></div>
+    <div class="app8-info"><h3>Работающие мышечные группы</h3><p>${x.muscles}</p></div>
+    <div class="app8-info"><h3>Техника</h3><p>${x.tech}</p></div>
+    <div class="app8-info"><h3>Основные ошибки</h3><ul>${x.errors.map(e=>`<li>${e}</li>`).join('')}</ul></div>
+    <div class="app8-info"><h3>Усложнения и варианты</h3><div class="app8-variants">
+      ${id==='bridge' ? `<div class="app8-variant app8-variant-video" onclick="event.stopPropagation()"><div class="variant-video-box"><iframe loading="lazy" class="variant-kinescope" src="https://kinescope.io/embed/4WpVh3TWDktoXn5LHTrNph?background=1&preload=false&quality=360p&autopause=1" title="Ягодичный мост — усложнение" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe></div><div class="variant-caption">Мост — усложнение</div></div>` : ''}
+      ${x.variants.slice(id==='bridge'?1:0).map(v=>`<div class="app8-variant">▶<br>${v}<br><small>Видео добавим позже</small></div>`).join('')}
+    </div></div>`;
+  syncDetailHeart();
+  const activeBeforeDetail=document.querySelector('.screen.active');
+  detailBackTarget=activeBeforeDetail?.id==='favorites'?'favorites':'exercises';
+  show('exerciseDetail');
+}
+filterWorkouts('all');
+filterExercises('all');
+
+
+function calcCalories(){
+  const sex=document.getElementById('calSex').value;
+  const age=Number(document.getElementById('calAge').value);
+  const height=Number(document.getElementById('calHeight').value);
+  const weight=Number(document.getElementById('calWeight').value);
+  const activity=Number(document.getElementById('calActivity').value);
+  const goal=document.getElementById('calGoal').value;
+  const err=document.getElementById('calorieError');
+  const result=document.getElementById('calorieResult');
+  const valid=Number.isFinite(age)&&age>=18&&age<=100&&Number.isFinite(height)&&height>=120&&height<=230&&Number.isFinite(weight)&&weight>=35&&weight<=250;
+  if(!valid){err.classList.add('show');result.classList.remove('show');result.innerHTML='';return;}
+  err.classList.remove('show');
+  const rmr=10*weight+6.25*height-5*age+(sex==='male'?5:-161);
+  const maintenance=Math.round(rmr*activity/50)*50;
+  let target=maintenance;
+  let range='Поддержание';
+  if(goal==='loss'){target=Math.round(maintenance*0.9/50)*50;range='ориентир с умеренным дефицитом ~10%';}
+  if(goal==='gain'){target=Math.round(maintenance*1.07/50)*50;range='ориентир с небольшим профицитом ~7%';}
+  result.innerHTML=`<div class="result-row"><div><div class="big">${target.toLocaleString('ru-RU')}</div><div class="unit">ккал/сутки · ${range}</div></div><div style="text-align:right"><div style="font-size:13px;color:#d8cfc5">Поддержание</div><b style="font-size:16px;color:#f1d3a8">${maintenance.toLocaleString('ru-RU')} ккал</b></div></div><div class="small">Проверь этот ориентир по динамике веса, самочувствию, голоду и тренировкам в течение нескольких недель. Индивидуальный расход может заметно отличаться от расчётного.</div>`;
+  result.classList.add('show');
+}
+
+function jumpRecovery(id,btn){
+  const el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('#recoveryNav button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+
+function jumpNutrition(id,btn){
+  document.querySelectorAll('#nutritionNav button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+
+// --- App 20: текущая тренировка + интегрированный таймер ---
+let currentWorkout = [];
+let timerCfg = {}, timerPhase = 'work', timerRemain = 0, timerTotal = 0, timerRound = 1, timerExercise = 0, timerRunning = false, timerPaused = false, timerInterval = null, timerAudio = null;
+function toggleCurrentExercise(id,e){
+  if(e) e.stopPropagation();
+  const idx=currentWorkout.indexOf(id);
+  if(idx>=0) currentWorkout.splice(idx,1); else currentWorkout.push(id);
+  renderCurrentWorkout();
+}
+function clearCurrentWorkout(){ currentWorkout=[]; renderCurrentWorkout(); }
+const techniqueData={
+  bridge:{title:'Ягодичный мост',text:'Подготовка: стопы устойчиво на полу, таз и рёбра под контролем. Поднимай таз за счёт разгибания в тазобедренных суставах, не переразгибая поясницу. В верхней точке сохрани контроль и спокойно опусти таз.'},
+  hinge:{title:'Наклон / хиндж',text:'Начинай движение с отведения таза назад. Колени мягко согнуты, позвоночник сохраняет устойчивое положение, корпус наклоняется вслед за движением таза. Не превращай хиндж в глубокий присед.'},
+  squat:{title:'Приседание',text:'Опора распределена по стопе, колени двигаются в направлении носков, таз и корпус работают согласованно. Глубина выбирается по контролю и доступной мобильности.'},
+  lunge:{title:'Выпад',text:'Сначала создай устойчивую опору, затем контролируй движение таза вниз и вверх. Следи за направлением колена и не теряй равновесие при переносе веса.'},
+  deadbug:{title:'Dead bug',text:'Сохраняй контроль корпуса и положение таза. Руки и ноги двигаются медленно, а диапазон уменьшается, если появляется компенсация в пояснице.'}
+};
+function openWorkoutVideo(){document.getElementById('workoutVideoModal').classList.add('open');}
+function closeWorkoutVideo(){document.getElementById('workoutVideoModal').classList.remove('open');}
+function openTechnique(id){const x=techniqueData[id];if(!x)return;document.getElementById('techniqueModalTitle').textContent=x.title;document.getElementById('techniqueModalVideo').innerHTML='<iframe class="kinescope-frame" src="https://kinescope.io/embed/5CY5aRms9PyuAgdhQ3gYhh" title="Видео Kinescope" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe>';document.getElementById('techniqueModalText').innerHTML='<div class="app8-info"><h3>Как выполнять</h3><p>'+x.text+'</p><p style="margin-bottom:0;color:#aaa39b;font-size:12px">Тестовое видео Kinescope подключено.</p></div>';document.getElementById('techniqueModal').classList.add('open');}
+function closeTechnique(){document.getElementById('techniqueModal').classList.remove('open');}
+
+function renderCurrentWorkout(){
+  const box=document.getElementById('currentWorkout'), list=document.getElementById('currentWorkoutList'), count=document.getElementById('currentWorkoutCount');
+  if(!box||!list)return;
+  box.classList.toggle('show',currentWorkout.length>0);
+  count.textContent=currentWorkout.length+' '+(currentWorkout.length===1?'движение':currentWorkout.length<5?'движения':'движений');
+  list.innerHTML=currentWorkout.map((id,i)=>{const x=exerciseData[id];return `<div class="current-workout-row"><span class="num">${i+1}</span><span class="name">${x.title}</span><button class="clear-workout" onclick="removeCurrentExercise('${id}',event)">×</button></div>`}).join('');
+  document.querySelectorAll('.add-ex-btn').forEach(b=>{const on=currentWorkout.includes(b.dataset.ex);b.classList.toggle('added',on);b.textContent=on?'✓ Добавлено':'＋ Добавить';});
+  const n=document.getElementById('timerExercises'); if(n)n.value=Math.max(1,currentWorkout.length);
+}
+function removeCurrentExercise(id,e){if(e)e.stopPropagation();currentWorkout=currentWorkout.filter(x=>x!==id);renderCurrentWorkout();}
+function openTimerSetup(){if(!currentWorkout.length){alert('Сначала добавь хотя бы одно упражнение в тренировку.');return;} const activeBeforeTimer=document.querySelector('.screen.active'); timerBackTarget=activeBeforeTimer?.id||'exercises'; show('timer'); renderTimerList();}
+function selectTimerPreset(b){document.getElementById('timerWork').value=b.dataset.w;document.getElementById('timerRest').value=b.dataset.r;document.querySelectorAll('#timer .preset').forEach(x=>x.classList.remove('active'));b.classList.add('active');}
+function timerVal(id){return Math.max(0,parseInt(document.getElementById(id)?.value||0,10));}
+function timerFormat(s){s=Math.max(0,Math.ceil(s));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function timerSound(freq=880){if(!timerCfg.beep)return;try{timerAudio=timerAudio||new (window.AudioContext||window.webkitAudioContext)();if(timerAudio.state==='suspended')timerAudio.resume();const o=timerAudio.createOscillator(),g=timerAudio.createGain();o.frequency.value=freq;o.connect(g);g.connect(timerAudio.destination);g.gain.setValueAtTime(.0001,timerAudio.currentTime);g.gain.exponentialRampToValueAtTime(.12,timerAudio.currentTime+.01);g.gain.exponentialRampToValueAtTime(.0001,timerAudio.currentTime+.16);o.start();o.stop(timerAudio.currentTime+.18)}catch(e){} try{if(navigator.vibrate)navigator.vibrate([80,50,80])}catch(e){}}
+function renderTimerList(){const box=document.getElementById('timerList');if(!box)return;box.innerHTML=currentWorkout.map((id,i)=>{const x=exerciseData[id];return `<div class="timer-row"><span class="timer-row-num">${i+1}</span><span>${x.title}</span></div>`}).join('');}
+function setIntegratedPhase(p,seconds){timerPhase=p;timerRemain=seconds;timerTotal=seconds;updateIntegratedTimer();clearInterval(timerInterval);timerInterval=setInterval(tickIntegratedTimer,200)}
+function startIntegratedTimer(){
+  if(!currentWorkout.length){alert('Сначала добавь упражнения.');return;}
+  timerCfg={work:timerVal('timerWork'),rest:timerVal('timerRest'),rounds:timerVal('timerRounds'),roundRest:timerVal('timerRoundRest'),beep:document.getElementById('timerBeep').checked};
+  timerExercise=0;timerRound=1;timerRunning=true;timerPaused=false;document.getElementById('timerSetup').style.display='none';document.getElementById('timerDone').style.display='none';document.getElementById('timerLive').style.display='block';renderTimerList();requestAnimationFrame(()=>setIntegratedPhase('work',timerCfg.work));timerSound(660);
+}
+function tickIntegratedTimer(){if(!timerRunning||timerPaused)return;timerRemain=Math.max(0,timerRemain-.2);updateIntegratedTimer();if(timerRemain<=.05)nextIntegratedPhase()}
+function nextIntegratedPhase(){clearInterval(timerInterval);timerSound(timerPhase==='work'?520:900);
+  if(timerPhase==='work'){
+    if(timerExercise<currentWorkout.length-1){setIntegratedPhase('rest',timerCfg.rest)}
+    else if(timerRound<timerCfg.rounds){timerRound++;timerExercise=0;setIntegratedPhase('roundRest',timerCfg.roundRest)}
+    else{finishIntegratedTimer()}
+  } else if(timerPhase==='rest'){timerExercise++;setIntegratedPhase('work',timerCfg.work)} else if(timerPhase==='roundRest'){setIntegratedPhase('work',timerCfg.work)}
+}
+function updateIntegratedTimer(){
+  const x=exerciseData[currentWorkout[timerExercise]]; if(!x)return;
+  const tv=document.getElementById('timerExerciseVideo');
+  if(tv){
+    if(currentWorkout[timerExercise]==='bridge'){
+      const src='https://kinescope.io/embed/4WpVh3TWDktoXn5LHTrNph?background=1&autoplay=1&muted=1&loop=1&playsinline=1&preload=true&quality=480p';
+      if(tv.tagName==='IFRAME'){
+        if(tv.src!==src){tv.src=src;}
+        tv.style.display='block';
+      }
+    } else if(tv.tagName==='IFRAME'){
+      tv.src='about:blank';
+    }
+  }
+  document.getElementById('timerExerciseName').textContent=x.title;
+  document.getElementById('timerExerciseCue').textContent=x.tech;
+  document.getElementById('timerPhase').textContent=timerPhase==='work'?'Работа':timerPhase==='rest'?'Отдых':'Отдых между кругами';
+  document.getElementById('timerCount').textContent=timerFormat(timerRemain);
+  document.getElementById('timerBar').style.width=(timerTotal?Math.min(100,(1-timerRemain/timerTotal)*100):0)+'%';
+  document.getElementById('timerRoundInfo').textContent=`Круг ${timerRound} / ${timerCfg.rounds}`;
+  document.getElementById('timerExerciseInfo').textContent=`Движение ${timerExercise+1} / ${currentWorkout.length}`;
+  document.querySelectorAll('#timerList .timer-row').forEach((el,i)=>el.classList.toggle('active',i===timerExercise));
+}
+function toggleIntegratedPause(){timerPaused=!timerPaused;document.getElementById('timerPauseBtn').textContent=timerPaused?'Продолжить':'Пауза';if(!timerPaused)timerSound(760)}
+function skipIntegratedPhase(){if(!timerRunning)return;timerRemain=0;nextIntegratedPhase()}
+function resetTimerSetup(){
+  timerCfg={}; timerPhase='work'; timerRemain=0; timerTotal=0; timerRound=1; timerExercise=0; timerRunning=false; timerPaused=false;
+  clearInterval(timerInterval); timerInterval=null;
+  const work=document.getElementById('timerWork'), rest=document.getElementById('timerRest'), rounds=document.getElementById('timerRounds'), rr=document.getElementById('timerRoundRest'), beep=document.getElementById('timerBeep');
+  if(work) work.value=40; if(rest) rest.value=20; if(rounds) rounds.value=3; if(rr) rr.value=60; if(beep) beep.checked=true;
+  document.querySelectorAll('#timer .preset').forEach(x=>x.classList.remove('active'));
+  document.getElementById('timerLive').style.display='none';
+  document.getElementById('timerDone').style.display='none';
+  document.getElementById('timerSetup').style.display='block';
+  const pause=document.getElementById('timerPauseBtn'); if(pause) pause.textContent='Пауза';
+}
+function exitTimerToExercises(){resetTimerSetup();show('exercises');}
+function stopIntegratedTimer(){resetTimerSetup();show('exercises');}
+function finishIntegratedTimer(){timerRunning=false;timerPaused=false;clearInterval(timerInterval);timerInterval=null;document.getElementById('timerLive').style.display='none';document.getElementById('timerDone').style.display='block';timerSound(1100);currentWorkout=[];renderCurrentWorkout();}
+function finishTimerAndReturn(){resetTimerSetup();currentWorkout=[];renderCurrentWorkout();show('exercises');}
+renderCurrentWorkout();
 </script>
-
 </body>
 </html>
