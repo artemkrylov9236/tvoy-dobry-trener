@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Твой добрый тренер — Приложение 26</title>
+<title>Твой добрый тренер — Приложение 57</title>
 <style>
 :root{
   --bg:#090909; --panel:rgba(31,29,27,.72); --panel2:rgba(24,23,22,.88);
@@ -20,12 +20,12 @@ button{font:inherit;color:inherit}
 .screen{display:none;padding:22px 18px 105px;min-height:100vh}
 .screen.active{display:block}
 .hero{height:350px;border:1px solid rgba(232,195,143,.35);border-radius:30px;overflow:hidden;position:relative;background:
- linear-gradient(90deg,rgba(5,5,5,.96) 0%,rgba(5,5,5,.78) 48%,rgba(5,5,5,.15) 100%),
- url("assets/hero.jpg") center/cover no-repeat;
+ linear-gradient(90deg,rgba(5,5,5,.98) 0%,rgba(5,5,5,.88) 38%,rgba(5,5,5,.48) 66%,rgba(5,5,5,.10) 100%),
+ url("assets/hero-artem.jpg") 67% 34%/cover no-repeat;
  box-shadow:0 18px 45px rgba(0,0,0,.38);padding:34px 28px}
-.hero:after{content:"ФОТО";position:absolute;right:22px;top:20px;font-size:11px;letter-spacing:3px;color:#d8d0c8}
-.kicker{font-size:12px;letter-spacing:1.8px;font-weight:700;color:#e8d6bd;margin-bottom:14px}
-h1{font-size:43px;line-height:.91;margin:0 0 20px;font-weight:900;letter-spacing:-1.8px}
+.hero:after{content:""}
+.hero>*{position:relative;z-index:2}.kicker{font-size:12px;letter-spacing:1.8px;font-weight:700;color:#e8d6bd;margin-bottom:14px}
+h1{font-size:43px;line-height:.91;margin:0 0 20px;font-weight:900;letter-spacing:-1.8px;position:relative;z-index:2} h1 .trainer-gap{display:block;margin-top:7px}
 h1 span{color:var(--gold)}
 .hero p{max-width:245px;color:#ddd5cc;font-size:15px;line-height:1.3;margin:0 0 18px}
 .signature{font-size:18px;font-family:cursive;margin-bottom:3px}.role{font-size:12px;color:#aaa39b}
@@ -37,13 +37,13 @@ h1 span{color:var(--gold)}
 .card h3{font-size:20px;margin:0 0 5px}.card p{font-size:13px;line-height:1.28;color:#bcb5ae;margin:0}
 .arrow{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:30px;color:#f0d0a2}
 .icon{width:50px;height:50px;border:1px solid rgba(232,195,143,.4);border-radius:15px;display:grid;place-items:center;color:var(--gold);font-size:23px;margin:15px}
-.topbar{display:flex;align-items:center;gap:12px;margin-bottom:18px}.back{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(30,27,24,.72);font-size:23px;cursor:pointer}.topbar h2{font-size:28px;margin:0}.sub{color:#aaa39b;font-size:13px;margin:0 0 17px}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:18px}.back{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(30,27,24,.72);font-size:0;cursor:pointer;position:relative;padding:0;display:flex;align-items:center;justify-content:center}.back::before{content:"‹";position:absolute;inset:0;font-size:29px;line-height:1;display:flex;align-items:center;justify-content:center;transform:none}.topbar h2{font-size:28px;margin:0}.sub{color:#aaa39b;font-size:13px;margin:0 0 17px}
 .filters{display:none}
 .info-btn{border:1px solid var(--line);border-radius:15px;background:rgba(46,40,34,.75);padding:11px 14px;margin:0 0 15px;width:100%;text-align:left;cursor:pointer;color:#ead4b5}
 .info-btn strong{display:block;font-size:15px}.info-btn span{display:block;font-size:12px;color:#aaa39b;margin-top:3px}
 .workout-card{min-height:116px;align-items:stretch}.workout-card .pic{width:40%;min-width:40%;height:auto;aspect-ratio:auto;align-self:stretch;border-radius:0;overflow:hidden;position:relative;background:#171513}.workout-card .pic img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}.workout-card .pic:after{display:none}.workout-play{position:absolute;inset:0;display:grid;place-items:center;font-size:30px;color:#e8c38f;text-shadow:0 2px 10px rgba(0,0,0,.6);background:linear-gradient(90deg,rgba(0,0,0,.04),rgba(0,0,0,.24))}.workout-card .content{padding:13px 36px 13px 15px;display:flex;flex-direction:column;justify-content:center}.workout-card h3{font-size:17px;line-height:1.16;margin:0 0 4px}.workout-card p{display:none}.workout-card .meta{font-size:11px;margin-top:4px}.meta{font-size:12px;color:#d1c7bc;margin-top:8px}.heart{position:absolute;right:14px;top:14px;background:none;border:0;font-size:24px;color:#eee;cursor:pointer;z-index:2}.heart.active{color:var(--gold)}
 .exercise{min-height:92px}.exercise .pic{width:27%}.exercise h3{font-size:18px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:flex-end;z-index:20}.modal.open{display:flex}.sheet{width:min(100%,430px);max-height:88vh;overflow:auto;margin:auto;background:#181615;border:1px solid var(--line);border-radius:28px 28px 0 0;padding:22px 20px 30px;box-shadow:0 -20px 50px rgba(0,0,0,.45)}.sheet h3{margin:0 0 8px;font-size:23px}.sheet p,.sheet li{color:#c1bbb4;line-height:1.45;font-size:14px}.sheet button{margin-top:14px;width:100%;padding:12px;border-radius:14px;border:1px solid var(--line);background:#28231e;color:#f1d3a8}.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.eyebrow{font-size:10px;letter-spacing:.16em;color:#b99562;margin-bottom:4px}.modal-x{width:38px!important;height:38px;padding:0!important;margin:0!important;border-radius:50%!important;font-size:24px;line-height:1;color:#bfb6ad!important}.modal-lead{margin:4px 0 14px}.method-tabs{display:flex;gap:7px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}.method-tabs::-webkit-scrollbar{display:none}.method-tab{flex:0 0 auto!important;width:auto!important;margin:0!important;padding:9px 12px!important;border-radius:999px!important;font-size:12px}.method-tab.active{background:#b8925f!important;color:#171411!important}.method-content{border:1px solid rgba(232,195,143,.16);background:rgba(46,40,34,.5);border-radius:16px;padding:15px;margin-top:2px}.method-content h4{margin:0 0 6px;font-size:17px}.method-content p{margin:0 0 9px}.method-content ul{margin:8px 0 0;padding-left:19px}.method-content .example{border-top:1px solid rgba(232,195,143,.12);padding-top:10px;margin-top:10px;color:#e7d1b1}.builder-box{margin-top:14px;border:1px solid rgba(232,195,143,.18);border-radius:17px;padding:14px;background:rgba(24,22,21,.8)}.builder-title{font-weight:700;margin-bottom:10px}.builder-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.builder-grid label{font-size:11px;color:#a9a19a}.builder-grid label:first-child{grid-column:1/-1}.builder-grid select{display:block;width:100%;margin-top:5px;padding:10px;border-radius:11px;border:1px solid rgba(232,195,143,.18);background:#24201d;color:#eee;font-size:14px}.builder-result{margin-top:11px;padding:11px 12px;border-radius:12px;background:#211e1b;color:#d8d0c8;font-size:13px;line-height:1.45}.sheet-close{margin-top:14px!important}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:flex-end;z-index:20}.modal.open{display:flex}.sheet{width:min(100%,430px);max-height:88vh;overflow:auto;scrollbar-width:none;margin:auto;background:#181615;border:1px solid var(--line);border-radius:28px 28px 0 0;padding:22px 20px 30px;box-shadow:0 -20px 50px rgba(0,0,0,.45)}.sheet::-webkit-scrollbar{display:none}.sheet h3{margin:0 0 8px;font-size:23px}.sheet p,.sheet li{color:#c1bbb4;line-height:1.45;font-size:14px}.sheet button{margin-top:14px;width:100%;padding:12px;border-radius:14px;border:1px solid var(--line);background:#28231e;color:#f1d3a8}.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.modal-head-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}.eyebrow{font-size:10px;letter-spacing:.16em;color:#b99562;margin-bottom:4px}.modal-x{width:38px!important;height:38px;padding:0!important;margin:0!important;border-radius:50%!important;font-size:24px;line-height:1;color:#bfb6ad!important}.modal-heart{position:static!important;width:38px!important;height:38px!important;padding:0!important;margin:0!important;border:1px solid var(--line)!important;border-radius:50%!important;background:rgba(40,35,30,.72)!important;font-size:22px!important;line-height:1!important;color:#eee!important;display:flex!important;align-items:center!important;justify-content:center!important}.modal-heart.active{color:var(--gold)!important}.modal-lead{margin:4px 0 14px}.method-tabs{display:flex;gap:7px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}.method-tabs::-webkit-scrollbar{display:none}.method-tab{flex:0 0 auto!important;width:auto!important;margin:0!important;padding:9px 12px!important;border-radius:999px!important;font-size:12px}.method-tab.active{background:#b8925f!important;color:#171411!important}.method-content{border:1px solid rgba(232,195,143,.16);background:rgba(46,40,34,.5);border-radius:16px;padding:15px;margin-top:2px}.method-content h4{margin:0 0 6px;font-size:17px}.method-content p{margin:0 0 9px}.method-content ul{margin:8px 0 0;padding-left:19px}.method-content .example{border-top:1px solid rgba(232,195,143,.12);padding-top:10px;margin-top:10px;color:#e7d1b1}.builder-box{margin-top:14px;border:1px solid rgba(232,195,143,.18);border-radius:17px;padding:14px;background:rgba(24,22,21,.8)}.builder-title{font-weight:700;margin-bottom:10px}.builder-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.builder-grid label{font-size:11px;color:#a9a19a}.builder-grid label:first-child{grid-column:1/-1}.builder-grid select{display:block;width:100%;margin-top:5px;padding:10px;border-radius:11px;border:1px solid rgba(232,195,143,.18);background:#24201d;color:#eee;font-size:14px}.builder-result{margin-top:11px;padding:11px 12px;border-radius:12px;background:#211e1b;color:#d8d0c8;font-size:13px;line-height:1.45}.sheet-close{margin-top:14px!important}
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,430px);height:82px;background:var(--nav);border-top:1px solid rgba(255,255,255,.08);display:flex;z-index:10;padding-bottom:env(safe-area-inset-bottom)}
 .nav button{flex:1;border:0;background:none;color:#777;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-size:11px;cursor:pointer}.nav button .ni{font-size:23px}.nav button.active{color:var(--gold)}
 .empty{padding:30px 10px;text-align:center;color:#777}
@@ -69,7 +69,7 @@ h1 span{color:var(--gold)}
 .app8-info p,.app8-info li{font-size:14px;line-height:1.5;color:#d0c9c1}
 .app8-info ul{padding-left:18px;margin:0}
 .app8-variants{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.app8-variant{aspect-ratio:1/1;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,#3d3329,#111);display:grid;place-items:center;text-align:center;color:#d8c3a4;font-size:12px;padding:8px}.app8-variant-video{display:block;position:relative;overflow:hidden;padding:0;background:#050505}.variant-kinescope{display:block;width:100%;height:100%;border:0;position:absolute;inset:0}.variant-caption{position:static;padding:9px 8px 10px;border-radius:0 0 15px 15px;background:#211e1b;color:#f1dfc4;font-weight:700;text-align:center;z-index:2;line-height:1.3}.variant-caption small{display:block;margin-top:3px;color:#a9a098;font-weight:500;font-size:10px}.variant-caption small{font-weight:500;color:#bdb4ab;font-size:10px}
+.app8-variant{aspect-ratio:1/1;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,#3d3329,#111);display:grid;place-items:center;text-align:center;color:#d8c3a4;font-size:12px;padding:8px}.app8-variant-video{display:block;position:relative;overflow:hidden;padding:0;background:#050505}.variant-kinescope{pointer-events:none;pointer-events:none;display:block;width:100%;height:100%;border:0;position:absolute;inset:0}.variant-caption{position:static;padding:9px 8px 10px;border-radius:0 0 15px 15px;background:#211e1b;color:#f1dfc4;font-weight:700;text-align:center;z-index:2;line-height:1.3}.variant-caption small{display:block;margin-top:3px;color:#a9a098;font-weight:500;font-size:10px}.variant-caption small{font-weight:500;color:#bdb4ab;font-size:10px}
 
 /* APP 11 — heart-rate calculator */
 .pulse-calculator{padding:14px;border:1px solid rgba(232,195,143,.28);border-radius:18px;background:rgba(255,255,255,.035);margin:14px 0 18px}
@@ -82,7 +82,7 @@ h1 span{color:var(--gold)}
 
 /* APP 15 — unified workout/exercise filters + favorites */
 .favorite-tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}.favorite-tabs::-webkit-scrollbar{display:none}.favorite-tab{flex:0 0 auto;border:1px solid var(--line);background:#28231e;color:#aaa39b;border-radius:999px;padding:9px 14px;font-size:12px;cursor:pointer}.favorite-tab.active{background:rgba(232,195,143,.18);color:#f1d3a8;border-color:var(--gold)}
-.card .heart{font-size:25px}.exercise .heart{top:10px;right:10px}.favorite-type{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:#a99f95;margin-bottom:5px}
+.card .heart{font-size:25px}.exercise .heart{top:10px;right:10px;left:auto}.exercise .add-ex-btn{top:10px;right:10px;bottom:auto;left:auto}.favorite-type{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:#a99f95;margin-bottom:5px}
 /* APP 9 — nutrition course */
 .nutrition-nav{position:sticky;top:0;z-index:5;display:flex;gap:8px;overflow-x:auto;padding:7px 0 12px;margin:0 -4px 6px;background:linear-gradient(#090909 75%,rgba(9,9,9,0));scrollbar-width:none}
 .nutrition-nav::-webkit-scrollbar{display:none}
@@ -139,10 +139,10 @@ h1 span{color:var(--gold)}
 .tech-list{display:flex;flex-direction:column;gap:14px;margin-top:12px}
 .tech-card{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:linear-gradient(100deg,rgba(45,40,36,.84),rgba(20,19,18,.72));box-shadow:0 8px 24px rgba(0,0,0,.22);cursor:pointer}
 .tech-video{aspect-ratio:16/9;background:linear-gradient(135deg,#3d3329,#111);display:grid;place-items:center;position:relative;color:#d8c3a4}
-.tech-video:after{content:'▶';width:58px;height:58px;border:1px solid rgba(232,195,143,.6);border-radius:50%;display:grid;place-items:center;background:rgba(8,8,8,.48);font-size:22px;padding-left:3px}
+.tech-video:after{display:none}
 .tech-body{padding:15px 16px 17px}.tech-body h3{margin:0 0 5px;font-size:19px}.tech-body p{margin:0;color:#bcb5ae;font-size:13px;line-height:1.4}.tech-tag{display:inline-block;margin-top:10px;font-size:11px;color:#d9c09a;border:1px solid rgba(232,195,143,.24);border-radius:999px;padding:5px 9px}
 .tech-modal-video{aspect-ratio:16/9;border-radius:18px;border:1px solid var(--line);background:linear-gradient(135deg,#3d3329,#111);display:grid;place-items:center;color:#d8c3a4;margin:12px 0 15px}
-.test-video{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit;background:#050505}.exercise-preview-video{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit;background:#050505;border:0}.kinescope-square{width:100%;height:100%;display:block;border:0;background:#050505;border-radius:inherit}.kinescope-frame{width:100%;aspect-ratio:16/9;border:0;border-radius:18px;display:block;background:#050505}.workout-modal-video{width:100%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#050505;margin:12px 0 15px}
+.test-video{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit;background:#050505}.exercise-preview-video{width:100%;height:100%;display:block;object-fit:cover;border-radius:inherit;background:#050505;border:0;pointer-events:none}.kinescope-square{width:100%;height:100%;display:block;border:0;background:#050505;border-radius:inherit}.kinescope-frame{width:100%;aspect-ratio:16/9;border:0;border-radius:18px;display:block;background:#050505}.workout-modal-video{width:100%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#050505;margin:12px 0 15px} .exercise-modal-video{width:100%;aspect-ratio:1/1;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#050505;margin:12px 0 15px}.exercise-modal-video iframe{width:100%;height:100%;display:block;border:0}.exercise-modal-body .app8-info{margin:10px 0}.exercise-modal-body .app8-info h3{margin-bottom:6px}.exercise-modal-body .app8-variants{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.exercise-modal-body .app8-variant{border:1px solid rgba(232,195,143,.18);border-radius:14px;padding:10px;background:rgba(35,31,28,.65);font-size:12px}.exercise-modal-body .variant-video-box{aspect-ratio:1/1;border-radius:11px;overflow:hidden;background:#050505;margin-bottom:7px}.exercise-modal-body .variant-kinescope{width:100%;height:100%;border:0;display:block}
 
 /* App 31: square exercise video and lightweight Kinescope loading */
 .app8-video{aspect-ratio:1/1;}
@@ -166,10 +166,10 @@ h1 span{color:var(--gold)}
 .current-workout-row{min-height:36px;padding:7px 9px}
 .current-workout-row .clear-workout{width:28px;min-width:28px;height:28px;margin:0;padding:0;border:1px solid rgba(232,195,143,.18);border-radius:50%;background:rgba(0,0,0,.12);display:grid;place-items:center;font-size:17px;line-height:1}
 .start-current{display:flex!important;margin-top:12px!important;min-height:46px}
-.exercise{min-height:116px;padding-bottom:42px}
-.exercise .content{padding:16px 54px 54px 16px}
-.exercise .content p{max-width:100%}
-.add-ex-btn{left:calc(27% + 16px);right:auto;bottom:10px;max-width:calc(73% - 64px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:7px 10px;border-radius:10px;font-size:11px}
+.exercise{min-height:108px}
+.exercise .content{padding:16px 42px 15px 16px;display:flex;flex-direction:column;justify-content:center}
+.exercise .content p{max-width:100%;margin:4px 0 0}
+.exercise .content .add-ex-btn{position:static;align-self:flex-start;margin-top:9px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:7px 10px;border-radius:10px;font-size:11px}
 .exercise .arrow{right:12px}
 /* App 33: floating contextual back navigation */
 .floating-back{
@@ -187,12 +187,14 @@ h1 span{color:var(--gold)}
   display:none;
   align-items:center;
   justify-content:center;
-  font-size:28px;
+  font-size:0;
   line-height:1;
   cursor:pointer;
+  padding:0;
   backdrop-filter:blur(8px);
 }
 .floating-back.show{display:flex}
+.floating-back::before{content:"←";position:absolute;inset:0;font-size:28px;line-height:1;display:flex;align-items:center;justify-content:center;transform:none}
 .floating-back:active{transform:scale(.96)}
 
 .timer-setup .section-title{margin:5px 0 10px}
@@ -202,7 +204,18 @@ h1 span{color:var(--gold)}
 .timer-setup>.btn.main{margin-top:12px}
 .timer-live-video{height:210px}
 .timer-list .timer-row{min-height:52px}
-@media(max-width:360px){.exercise .content{padding-right:46px}.add-ex-btn{left:calc(27% + 12px);max-width:calc(73% - 56px)}}
+@media(max-width:360px){.exercise .content{padding-right:40px}.exercise .content .add-ex-btn{max-width:100%}}
+</style>
+
+<style id="app46-exercise-layout">
+/* App 46: compact exercise cards — add button sits under description */
+.exercise{min-height:0;padding-bottom:0}
+.exercise .content{padding:15px 42px 14px 16px;display:flex;flex-direction:column;justify-content:center}
+.exercise .content p{margin:4px 0 0;max-width:100%}
+.exercise .content .add-ex-btn{position:static;left:auto;right:auto;bottom:auto;align-self:flex-start;margin-top:9px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:7px 10px;border-radius:10px;font-size:11px}
+.exercise .heart{top:10px;right:10px;left:auto}
+.exercise .arrow{right:12px}
+@media(max-width:360px){.exercise .content{padding-right:40px}.exercise .content .add-ex-btn{max-width:100%}}
 </style>
 
 <style id="app20-timer-css">
@@ -293,22 +306,46 @@ h1 span{color:var(--gold)}
 @media(max-width:360px){.timer-live-layout .timer-phase{font-size:15px}.timer-live-layout .timer-count{font-size:68px}}
 </style>
 
+
+<style id="app57-home-design">
+/* App 57: сохраняем структуру App 56; обновляем только визуальный слой главной */
+.home-v3{padding:14px 14px 105px!important}
+
+.hero-v3{height:390px;border:1px solid rgba(232,195,143,.42);border-radius:30px;overflow:hidden;position:relative;background:#0a0908;box-shadow:0 20px 55px rgba(0,0,0,.38)}
+.hero-v3-bg{position:absolute;inset:0;background:linear-gradient(90deg,#0b0908 0%,rgba(11,9,8,.97) 18%,rgba(11,9,8,.82) 34%,rgba(11,9,8,.35) 58%,rgba(11,9,8,.04) 82%,transparent 100%),url("assets/hero-artem.jpg") 74% 30%/auto 116% no-repeat;filter:saturate(.98) contrast(1.02)}
+.hero-v3-bg:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,8,7,.98) 0%,rgba(10,8,7,.88) 25%,rgba(18,14,11,.42) 51%,rgba(18,14,11,.08) 73%,transparent 100%),linear-gradient(0deg,rgba(12,9,7,.52),transparent 36%,rgba(12,9,7,.12) 100%)}
+.hero-v3-copy{position:relative;z-index:3;padding:25px 22px;width:63%;height:100%;box-sizing:border-box}.hero-v3 .kicker{font-size:12px;letter-spacing:1.8px;font-weight:700;color:#e8d6bd;margin-bottom:14px}.hero-v3 h1{font-size:35px;line-height:1.02;letter-spacing:-1.2px;margin:0 0 14px;text-transform:uppercase}.hero-v3 h1 span{color:#e8c38f}.hero-brand-v3{font-size:17px;line-height:1.15;color:#f2eee8;margin-bottom:0;white-space:normal}.hero-brand-v3 span{color:#e8c38f;padding:0 5px}
+@media(max-width:370px){.hero-v3{height:360px}.hero-v3-copy{padding:22px 18px;width:66%}.hero-v3 h1{font-size:32px}.hero-brand-v3{font-size:16px}}
+.home-card-v3{width:100%;min-height:94px;box-sizing:border-box;display:flex;align-items:center;gap:13px;position:relative;margin-bottom:10px;padding:14px 46px 14px 14px;border:1px solid rgba(232,195,143,.38);border-radius:22px;background:linear-gradient(135deg,rgba(48,41,35,.90),rgba(22,20,18,.80));color:var(--text);text-align:left;cursor:pointer;box-shadow:0 10px 25px rgba(0,0,0,.18);transition:.16s transform,.16s border-color}
+.home-card-v3:active{transform:scale(.988)}
+.home-card-v3 .home-icon-v3{flex:0 0 48px;width:48px;height:48px;display:grid;place-items:center;color:#e8c38f;background:transparent;border:0;border-radius:0;box-shadow:none;overflow:visible}.home-icon-v3 img{width:48px;height:48px;object-fit:contain;display:block;filter:none}
+
+.home-icon-v3 svg{width:27px;height:27px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.home-card-v3 .home-copy-v3{min-width:0}.home-card-v3 h3{font-size:20px;line-height:1.05;margin:0 0 5px}.home-card-v3 p{font-size:13px;line-height:1.3;color:#cfc7bf;margin:0}.home-card-v3 .arrow-v3{position:absolute;right:17px;top:50%;transform:translateY(-50%);font-size:28px;color:#f0d0a2}
+@media(max-width:370px){.hero-v3{height:340px}.hero-v3-copy{padding:22px 18px;width:71%}.hero-v3 h1{font-size:32px}.hero-brand-v3{font-size:16px}.home-card-v3{min-height:88px}.home-card-v3 h3{font-size:18px}.home-card-v3 p{font-size:12px}}
+.nav button .ni svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.hero-final-v4{height:auto;aspect-ratio:834/571;background:#0a0908;}
+.hero-final-image{display:block;width:100%;height:auto;aspect-ratio:834/571;object-fit:cover;border-radius:29px;}
+.hero-final-v4 .hero-v3-bg,.hero-final-v4 .hero-v3-copy{display:none!important;}
+.hero-final-v4{box-shadow:0 20px 55px rgba(0,0,0,.38);}
+@media(max-width:370px){.hero-final-v4{height:auto;aspect-ratio:834/571}.hero-final-image{aspect-ratio:834/571}}
+</style>
 </head>
 <body>
 <div class="app">
-  <main id="home" class="screen active">
-    <section class="hero">
-      <div class="kicker">ТРЕНИРОВКИ · ЗДОРОВЬЕ · ДВИЖЕНИЕ</div>
-      <h1>ТВОЙ<br>ДОБРЫЙ<br><span>ТРЕНЕР</span></h1>
-      <p>Сильное тело для реальной жизни, а не только для внешнего вида</p>
-      <div class="signature">Артём Крылов</div><div class="role">Тренер по движению и здоровью</div>
+  <main id="home" class="screen active home-v3">
+    <section class="hero-v3 hero-final-v4">
+      <img class="hero-final-image" src="assets/hero-final.jpg" alt="Твой добрый тренер">
     </section>
     <div class="section-title">Что хочешь сделать?</div>
-    <div class="card" onclick="show('workouts')"><div class="pic" style="background-image:url('assets/workouts.jpg')"></div><div class="content"><h3>Тренировки</h3><p>Готовые программы на разные цели</p></div><div class="arrow">›</div></div>
-    <div class="card" onclick="show('exercises')"><div class="pic" style="background-image:url('assets/exercises.jpg')"></div><div class="content"><h3>Упражнения</h3><p>База движений с видео, техникой и рекомендациями</p></div><div class="arrow">›</div></div>
-    <div class="card" onclick="show('inside')"><div class="pic" style="background-image:url('assets/inside.jpg')"></div><div class="content"><h3>Заглянуть вовнутрь</h3><p>Гайды, памятки и полезные материалы</p></div><div class="arrow">›</div></div>
-    <div class="card" onclick="show('personal')"><div class="pic" style="background-image:url('assets/personal.jpg')"></div><div class="content"><h3>Персональная работа</h3><p>Индивидуальный подход и сопровождение</p></div><div class="arrow">›</div></div>
-    <div class="card" onclick="show('profile')"><div class="pic" style="background-image:url('assets/profile.jpg')"></div><div class="content"><h3>Личный кабинет</h3><p>Ваш доступ, настройки и информация</p></div><div class="arrow">›</div></div>
+    <div class="home-list-v3">
+      <button class="home-card-v3" onclick="show('workouts')"><span class="home-icon-v3"><img src="assets/icons/training.png" alt=""></span><span class="home-copy-v3"><h3>Тренировки</h3><p>Готовые программы на разные цели</p></span><span class="arrow-v3">›</span></button>
+      <button class="home-card-v3" onclick="show('exercises')"><span class="home-icon-v3"><img src="assets/icons/exercise.png" alt=""></span><span class="home-copy-v3"><h3>Упражнения</h3><p>База движений с видео, техникой и рекомендациями</p></span><span class="arrow-v3">›</span></button>
+      <button class="home-card-v3" onclick="show('inside')"><span class="home-icon-v3"><img src="assets/icons/inside.png" alt=""></span><span class="home-copy-v3"><h3>Заглянуть вовнутрь</h3><p>Питание, кардио, восстановление и полезные материалы</p></span><span class="arrow-v3">›</span></button>
+      <button class="home-card-v3" onclick="show('personal')"><span class="home-icon-v3"><img src="assets/icons/personal.png" alt=""></span><span class="home-copy-v3"><h3>Персональная работа</h3><p>Индивидуальный подход и сопровождение</p></span><span class="arrow-v3">›</span></button>
+      <button class="home-card-v3" onclick="show('profile')"><span class="home-icon-v3"><img src="assets/icons/cabinet.png" alt=""></span><span class="home-copy-v3"><h3>Личный кабинет</h3><p>Твои настройки, прогресс и доступ</p></span><span class="arrow-v3">›</span></button>
+    </div>
   </main>
 
   <main id="workouts" class="screen">
@@ -346,13 +383,13 @@ h1 span{color:var(--gold)}
       <div id="currentWorkoutList" class="current-workout-list"></div>
       <button class="btn main start-current" onclick="openTimerSetup()">▶ Настроить таймер</button>
     </div>
-    <div class="card exercise" data-category="lower" onclick="openExercise('squat')"><div class="pic" style="background-image:url('assets/ex1.jpg')"></div><div class="content"><h3>Приседание</h3><p>Техника, контроль коленей и корпуса</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','squat')">♡</button><button class="add-ex-btn" data-ex="squat" onclick="toggleCurrentExercise('squat',event)">＋ Добавить</button><div class="arrow">›</div></div>
-    <div class="card exercise" data-category="lower" onclick="openExercise('bridge')"><div class="pic" style="padding:0;background:#050505" onclick="event.stopPropagation()"><iframe loading="lazy" class="exercise-preview-video kinescope-square" src="https://kinescope.io/embed/4WpVh3TWDktoXn5LHTrNph?background=1&preload=false&quality=360p&autopause=1" title="Ягодичный мост — видео упражнения" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe></div><div class="content"><h3>Ягодичный мост</h3><p>Работа ягодиц и стабилизация таза</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','bridge')">♡</button><button class="add-ex-btn" data-ex="bridge" onclick="toggleCurrentExercise('bridge',event)">＋ Добавить</button><div class="arrow">›</div></div>
-    <div class="card exercise" data-category="lower" onclick="openExercise('lunge')"><div class="pic" style="background-image:url('assets/ex3.jpg')"></div><div class="content"><h3>Выпад</h3><p>Сила ног, баланс и контроль</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','lunge')">♡</button><button class="add-ex-btn" data-ex="lunge" onclick="toggleCurrentExercise('lunge',event)">＋ Добавить</button><div class="arrow">›</div></div>
-    <div class="card exercise" data-category="upper" onclick="openExercise('bandrow')"><div class="pic" style="background-image:url('assets/ex4.jpg')"></div><div class="content"><h3>Тяга резинки</h3><p>Спина, лопатки и положение корпуса</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','bandrow')">♡</button><button class="add-ex-btn" data-ex="bandrow" onclick="toggleCurrentExercise('bandrow',event)">＋ Добавить</button><div class="arrow">›</div></div>
-    <div class="card exercise" data-category="functional" onclick="openExercise('multidirectional')"><div class="pic" style="background-image:url('assets/ex3.jpg')"></div><div class="content"><h3>Выпад в разных направлениях</h3><p>3D-движение: вперёд, в сторону и по диагонали</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','multidirectional')">♡</button><button class="add-ex-btn" data-ex="multidirectional" onclick="toggleCurrentExercise('multidirectional',event)">＋ Добавить</button><div class="arrow">›</div></div>
-    <div class="card exercise" data-category="functional" onclick="openExercise('stepSquat')"><div class="pic" style="background-image:url('assets/ex1.jpg')"></div><div class="content"><h3>Шаг в сторону + присед</h3><p>Координация, сила и работа в нескольких плоскостях</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','stepSquat')">♡</button><button class="add-ex-btn" data-ex="stepSquat" onclick="toggleCurrentExercise('stepSquat',event)">＋ Добавить</button><div class="arrow">›</div></div>
-    <div class="card exercise" data-category="functional" onclick="openExercise('jumpLand')"><div class="pic" style="background-image:url('assets/ex3.jpg')"></div><div class="content"><h3>Прыжок + стабилизация</h3><p>Прыжок, мягкое приземление и контроль</p></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','jumpLand')">♡</button><button class="add-ex-btn" data-ex="jumpLand" onclick="toggleCurrentExercise('jumpLand',event)">＋ Добавить</button><div class="arrow">›</div></div>
+    <div class="card exercise" data-category="lower" onclick="openExercise('squat')"><div class="pic" style="padding:0;background:#050505" onclick="event.stopPropagation()"><iframe loading="lazy" class="exercise-preview-video kinescope-square" src="https://kinescope.io/embed/4WpVh3TWDktoXn5LHTrNph?background=1&autopause=0" title="Приседание — видео упражнения" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe></div><div class="content"><h3>Приседание</h3><p>Техника, контроль коленей и корпуса</p><button class="add-ex-btn" data-ex="squat" onclick="toggleCurrentExercise('squat',event)">＋ Добавить</button></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','squat')">♡</button><div class="arrow">›</div></div>
+    <div class="card exercise" data-category="lower" onclick="openExercise('bridge')"><div class="pic" style="padding:0;background:#050505" onclick="event.stopPropagation()"><iframe loading="lazy" class="exercise-preview-video kinescope-square" src="https://kinescope.io/embed/4WpVh3TWDktoXn5LHTrNph?background=1&autopause=0" title="Ягодичный мост — видео упражнения" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe></div><div class="content"><h3>Ягодичный мост</h3><p>Работа ягодиц и стабилизация таза</p><button class="add-ex-btn" data-ex="bridge" onclick="toggleCurrentExercise('bridge',event)">＋ Добавить</button></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','bridge')">♡</button><div class="arrow">›</div></div>
+    <div class="card exercise" data-category="lower" onclick="openExercise('lunge')"><div class="pic" style="background-image:url('assets/ex3.jpg')"></div><div class="content"><h3>Выпад</h3><p>Сила ног, баланс и контроль</p><button class="add-ex-btn" data-ex="lunge" onclick="toggleCurrentExercise('lunge',event)">＋ Добавить</button></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','lunge')">♡</button><div class="arrow">›</div></div>
+    <div class="card exercise" data-category="upper" onclick="openExercise('bandrow')"><div class="pic" style="background-image:url('assets/ex4.jpg')"></div><div class="content"><h3>Тяга резинки</h3><p>Спина, лопатки и положение корпуса</p><button class="add-ex-btn" data-ex="bandrow" onclick="toggleCurrentExercise('bandrow',event)">＋ Добавить</button></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','bandrow')">♡</button><div class="arrow">›</div></div>
+    <div class="card exercise" data-category="functional" onclick="openExercise('multidirectional')"><div class="pic" style="background-image:url('assets/ex3.jpg')"></div><div class="content"><h3>Выпад в разных направлениях</h3><p>3D-движение: вперёд, в сторону и по диагонали</p><button class="add-ex-btn" data-ex="multidirectional" onclick="toggleCurrentExercise('multidirectional',event)">＋ Добавить</button></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','multidirectional')">♡</button><div class="arrow">›</div></div>
+    <div class="card exercise" data-category="functional" onclick="openExercise('stepSquat')"><div class="pic" style="background-image:url('assets/ex1.jpg')"></div><div class="content"><h3>Шаг в сторону + присед</h3><p>Координация, сила и работа в нескольких плоскостях</p><button class="add-ex-btn" data-ex="stepSquat" onclick="toggleCurrentExercise('stepSquat',event)">＋ Добавить</button></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','stepSquat')">♡</button><div class="arrow">›</div></div>
+    <div class="card exercise" data-category="functional" onclick="openExercise('jumpLand')"><div class="pic" style="background-image:url('assets/ex3.jpg')"></div><div class="content"><h3>Прыжок + стабилизация</h3><p>Прыжок, мягкое приземление и контроль</p><button class="add-ex-btn" data-ex="jumpLand" onclick="toggleCurrentExercise('jumpLand',event)">＋ Добавить</button></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,'exercise','jumpLand')">♡</button><div class="arrow">›</div></div>
   </main>
   <main id="exerciseDetail" class="screen app8-exercise-detail">
     <div class="topbar"><button class="back" onclick="show('exercises')">‹</button><h2 id="exerciseTitle">Упражнение</h2><button id="exerciseDetailHeart" class="heart" style="position:static;margin-left:auto" aria-label="Добавить в избранное" onclick="toggleDetailFavorite(event)">♡</button></div>
@@ -396,7 +433,8 @@ h1 span{color:var(--gold)}
     </div>
   </main>
 
-  <div id="workoutVideoModal" class="modal"><div class="sheet"><div class="modal-head"><div><div class="eyebrow">ТРЕНИРОВКА · ТЕСТ</div><h3>Круговая тренировка на всё тело</h3></div><button class="modal-x" onclick="closeWorkoutVideo()">×</button></div><div class="workout-modal-video" id="workoutVideoFrame"></div><div class="app8-info"><p style="margin:0">Тестовое большое видео Kinescope. Оно же используется в разделе «Техника упражнений».</p></div><button class="sheet-close" onclick="closeWorkoutVideo()">Закрыть</button></div></div>
+  <div id="workoutVideoModal" class="modal"><div class="sheet"><div class="modal-head"><div><div class="eyebrow" id="workoutModalEyebrow">ТРЕНИРОВКА · ТЕСТ</div><h3 id="workoutModalTitle">Круговая тренировка на всё тело</h3></div><div class="modal-head-actions"><button id="workoutModalHeart" class="modal-heart" onclick="toggleModalWorkoutFavorite(event)" aria-label="Добавить в избранное">♡</button><button class="modal-x" onclick="closeWorkoutVideo()" aria-label="Закрыть">×</button></div></div><div class="workout-modal-video" id="workoutVideoFrame"></div><div class="app8-info"><p style="margin:0">Тестовое большое видео Kinescope. Оно же используется в разделе «Техника упражнений».</p></div><button class="sheet-close" onclick="closeWorkoutVideo()">Закрыть</button></div></div>
+  <div id="exerciseVideoModal" class="modal"><div class="sheet"><div class="modal-head"><div><div class="eyebrow">УПРАЖНЕНИЕ</div><h3 id="exerciseModalTitle">Упражнение</h3></div><div class="modal-head-actions"><button id="exerciseModalHeart" class="modal-heart" onclick="toggleModalExerciseFavorite(event)" aria-label="Добавить в избранное">♡</button><button class="modal-x" onclick="closeExerciseModal()" aria-label="Закрыть">×</button></div></div><div id="exerciseModalBody" class="exercise-modal-body"></div><button class="sheet-close" onclick="closeExerciseModal()">Закрыть</button></div></div>
 
   <div id="techniqueModal" class="modal"><div class="sheet"><div class="modal-head"><div><div class="eyebrow">ТЕХНИКА</div><h3 id="techniqueModalTitle">Упражнение</h3></div><button class="modal-x" onclick="closeTechnique()">×</button></div><div id="techniqueModalVideo" class="tech-modal-video">Здесь будет ваше видео</div><div id="techniqueModalText"></div><button class="sheet-close" onclick="closeTechnique()">Закрыть</button></div></div>
 
@@ -817,11 +855,11 @@ h1 span{color:var(--gold)}
 
   <button id="floatingBack" class="floating-back" aria-label="Назад" onclick="goBackFromScreen()">←</button>
   <nav class="nav">
-    <button class="active" data-screen="home" onclick="show('home')"><span class="ni">⌂</span>Главная</button>
-    <button data-screen="workouts" onclick="show('workouts')"><span class="ni">◈</span>Тренировки</button>
-    <button data-screen="exercises" onclick="show('exercises')"><span class="ni">⊞</span>Упражнения</button>
-    <button data-screen="favorites" onclick="show('favorites')"><span class="ni">♡</span>Избранное</button>
-    <button data-screen="profile" onclick="show('profile')"><span class="ni">♙</span>Профиль</button>
+    <button class="active" data-screen="home" onclick="show('home')"><span class="ni"><svg viewBox="0 0 24 24"><path d="M3.5 11.5L12 4l8.5 7.5v8a1 1 0 0 1-1 1h-5v-5h-5v5h-5a1 1 0 0 1-1-1z"/></svg></span>Главная</button>
+    <button data-screen="workouts" onclick="show('workouts')"><span class="ni"><svg viewBox="0 0 24 24"><path d="M4 9v6M7 7v10M10 10h4M17 7v10M20 9v6M7 12h10"/></svg></span>Тренировки</button>
+    <button data-screen="exercises" onclick="show('exercises')"><span class="ni"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg></span>Упражнения</button>
+    <button data-screen="favorites" onclick="show('favorites')"><span class="ni"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-8.7-8.7C2.2 8.4 4 5.5 7 5.2c1.9-.2 3.4.8 5 2.4 1.6-1.6 3.1-2.6 5-2.4 3 .3 4.8 3.2 3.7 6.1C19 15.6 12 20 12 20z"/></svg></span>Избранное</button>
+    <button data-screen="profile" onclick="show('profile')"><span class="ni"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c.8-4 3.1-6 7-6s6.2 2 7 6"/></svg></span>Профиль</button>
   </nav>
 </div>
 
@@ -897,9 +935,53 @@ function updateFloatingBack(id){
   b.classList.toggle('show',visible);
 }
 
+function stopVideosInScreen(screen){
+  if(!screen) return;
+  screen.querySelectorAll('iframe').forEach(frame=>{
+    const src=frame.getAttribute('src')||'';
+    if(!src || src==='about:blank') return;
+    if(frame.dataset.resumeSrc) return;
+    frame.dataset.resumeSrc=src;
+    frame.setAttribute('src','about:blank');
+  });
+}
+
+function restoreVideosInScreen(screen){
+  if(!screen) return;
+  screen.querySelectorAll('iframe[data-resume-src]').forEach(frame=>{
+    const src=frame.dataset.resumeSrc;
+    delete frame.dataset.resumeSrc;
+    frame.setAttribute('src',src);
+  });
+}
+
+function closeOpenModals(){
+  const workout=document.getElementById('workoutVideoModal');
+  if(workout?.classList.contains('open')) closeWorkoutVideo();
+  const technique=document.getElementById('techniqueModal');
+  if(technique?.classList.contains('open')) closeTechnique();
+  const exercise=document.getElementById('exerciseVideoModal');
+  if(exercise?.classList.contains('open')) closeExerciseModal();
+  const info=document.getElementById('modal');
+  if(info?.classList.contains('open')) closeInfo();
+}
+
 function goBackFromScreen(){
   const active=document.querySelector('.screen.active');
   if(!active) return;
+
+  // The floating arrow is contextual: if a video/detail sheet is open,
+  // one tap goes one step back by closing that sheet and staying on the
+  // current list (workouts, exercises, favorites, technique, etc.).
+  const workout=document.getElementById('workoutVideoModal');
+  const technique=document.getElementById('techniqueModal');
+  const exercise=document.getElementById('exerciseVideoModal');
+  const info=document.getElementById('modal');
+  if(workout?.classList.contains('open')) { closeWorkoutVideo(); return; }
+  if(technique?.classList.contains('open')) { closeTechnique(); return; }
+  if(exercise?.classList.contains('open')) { closeExerciseModal(); return; }
+  if(info?.classList.contains('open')) { closeInfo(); return; }
+
   let target=floatingBackTargets[active.id]||'home';
   if(active.id==='exerciseDetail') target=detailBackTarget||'exercises';
   if(active.id==='timer') target=timerBackTarget||'exercises';
@@ -907,10 +989,16 @@ function goBackFromScreen(){
 }
 
 function show(id){
+  const active=document.querySelector('.screen.active');
+  // Any navigation (including the floating back arrow) fully closes open video sheets
+  // and stops videos from the screen we are leaving.
+  closeOpenModals();
+  if(active && active.id!==id) stopVideosInScreen(active);
   if(id==='exercises' && document.getElementById('timer')?.classList.contains('active')) resetTimerSetup();
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   const target=document.getElementById(id); if(!target) return;
   target.classList.add('active');
+  restoreVideosInScreen(target);
   document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));
   if(id==='favorites') renderFavorites();
   updateFloatingBack(id);
@@ -923,7 +1011,9 @@ function toggleFavorite(btn,e,type,id){
   e.stopPropagation();
   const card=btn.closest('.card');
   const title=card?.querySelector('h3')?.textContent || 'Материал';
-  const pic=card?.querySelector('.pic')?.style.backgroundImage || '';
+  const picEl=card?.querySelector('.pic');
+  const imgEl=picEl?.querySelector('img');
+  const pic=imgEl?.src ? `url('${imgEl.src}')` : (picEl?.style.backgroundImage || '');
   const meta=card?.querySelector('.meta')?.textContent || '';
   const desc=card?.querySelector('.content p')?.textContent || '';
   const key=favoriteKey(type,id || title);
@@ -986,8 +1076,21 @@ function removeFavorite(key,e){
   if(item && currentExerciseId===item.id) syncDetailHeart();
 }
 function openFavorite(type,id){
-  if(type==='exercise') openExercise(id);
-  else { show('workouts'); syncWorkoutHearts(); }
+  if(type==='exercise'){ openExercise(id); return; }
+  const title=String(id||'');
+  const workoutMap={
+    'Круговая тренировка на всё тело':'https://kinescope.io/embed/5CY5aRms9PyuAgdhQ3gYhh?autoplay=1',
+    'Ноги и ягодицы':'', 'Верх тела':'', 'Мобильность всего тела':'', 'Разминка':''
+  };
+  currentWorkoutModalTitle=title;
+  const box=document.getElementById('workoutVideoFrame'), modal=document.getElementById('workoutVideoModal');
+  const heading=document.getElementById('workoutModalTitle'), eyebrow=document.getElementById('workoutModalEyebrow');
+  if(heading)heading.textContent=title;
+  if(eyebrow)eyebrow.textContent='ТРЕНИРОВКА · ИЗБРАННОЕ';
+  const src=workoutMap[title]||'';
+  if(src) box.innerHTML=`<iframe class="kinescope-frame" src="${src}" title="${title} — Kinescope" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe>`;
+  else box.innerHTML='<div class="photo-placeholder" style="height:260px;margin:0">Видео добавим позже</div>';
+  syncModalWorkoutFavorite(); modal?.classList.add('open');
 }
 
 const methodInfo = {
@@ -1070,26 +1173,53 @@ function toggleDetailFavorite(e){
   else favoriteData.push({key,type:'exercise',id:currentExerciseId,title:x.title,pic:`url('${x.img}')`,meta:'Упражнение',desc:x.desc});
   syncDetailHeart(); syncExerciseHearts();
 }
+function toggleModalExerciseFavorite(e){
+  if(e) e.stopPropagation();
+  if(!currentExerciseId) return;
+  const x=exerciseData[currentExerciseId]; if(!x) return;
+  const key=favoriteKey('exercise',currentExerciseId);
+  const idx=favoriteData.findIndex(v=>v.key===key);
+  if(idx>=0) favoriteData.splice(idx,1);
+  else favoriteData.push({key,type:'exercise',id:currentExerciseId,title:x.title,pic:`url('${x.img}')`,meta:'Упражнение',desc:x.desc});
+  syncExerciseHearts();
+  syncModalExerciseHeart();
+  if(document.getElementById('favorites')?.classList.contains('active')) renderFavorites();
+}
+function syncModalExerciseHeart(){
+  const btn=document.getElementById('exerciseModalHeart');
+  if(!btn) return;
+  const active=!!currentExerciseId && favoriteData.some(x=>x.key===favoriteKey('exercise',currentExerciseId));
+  btn.textContent=active?'♥':'♡';
+  btn.classList.toggle('active',active);
+}
+function closeExerciseModal(){
+  const box=document.getElementById('exerciseModalBody');
+  if(box) box.innerHTML='';
+  const modal=document.getElementById('exerciseVideoModal');
+  modal?.classList.remove('open');
+}
 function openExercise(id){
   const x=exerciseData[id]; if(!x) return;
   currentExerciseId=id;
-  document.getElementById('exerciseTitle').textContent=x.title;
-  document.getElementById('exerciseContent').innerHTML=`
-    <div class="app8-video" style="padding:0;background:#050505;overflow:hidden">
-      ${id==='bridge'?`<iframe class="test-video kinescope-square" src="https://kinescope.io/embed/4WpVh3TWDktoXn5LHTrNph?background=1&preload=true&quality=480p" title="Ягодичный мост — Kinescope" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe>`:`<div style="background:rgba(0,0,0,.58);padding:12px 18px;border-radius:14px">▶<br><small>Здесь будет зацикленное MP4</small></div>`}
-    </div>
-    <div class="app8-info"><h3>Описание</h3><p>${x.desc}</p></div>
-    <div class="app8-info"><h3>Работающие мышечные группы</h3><p>${x.muscles}</p></div>
-    <div class="app8-info"><h3>Техника</h3><p>${x.tech}</p></div>
-    <div class="app8-info"><h3>Основные ошибки</h3><ul>${x.errors.map(e=>`<li>${e}</li>`).join('')}</ul></div>
-    <div class="app8-info"><h3>Усложнения и варианты</h3><div class="app8-variants">
-      ${id==='bridge' ? `<div class="app8-variant app8-variant-video" onclick="event.stopPropagation()"><div class="variant-video-box"><iframe loading="lazy" class="variant-kinescope" src="https://kinescope.io/embed/4WpVh3TWDktoXn5LHTrNph?background=1&preload=false&quality=360p&autopause=1" title="Ягодичный мост — усложнение" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe></div><div class="variant-caption">Мост — усложнение</div></div>` : ''}
-      ${x.variants.slice(id==='bridge'?1:0).map(v=>`<div class="app8-variant">▶<br>${v}<br><small>Видео добавим позже</small></div>`).join('')}
-    </div></div>`;
-  syncDetailHeart();
-  const activeBeforeDetail=document.querySelector('.screen.active');
-  detailBackTarget=activeBeforeDetail?.id==='favorites'?'favorites':'exercises';
-  show('exerciseDetail');
+  const title=document.getElementById('exerciseModalTitle');
+  const body=document.getElementById('exerciseModalBody');
+  if(title) title.textContent=x.title;
+  if(body){
+    body.innerHTML=`
+      <div class="exercise-modal-video">
+        ${id==='bridge'?`<iframe class="kinescope-square" src="https://kinescope.io/embed/4WpVh3TWDktoXn5LHTrNph?background=1&autopause=0" title="${x.title} — Kinescope" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe>`:`<div style="height:100%;display:grid;place-items:center;background:rgba(0,0,0,.58);padding:18px;text-align:center">▶<br><small>Здесь будет зацикленное MP4</small></div>`}
+      </div>
+      <div class="app8-info"><h3>Описание</h3><p>${x.desc}</p></div>
+      <div class="app8-info"><h3>Работающие мышечные группы</h3><p>${x.muscles}</p></div>
+      <div class="app8-info"><h3>Техника</h3><p>${x.tech}</p></div>
+      <div class="app8-info"><h3>Основные ошибки</h3><ul>${x.errors.map(e=>`<li>${e}</li>`).join('')}</ul></div>
+      <div class="app8-info"><h3>Усложнения и варианты</h3><div class="app8-variants">
+        ${id==='bridge' ? `<div class="app8-variant app8-variant-video"><div class="variant-video-box"><iframe loading="lazy" class="variant-kinescope" src="https://kinescope.io/embed/4WpVh3TWDktoXn5LHTrNph?background=1&autopause=0" title="${x.title} — усложнение" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe></div><div>Мост — усложнение</div></div>` : ''}
+        ${x.variants.slice(id==='bridge'?1:0).map(v=>`<div class="app8-variant">${v}<br><small>Видео добавим позже</small></div>`).join('')}
+      </div></div>`;
+  }
+  syncModalExerciseHeart();
+  document.getElementById('exerciseVideoModal')?.classList.add('open');
 }
 filterWorkouts('all');
 filterExercises('all');
@@ -1148,10 +1278,13 @@ const techniqueData={
   lunge:{title:'Выпад',text:'Сначала создай устойчивую опору, затем контролируй движение таза вниз и вверх. Следи за направлением колена и не теряй равновесие при переносе веса.'},
   deadbug:{title:'Dead bug',text:'Сохраняй контроль корпуса и положение таза. Руки и ноги двигаются медленно, а диапазон уменьшается, если появляется компенсация в пояснице.'}
 };
-function openWorkoutVideo(){const box=document.getElementById('workoutVideoFrame');box.innerHTML='<iframe class="kinescope-frame" src="https://kinescope.io/embed/5CY5aRms9PyuAgdhQ3gYhh?autoplay=1" title="Тренировка — Kinescope" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe>';document.getElementById('workoutVideoModal').classList.add('open');}
+let currentWorkoutModalTitle='Круговая тренировка на всё тело';
+function syncModalWorkoutFavorite(){const btn=document.getElementById('workoutModalHeart');if(btn)setHeart(btn,favoriteData.some(x=>x.key===favoriteKey('workout',currentWorkoutModalTitle)));}
+function toggleModalWorkoutFavorite(e){if(e)e.stopPropagation();const key=favoriteKey('workout',currentWorkoutModalTitle);const idx=favoriteData.findIndex(x=>x.key===key);if(idx>=0){favoriteData.splice(idx,1);}else{const card=[...document.querySelectorAll('.workout-card')].find(c=>(c.querySelector('h3')?.textContent||'').trim()===currentWorkoutModalTitle);const pic=card?.querySelector('.workout-cover img')?.getAttribute('src')||'https://kinescope.io/5CY5aRms9PyuAgdhQ3gYhh/poster/lg.jpg';const meta=card?.querySelector('.meta')?.textContent||'Тренировка';const desc=card?.querySelector('p')?.textContent||'Открыть тренировку.';favoriteData.push({key,type:'workout',id:currentWorkoutModalTitle,title:currentWorkoutModalTitle,pic:`url('${pic}')`,meta,desc});}syncModalWorkoutFavorite();syncWorkoutHearts();if(document.getElementById('favorites')?.classList.contains('active'))renderFavorites();}
+function openWorkoutVideo(title='Круговая тренировка на всё тело'){currentWorkoutModalTitle=title;const box=document.getElementById('workoutVideoFrame');const heading=document.getElementById('workoutModalTitle');const eyebrow=document.getElementById('workoutModalEyebrow');if(heading)heading.textContent=title;if(eyebrow)eyebrow.textContent='ТРЕНИРОВКА';box.innerHTML='<iframe class="kinescope-frame" src="https://kinescope.io/embed/5CY5aRms9PyuAgdhQ3gYhh?autoplay=1" title="Тренировка — Kinescope" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe>';syncModalWorkoutFavorite();document.getElementById('workoutVideoModal').classList.add('open');}
 function closeWorkoutVideo(){const box=document.getElementById('workoutVideoFrame');if(box)box.innerHTML='';document.getElementById('workoutVideoModal').classList.remove('open');}
 function openTechnique(id){const x=techniqueData[id];if(!x)return;document.getElementById('techniqueModalTitle').textContent=x.title;document.getElementById('techniqueModalVideo').innerHTML='<iframe class="kinescope-frame" src="https://kinescope.io/embed/5CY5aRms9PyuAgdhQ3gYhh" title="Видео Kinescope" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock" allowfullscreen></iframe>';document.getElementById('techniqueModalText').innerHTML='<div class="app8-info"><h3>Как выполнять</h3><p>'+x.text+'</p><p style="margin-bottom:0;color:#aaa39b;font-size:12px">Тестовое видео Kinescope подключено.</p></div>';document.getElementById('techniqueModal').classList.add('open');}
-function closeTechnique(){document.getElementById('techniqueModal').classList.remove('open');}
+function closeTechnique(){const box=document.getElementById('techniqueModalVideo');if(box)box.innerHTML='';document.getElementById('techniqueModal').classList.remove('open');}
 
 function renderCurrentWorkout(){
   const box=document.getElementById('currentWorkout'), list=document.getElementById('currentWorkoutList'), count=document.getElementById('currentWorkoutCount');
@@ -1184,11 +1317,20 @@ function nextIntegratedPhase(){clearInterval(timerInterval);timerSound(timerPhas
   } else if(timerPhase==='rest'){timerExercise++;setIntegratedPhase('work',timerCfg.work)} else if(timerPhase==='roundRest'){setIntegratedPhase('work',timerCfg.work)}
 }
 function updateIntegratedTimer(){
-  const x=exerciseData[currentWorkout[timerExercise]]; if(!x)return;
+  // Во время отдыха заранее показываем следующее движение,
+  // чтобы человек видел, что будет выполнять дальше.
+  let displayExercise=timerExercise;
+  if(timerPhase==='rest' && timerExercise<currentWorkout.length-1){
+    displayExercise=timerExercise+1;
+  } else if(timerPhase==='roundRest' && currentWorkout.length){
+    displayExercise=0;
+  }
+  const displayId=currentWorkout[displayExercise];
+  const x=exerciseData[displayId]; if(!x)return;
   const tv=document.getElementById('timerExerciseVideo');
   if(tv){
-    if(currentWorkout[timerExercise]==='bridge'){
-      const src='https://kinescope.io/embed/4WpVh3TWDktoXn5LHTrNph?background=1&autoplay=1&muted=1&loop=1&playsinline=1&preload=true&quality=480p';
+    if(displayId==='bridge' || displayId==='squat'){
+      const src='https://kinescope.io/embed/4WpVh3TWDktoXn5LHTrNph?background=1&autopause=0';
       if(tv.tagName==='IFRAME'){
         if(tv.src!==src){tv.src=src;}
         tv.style.display='block';
@@ -1203,8 +1345,8 @@ function updateIntegratedTimer(){
   document.getElementById('timerCount').textContent=timerFormat(timerRemain);
   document.getElementById('timerBar').style.width=(timerTotal?Math.min(100,(1-timerRemain/timerTotal)*100):0)+'%';
   document.getElementById('timerRoundInfo').textContent=`Круг ${timerRound} / ${timerCfg.rounds}`;
-  document.getElementById('timerExerciseInfo').textContent=`Движение ${timerExercise+1} / ${currentWorkout.length}`;
-  document.querySelectorAll('#timerList .timer-row').forEach((el,i)=>el.classList.toggle('active',i===timerExercise));
+  document.getElementById('timerExerciseInfo').textContent=`${timerPhase==='work'?'Движение':'Следующее'} ${displayExercise+1} / ${currentWorkout.length}`;
+  document.querySelectorAll('#timerList .timer-row').forEach((el,i)=>el.classList.toggle('active',i===displayExercise));
 }
 function toggleIntegratedPause(){timerPaused=!timerPaused;document.getElementById('timerPauseBtn').textContent=timerPaused?'Продолжить':'Пауза';if(!timerPaused)timerSound(760)}
 function skipIntegratedPhase(){if(!timerRunning)return;timerRemain=0;nextIntegratedPhase()}
