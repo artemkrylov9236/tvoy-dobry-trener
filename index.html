@@ -189,6 +189,31 @@ h1 span{color:var(--gold)}
 .exercise .content p{max-width:100%;margin:4px 0 0}
 .exercise .content .add-ex-btn{position:static;align-self:flex-start;margin-top:9px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:7px 10px;border-radius:10px;font-size:11px}
 .exercise .arrow{right:12px}
+/* App 76 navigation helpers: contextual back + quick scroll-to-top */
+.floating-top{
+  position:fixed;
+  right:max(18px, calc((100vw - 430px)/2 + 18px));
+  bottom:144px;
+  z-index:40;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:1px solid rgba(232,195,143,.58);
+  background:rgba(18,17,16,.92);
+  color:#f1d3a8;
+  box-shadow:0 8px 24px rgba(0,0,0,.38);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  line-height:1;
+  cursor:pointer;
+  padding:0;
+  backdrop-filter:blur(8px);
+}
+.floating-top.show{display:flex}
+.floating-top:active{transform:scale(.96)}
+
 /* App 33: floating contextual back navigation */
 .floating-back{
   position:fixed;
@@ -894,6 +919,7 @@ h1 span{color:var(--gold)}
     </div>
   </main>
 
+  <button id="floatingTop" class="floating-top" aria-label="Наверх" onclick="scrollCurrentScreenTop()">↑</button>
   <button id="floatingBack" class="floating-back" aria-label="Назад" onclick="goBackFromScreen()">←</button>
   <nav class="nav">
     <button class="active" data-screen="home" onclick="show('home')"><span class="ni"><svg viewBox="0 0 24 24"><path d="M3.5 11.5L12 4l8.5 7.5v8a1 1 0 0 1-1 1h-5v-5h-5v5h-5a1 1 0 0 1-1-1z"/></svg></span>Главная</button>
@@ -969,11 +995,23 @@ const floatingBackTargets={
 let detailBackTarget='exercises';
 let timerBackTarget='exercises';
 
+function scrollCurrentScreenTop(){
+  // Return to the beginning of the currently opened section without leaving it.
+  window.scrollTo({top:0,left:0,behavior:'smooth'});
+  const active=document.querySelector('.screen.active');
+  if(active) active.scrollTop=0;
+}
+
 function updateFloatingBack(id){
   const b=document.getElementById('floatingBack');
-  if(!b) return;
+  const t=document.getElementById('floatingTop');
+  if(!b || !t) return;
   const visible=id!=='home' && !!floatingBackTargets[id];
   b.classList.toggle('show',visible);
+  // The quick "to top" control is useful on content-heavy sections,
+  // but intentionally omitted from the Personal Cabinet.
+  const topVisible=id!=='home' && id!=='profile' && !!floatingBackTargets[id];
+  t.classList.toggle('show',topVisible);
 }
 
 function stopVideosInScreen(screen){
