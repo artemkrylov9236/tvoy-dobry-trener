@@ -170,6 +170,13 @@ h1 span{color:var(--gold)}
 .yandex-fav-video .yandex-preview{position:absolute;inset:0;width:100%;height:100%}
 .favorite-exercise-card .content{min-width:0;overflow:hidden}
 .favorite-exercise-card .add-ex-btn{position:static;align-self:flex-start;margin-top:9px}
+
+/* Version 79: independent actions for the two glute-bridge variants (pilot). */
+.variant-actions{display:flex;gap:8px;align-items:center;padding:8px;background:#211e1b}
+.variant-actions .add-ex-btn{flex:1;min-width:0;font-size:11px;padding:9px 7px}
+.variant-heart{flex:0 0 38px;width:38px;height:36px;border:1px solid var(--line);border-radius:10px;background:#151311;color:#f1dfc4;font-size:20px;line-height:1}
+.variant-heart.active{color:#f1a7a7;border-color:#9b5555}
+
 </style>
 
 <style id="app21-layout-fix">
@@ -374,6 +381,18 @@ h1 span{color:var(--gold)}
 .hero-final-v4{box-shadow:0 20px 55px rgba(0,0,0,.38);}
 @media(max-width:370px){.hero-final-v4{height:auto;aspect-ratio:834/571}.hero-final-image{aspect-ratio:834/571}}
 </style>
+
+<style id="app80-variant-card-layout-fix">
+/* App 81: consistent actions on every bridge variant and centered favorite icon */
+.exercise-modal-body .app8-variants{align-items:start;grid-auto-rows:auto}
+.exercise-modal-body .app8-variant-video{min-width:0;width:100%;height:auto;align-self:start;overflow:hidden;box-sizing:border-box}
+.exercise-modal-body .app8-variant-video .variant-video-box{width:100%;max-width:100%;box-sizing:border-box;flex-shrink:0}
+.exercise-modal-body .app8-variant-video .variant-caption{min-width:0;overflow-wrap:anywhere;box-sizing:border-box}
+.exercise-modal-body .variant-actions{position:static;display:flex;align-items:stretch;gap:7px;width:100%;min-width:0;box-sizing:border-box;padding:8px;background:#211e1b}
+.exercise-modal-body .variant-actions .add-ex-btn{position:static;inset:auto;display:block;flex:1 1 auto;min-width:0;width:auto;max-width:100%;margin:0;white-space:normal;overflow-wrap:anywhere;box-sizing:border-box}
+.exercise-modal-body .variant-actions .variant-heart{position:static;display:flex;align-items:center;justify-content:center;flex:0 0 36px;width:36px;min-width:36px;height:36px;margin:0;padding:0;line-height:1;text-align:center;box-sizing:border-box}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -1228,6 +1247,7 @@ const exerciseData = {
   splitSquat:{title:'Болгарский сплит-присед',img:'assets/test-cover.jpg',muscles:'Целевые мышцы и стабилизаторы',desc:'Односторонняя сила ног.',errors:['Потеря контроля движения.','Слишком быстрый темп.','Компенсация корпусом.'],tech:'Выполняй движение плавно, сохраняя устойчивую опору и контроль диапазона.',variants:['Вариант с паузой','Вариант на одной стороне','Вариант с дополнительной нагрузкой']},
   bridgePause:{title:'Мост с паузой',img:'assets/test-cover.jpg',muscles:'Целевые мышцы и стабилизаторы',desc:'Ягодицы и контроль таза.',errors:['Потеря контроля движения.','Слишком быстрый темп.','Компенсация корпусом.'],tech:'Выполняй движение плавно, сохраняя устойчивую опору и контроль диапазона.',variants:['Вариант с паузой']},
   bridgeSingle:{title:'Мост на одной ноге',img:'assets/test-cover.jpg',muscles:'Целевые мышцы и стабилизаторы',desc:'Односторонняя работа ягодиц.',errors:['Потеря контроля движения.','Слишком быстрый темп.','Компенсация корпусом.'],tech:'Выполняй движение плавно, сохраняя устойчивую опору и контроль диапазона.',variants:['Вариант с паузой','Вариант с одной ногой']},
+  bridgeLoad:{title:'Мост с дополнительной нагрузкой',img:'assets/test-cover.jpg',muscles:'Ягодичные, задняя поверхность бедра, мышцы корпуса',desc:'Вариант ягодичного моста с дополнительным внешним сопротивлением.',errors:['Потеря контроля таза.','Переразгибание поясницы.','Слишком быстрое опускание.'],tech:'Расположи нагрузку устойчиво, поднимай таз за счёт ягодиц и контролируй возвращение вниз.',variants:[]},
   hinge:{title:'Наклон / хиндж',img:'assets/test-cover.jpg',muscles:'Целевые мышцы и стабилизаторы',desc:'Отведение таза назад и контроль корпуса.',errors:['Потеря контроля движения.','Слишком быстрый темп.','Компенсация корпусом.'],tech:'Выполняй движение плавно, сохраняя устойчивую опору и контроль диапазона.',variants:[]},
   deadbug:{title:'Dead bug',img:'assets/test-cover.jpg',muscles:'Целевые мышцы и стабилизаторы',desc:'Контроль корпуса и таза.',errors:['Потеря контроля движения.','Слишком быстрый темп.','Компенсация корпусом.'],tech:'Выполняй движение плавно, сохраняя устойчивую опору и контроль диапазона.',variants:['Вариант с паузой','Вариант с одной ногой']},
   plank:{title:'Планка',img:'assets/test-cover.jpg',muscles:'Целевые мышцы и стабилизаторы',desc:'Стабилизация корпуса.',errors:['Потеря контроля движения.','Слишком быстрый темп.','Компенсация корпусом.'],tech:'Выполняй движение плавно, сохраняя устойчивую опору и контроль диапазона.',variants:['Вариант с паузой']},
@@ -1517,8 +1537,12 @@ renderCurrentWorkout();
     // Yandex Cloud Video documents `t` as the initial playback position.
     p.set('t','0');
     if(mode==='modal'){
+      // Exercise detail: autoplay and loop, with no player controls.
+      p.set('autoplay','1'); p.set('loop','true');
+      p.set('hidden','*');
+    }else if(mode==='modal-controls'){
+      // Full workout/technique detail: keep the Yandex player controls available.
       p.set('autoplay','1'); p.set('loop','false');
-      // Controls intentionally remain visible in full players.
     }else if(mode==='cover'){
       p.set('autoplay','0'); p.set('object_fit','cover');
       // Keep the Cloud Video start image visible; hide only secondary controls.
@@ -1540,10 +1564,12 @@ renderCurrentWorkout();
     return d;
   }
   function loadHolder(h){
-    if(!h||h.dataset.loaded==='1'||!h.dataset.cloudUrl)return;
+    if(window.__EXERCISE_DETAIL_OPEN__ || !h||h.dataset.loaded==='1'||!h.dataset.cloudUrl)return;
     h.innerHTML=iframe(h.dataset.cloudUrl,h.dataset.cloudMode,h.dataset.cloudTitle,h.dataset.cloudClass||'');
     h.dataset.loaded='1';
   }
+  window.__cloudLoadHolder=loadHolder;
+  window.__cloudUnloadHolder=unloadHolder;
   function unloadHolder(h){
     if(!h||h.dataset.loaded!=='1')return;
     h.innerHTML=''; h.dataset.loaded='0';
@@ -1631,18 +1657,35 @@ renderCurrentWorkout();
     currentWorkoutModalTitle=title; const box=document.getElementById('workoutVideoFrame');
     if(document.getElementById('workoutModalTitle'))document.getElementById('workoutModalTitle').textContent=title;
     if(document.getElementById('workoutModalEyebrow'))document.getElementById('workoutModalEyebrow').textContent='ТРЕНИРОВКА';
-    if(box)box.innerHTML='<div class="cloud75-modal">'+iframe(CLOUD75.workouts[title]||TEST_BIG,'modal',title,'yandex-modal-frame')+'</div>';
+    if(box)box.innerHTML='<div class="cloud75-modal">'+iframe(CLOUD75.workouts[title]||TEST_BIG,'modal-controls',title,'yandex-modal-frame')+'</div>';
     syncModalWorkoutFavorite(); document.getElementById('workoutVideoModal')?.classList.add('open');
   };
   window.openFavorite=function(type,id){
     if(type==='exercise'){window.openExercise(id);return;}
     window.openWorkoutVideo(String(id||''));
   };
+  window.toggleVariantFavorite=function(id,btn,e){
+    if(e)e.stopPropagation();
+    const x=exerciseData[id]; if(!x)return;
+    const key=favoriteKey('exercise',id);
+    const idx=favoriteData.findIndex(v=>v.key===key);
+    if(idx>=0) favoriteData.splice(idx,1);
+    else favoriteData.push({key,type:'exercise',id,title:x.title,videoUrl:playerUrl(CLOUD75.exercises[id]||TEST_SMALL,'preview'),meta:'Вариант упражнения',desc:x.desc});
+    if(btn){const active=favoriteData.some(v=>v.key===key);btn.textContent=active?'♥':'♡';btn.classList.toggle('active',active);}
+    syncExerciseHearts();
+    if(document.getElementById('favorites')?.classList.contains('active'))renderFavorites();
+  };
   window.openExercise=function(id){
     const x=exerciseData[id]; if(!x)return; currentExerciseId=id;
     const title=document.getElementById('exerciseModalTitle'); const body=document.getElementById('exerciseModalBody'); if(title)title.textContent=x.title;
     if(body){
-      const variants=(x.variants||[]).map((v,i)=>'<div class="app8-variant app8-variant-video"><div class="variant-video-box">'+iframe(CLOUD75.variants[id+':'+i]||TEST_SMALL,'preview',x.title+' — '+v,'variant-yandex')+'</div><div class="variant-caption">'+v+'</div></div>').join('');
+      const bridgeVariantIds=['bridgePause','bridgeSingle','bridgeLoad'];
+    const variants=(x.variants||[]).map((v,i)=>{
+      const variantId=(id==='bridge'||id==='bridgeNew')?(v==='Ягодичный мост на 1 ноге'?'bridgeSingle':(id==='bridge'?bridgeVariantIds[i]:null)):null;
+      const variantData=variantId?exerciseData[variantId]:null;
+      const actions=variantData?'<div class="variant-actions"><button class="add-ex-btn" data-ex="'+variantId+'" onclick="toggleCurrentExercise(\''+variantId+'\',event)">＋ Добавить</button><button class="variant-heart" aria-label="Добавить вариант в избранное" onclick="toggleVariantFavorite(\''+variantId+'\',this,event)">♡</button></div>':'';
+      return '<div class="app8-variant app8-variant-video"><div class="variant-video-box">'+iframe(CLOUD75.variants[id+':'+i]||TEST_SMALL,'preview',x.title+' — '+v,'variant-yandex')+'</div><div class="variant-caption">'+(variantData?variantData.title:v)+'</div>'+actions+'</div>';
+    }).join('');
       body.innerHTML='<div class="exercise-modal-video">'+iframe(CLOUD75.exercises[id]||TEST_SMALL,'modal',x.title+' — Yandex Cloud Video','yandex-modal-frame')+'</div><div class="app8-info"><h3>Описание</h3><p>'+x.desc+'</p></div><div class="app8-info"><h3>Работающие мышечные группы</h3><p>'+x.muscles+'</p></div><div class="app8-info"><h3>Техника</h3><p>'+x.tech+'</p></div><div class="app8-info"><h3>Основные ошибки</h3><ul>'+x.errors.map(e=>'<li>'+e+'</li>').join('')+'</ul></div>'+(variants?'<div class="app8-info"><h3>Усложнения и варианты</h3><div class="app8-variants">'+variants+'</div></div>':'');
     }
     syncModalExerciseHeart(); document.getElementById('exerciseVideoModal')?.classList.add('open');
@@ -1668,6 +1711,111 @@ renderCurrentWorkout();
     document.getElementById('timerRoundInfo').textContent='Круг '+timerRound+' / '+timerCfg.rounds; document.getElementById('timerExerciseInfo').textContent=(timerPhase==='work'?'Движение':'Следующее')+' '+(displayExercise+1)+' / '+currentWorkout.length;
     document.querySelectorAll('#timerList .timer-row').forEach((el,i)=>el.classList.toggle('active',i===displayExercise));
   };
+
+  // V82: real test videos. New cards are prepended so the newest content appears first.
+  const V82={
+    workouts:{
+      'Мобильность тазобедренных суставов':'https://runtime.video.cloud.yandex.net/player/video/vplvpdivx2o37px4rtvq',
+      'Работа со стопами':'https://runtime.video.cloud.yandex.net/player/video/vplv4dkfhobho5f6qfvr',
+      'Мобильность спины':'https://runtime.video.cloud.yandex.net/player/video/vplvx67hs6l3vg42vig5',
+      'Тренировка на руки без веса':'https://runtime.video.cloud.yandex.net/player/video/vplvq2kiaisz46wvwu5f'
+    },
+    techniques:{
+      breathing:'https://runtime.video.cloud.yandex.net/player/video/vplvcht3r2ojvhqttq7y',
+      crunch:'https://runtime.video.cloud.yandex.net/player/video/vplvzdrdlyno3u63aftm',
+      hernia:'https://runtime.video.cloud.yandex.net/player/video/vplvk7xj3jkwgwe4wdz4',
+      scars:'https://runtime.video.cloud.yandex.net/player/video/vplvtz45jze6kltnrkde',
+      recovery:'https://runtime.video.cloud.yandex.net/player/video/vplvjo57zhchq3ukj3f3'
+    },
+    exercises:{
+      sideLunge:'https://runtime.video.cloud.yandex.net/player/video/vplvrtbrytsujkxmxcfm',
+      bridgeNew:'https://runtime.video.cloud.yandex.net/player/video/vplvgb5pyq673sdkae3v',
+      lunge9090:'https://runtime.video.cloud.yandex.net/player/video/vplvxg7ace25nndihkjq',
+      oneArmPushup:'https://runtime.video.cloud.yandex.net/player/video/vplvxhw7gqrre725a2r5',
+      stepHinge:'https://runtime.video.cloud.yandex.net/player/video/vplvwtn2gmlirnb23kkv',
+      pushupNew:'https://runtime.video.cloud.yandex.net/player/video/vplvf2nilfjaqqwlvxy7',
+      sphinx:'https://runtime.video.cloud.yandex.net/player/video/vplveyrbnguvaz56yq3j',
+      hundredPrep:'https://runtime.video.cloud.yandex.net/player/video/vplvw2fr2lkff3vb7d4s',
+      pike:'https://runtime.video.cloud.yandex.net/player/video/vplvtbah32oylnxagxy2',
+      bridgeSingle:'https://runtime.video.cloud.yandex.net/player/video/vplvzilcuaxlvis753pt'
+    }
+  };
+  window.__V82_WORKOUT_URLS=V82.workouts;
+  Object.assign(CLOUD75.workouts,V82.workouts);
+  Object.assign(CLOUD75.techniques,V82.techniques);
+  Object.assign(techMap,{breathing:'Как дышать?',crunch:'Техника скручивания',hernia:'Грыжи и протрузии',scars:'Как работать со швами',recovery:'Восстановление после тренировок'});
+  Object.assign(CLOUD75.exercises,V82.exercises);
+  Object.assign(CLOUD75.variants,{'bridge:1':V82.exercises.bridgeSingle});
+
+  const newWorkouts=[
+    ['Мобильность тазобедренных суставов','mobility','15 мин · тест','Мобильность тазобедренных суставов.'],
+    ['Работа со стопами','warmup','Разминка · тест','Подготовка стоп и голеностопа.'],
+    ['Мобильность спины','mobility','Мобильность · тест','Движения для мобильности спины.'],
+    ['Тренировка на руки без веса','strength','Силовая · тест','Силовая работа для рук без оборудования.']
+  ];
+  const workoutRoot=document.getElementById('workoutCards');
+  if(workoutRoot){newWorkouts.slice().reverse().forEach(([title,cat,meta,desc])=>{
+    if([...workoutRoot.querySelectorAll('.workout-card h3')].some(h=>h.textContent.trim()===title))return;
+    const card=document.createElement('div');card.className='card workout-card';card.dataset.category=cat;
+    card.innerHTML='<div class="pic workout-cover"><div class="cloud75-lazy cloud75-cover" data-cloud-url="'+V82.workouts[title]+'" data-cloud-mode="cover" data-cloud-title="'+title+'" data-cloud-class="cloud75-cover-frame" data-loaded="0"></div></div><div class="content"><h3>'+title+'</h3><div class="meta">'+meta+'</div><p>'+desc+'</p></div><button class="heart" aria-label="Добавить в избранное" onclick="toggleFavorite(this,event,\'workout\',\''+title+'\')">♡</button><div class="arrow">›</div>';
+    workoutRoot.prepend(card);
+  });}
+
+  const newExercises=[
+    ['sideLunge','Боковой выпад','lower','Боковая сила ног и контроль таза.'],
+    ['bridgeNew','Ягодичный мост','lower','Разгибание таза и контроль корпуса.'],
+    ['lunge9090','Выпад 90/90','lower','Мобильность таза и контроль перехода.'],
+    ['oneArmPushup','Однорукое отжимание','upper','Силовой вариант отжимания.'],
+    ['stepHinge','Наклон с отшагиванием','lower','Наклон и координация шага.'],
+    ['pushupNew','Отжимание','upper','Сила верхней части тела.'],
+    ['sphinx','Сфинкс','core','Контроль корпуса в положении лёжа.'],
+    ['hundredPrep','Подготовка к сотне','core','Подготовительный вариант упражнения на кор.'],
+    ['pike','Горка','upper','Контроль плечевого пояса и корпуса.']
+  ];
+  const exRoot=document.getElementById('exercises');
+  if(exRoot){newExercises.slice().reverse().forEach(([id,title,cat,desc])=>{
+    if(exRoot.querySelector('.exercise .add-ex-btn[data-ex="'+id+'"]'))return;
+    exerciseData[id]={title,img:'assets/test-cover.jpg',muscles:'Целевые мышцы и стабилизаторы',desc,errors:['Потеря контроля движения.','Слишком быстрый темп.','Компенсация корпусом.'],tech:'Выполняй движение плавно, сохраняя устойчивую опору и контроль диапазона.',variants:[]};
+    const card=document.createElement('div');card.className='card exercise';card.dataset.category=cat;
+    card.innerHTML='<div class="pic" style="padding:0;background:#050505"></div><div class="content"><h3>'+title+'</h3><p>'+desc+'</p><button class="add-ex-btn" data-ex="'+id+'" onclick="toggleCurrentExercise(\''+id+'\',event)">＋ Добавить</button></div><button class="heart" aria-label="Добавить упражнение в избранное" onclick="toggleFavorite(this,event,\'exercise\',\''+id+'\')">♡</button><div class="arrow">›</div>';
+    exRoot.insertBefore(card,exRoot.querySelector('.exercise'));
+  });}
+  // Keep the single-leg bridge as an independently selectable variation in the existing bridge variant list.
+  if(exerciseData.bridge && exerciseData.bridge.variants.includes('Ягодичный мост на 1 ноге')) exerciseData.bridge.variants=exerciseData.bridge.variants.filter(v=>v!=='Ягодичный мост на 1 ноге');
+  if(exerciseData.bridgeNew && !exerciseData.bridgeNew.variants.includes('Ягодичный мост на 1 ноге')) exerciseData.bridgeNew.variants.push('Ягодичный мост на 1 ноге');
+
+  const newTech=[
+    ['breathing','Как дышать?','Дыхание и контроль движения.'],
+    ['crunch','Техника скручивания','Положение корпуса и контролируемое скручивание.'],
+    ['hernia','Грыжи и протрузии','Общие ориентиры при выборе нагрузки.'],
+    ['scars','Как работать со швами','Осторожный подход к движениям в период восстановления.'],
+    ['recovery','Восстановление после тренировок','Базовые принципы восстановления после нагрузки.']
+  ];
+  const techRoot=document.querySelector('.tech-card')?.parentElement||document.querySelector('#useful .tech-grid')||document.querySelector('.tech-grid')||document.getElementById('techniqueCards');
+  if(techRoot){newTech.slice().reverse().forEach(([id,title,text])=>{
+    if([...techRoot.querySelectorAll('.tech-card h3')].some(h=>h.textContent.trim()===title))return;
+    techniqueData[id]={title,text};
+    const card=document.createElement('div');card.className='tech-card';card.onclick="openTechnique('"+id+"')";
+    card.innerHTML='<div class="tech-video"></div><div class="tech-body"><h3>'+title+'</h3><p>'+text+'</p><span class="tech-tag">Техника</span></div>';
+    techRoot.prepend(card);
+  });}
+  // Existing modal handlers now use the assigned per-card video URLs.
+  window.openWorkoutVideo=function(title){
+    currentWorkoutModalTitle=title;
+    const box=document.getElementById('workoutVideoFrame'),heading=document.getElementById('workoutModalTitle'),eyebrow=document.getElementById('workoutModalEyebrow');
+    if(heading)heading.textContent=title;if(eyebrow)eyebrow.textContent='ТРЕНИРОВКА';
+    if(box)box.innerHTML='<div class="cloud75-modal">'+iframe(CLOUD75.workouts[title]||TEST_BIG,'modal-controls',title,'yandex-modal-frame')+'</div>';
+    if(typeof syncModalWorkoutFavorite==='function')syncModalWorkoutFavorite();document.getElementById('workoutVideoModal')?.classList.add('open');
+  };
+  window.openTechnique=function(id){
+    const x=techniqueData[id];if(!x)return;
+    document.getElementById('techniqueModalTitle').textContent=x.title;
+    document.getElementById('techniqueModalVideo').innerHTML='<div class="cloud75-modal">'+iframe(CLOUD75.techniques[id]||TEST_BIG,'modal-controls',x.title,'yandex-modal-frame')+'</div>';
+    document.getElementById('techniqueModalText').innerHTML='<div class="app8-info"><h3>Как выполнять</h3><p>'+x.text+'</p></div>';
+    document.getElementById('techniqueModal').classList.add('open');
+  };
+  // Publish exact config for diagnostics; the observer still loads only near-visible cards.
+  window.__CLOUD_VIDEO_CONFIG__=CLOUD75;
 
   function init(){replaceWorkoutCovers();replaceTechniqueCovers();replaceExercisePreviews();}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
@@ -1768,5 +1916,188 @@ renderCurrentWorkout();
 })();
 </script>
 
+
+<style id="v85-modal-and-video-frame-fix">
+/* V85: preserve the original modal interaction pattern; no inline workout expansion. */
+#workoutCards .workout-card .pic iframe,
+#workoutCards .workout-card .pic .cloud75-lazy,
+#favoritesList .fav-card.workout-card .pic iframe,
+#favoritesList .fav-card.workout-card .pic .cloud75-lazy,
+.tech-card .tech-video iframe,
+.tech-card .tech-video .cloud75-lazy { pointer-events:none !important; }
+/* Portrait exercise clips should use a portrait viewport, not a landscape frame with side bars. */
+#exerciseVideoModal .exercise-modal-video {
+  position:relative; width:min(100%, 390px); aspect-ratio:9/16; height:auto; max-height:58vh;
+  margin:0 auto 14px; overflow:hidden; border-radius:18px; background:#050505;
+}
+#exerciseVideoModal .exercise-modal-video .yandex-modal-frame {
+  position:absolute; inset:0; width:100%; height:100%; display:block; border:0;
+}
+#techniqueModalVideo { position:relative; width:min(100%, 390px); aspect-ratio:9/16; height:auto; max-height:58vh; margin:0 auto 14px; overflow:hidden; border-radius:18px; background:#050505; }
+#techniqueModalVideo .yandex-modal-frame { position:absolute; inset:0; width:100%; height:100%; display:block; border:0; }
+/* Keep training modal landscape only where the source itself is landscape. */
+#workoutVideoModal .workout-modal-video { position:relative; aspect-ratio:16/9; width:100%; overflow:hidden; }
+#workoutVideoModal .workout-modal-video .yandex-modal-frame { position:absolute; inset:0; width:100%; height:100%; display:block; border:0; }
+</style>
+<script id="v85-card-interaction-fix">
+(function(){
+  // Ensure a tap anywhere on a technique card opens its detail modal; embedded cover players never capture taps.
+  document.querySelectorAll('.tech-card').forEach(function(card){
+    card.style.cursor='pointer';
+    card.querySelectorAll('.tech-video iframe, .tech-video .cloud75-lazy').forEach(function(el){el.style.pointerEvents='none';});
+  });
+  // In case lazy cover iframes are inserted after initial load, keep them non-interactive.
+  document.addEventListener('click',function(e){
+    var cover=e.target.closest('.tech-card .tech-video, #workoutCards .workout-cover, #favoritesList .fav-card.workout-card .workout-cover');
+    if(!cover) return;
+    var card=cover.closest('.tech-card');
+    if(card){ e.preventDefault(); e.stopPropagation(); if(typeof window.openTechnique==='function'){ var attr=(card.getAttribute('onclick')||''); var m=attr.match(/openTechnique\(['\"]([^'\"]+)/); if(m) window.openTechnique(m[1]); } }
+  },true);
+})();
+</script>
+
 </body>
 </html>
+
+<style id="v86-safe-video-frame">
+/* V86: keep portrait exercise clips in a portrait viewport; don't stretch the source. */
+#exerciseVideoModal .exercise-modal-video{width:min(100%,390px);aspect-ratio:3/4;height:auto;max-height:72vh;margin:0 auto 14px;position:relative;overflow:hidden;background:#050505;border-radius:18px}
+#exerciseVideoModal .exercise-modal-video .yandex-modal-frame{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+</style>
+<script id="v86-dynamic-card-click-fix">
+(function(){
+  function closestCard(target, selector){ return target && target.closest ? target.closest(selector) : null; }
+  // New workouts are inserted dynamically, so use delegation and resolve their exact title/video mapping.
+  document.addEventListener('click', function(event){
+    var card=closestCard(event.target,'#workoutCards .workout-card');
+    if(!card) return;
+    if(closestCard(event.target,'button, a, input, .heart')) return;
+    var title=(card.querySelector('h3')?.textContent||'').trim();
+    if(!title) return;
+    event.preventDefault(); event.stopPropagation();
+    if(typeof window.openWorkoutVideo==='function') window.openWorkoutVideo(title);
+  }, true);
+  // The dynamically-added technique cards previously assigned a string to onclick, which doesn't register a handler.
+  document.addEventListener('click', function(event){
+    var card=closestCard(event.target,'.tech-card');
+    if(!card) return;
+    var title=(card.querySelector('h3')?.textContent||'').trim();
+    var data=window.techniqueData;
+    var id=data ? Object.keys(data).find(function(k){return data[k] && data[k].title===title;}) : null;
+    if(!id){
+      var known={'Как дышать?':'breathing','Техника скручивания':'crunch','Грыжи и протрузии':'hernia','Как работать со швами':'scars','Восстановление после тренировок':'recovery'};
+      id=known[title];
+    }
+    if(!id) return;
+    event.preventDefault(); event.stopPropagation();
+    if(typeof window.openTechnique==='function') window.openTechnique(id);
+  }, true);
+  // Exercise card clicks always resolve from the explicit button data, including newly-added cards.
+  document.addEventListener('click', function(event){
+    var card=closestCard(event.target,'#exercises .exercise, #exerciseCards .exercise');
+    if(!card) return;
+    if(closestCard(event.target,'button, a, input, .heart, .add-ex-btn')) return;
+    var btn=card.querySelector('.add-ex-btn[data-ex]');
+    var id=btn && btn.dataset.ex;
+    if(!id) return;
+    event.preventDefault(); event.stopPropagation();
+    if(typeof window.openExercise==='function') window.openExercise(id);
+  }, true);
+})();
+</script>
+
+<style id="v87-video-format-standard">
+/* V87 agreed video standards: exercises 3:4; workouts and technique 16:9. */
+#exerciseVideoModal .exercise-modal-video { width:min(100%,520px); aspect-ratio:3/4; height:auto; max-height:72vh; margin:0 auto 14px; position:relative; overflow:hidden; background:#050505; border-radius:18px; }
+#exerciseVideoModal .exercise-modal-video .yandex-modal-frame { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+#workoutVideoModal .workout-modal-video { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; }
+#workoutVideoModal .workout-modal-video .yandex-modal-frame { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+#techniqueModalVideo { position:relative; width:100%; aspect-ratio:16/9; height:auto; max-height:none; margin:0 auto 14px; overflow:hidden; background:#050505; border-radius:18px; }
+#techniqueModalVideo .yandex-modal-frame { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+</style>
+
+
+<style id="v88-compact-exercise-video">
+/* V88: compact 3:4 exercise video. Preserve source proportions and keep instructions visible. */
+#exerciseVideoModal .exercise-modal-video {
+  width:min(100%, 320px, 36vh) !important;
+  aspect-ratio:3/4 !important;
+  height:auto !important;
+  max-height:48vh !important;
+  margin:0 auto 14px !important;
+  position:relative !important;
+  overflow:hidden !important;
+  background:transparent !important;
+  border-radius:16px !important;
+}
+#exerciseVideoModal .exercise-modal-video .yandex-modal-frame {
+  position:absolute !important; inset:0 !important; width:100% !important; height:100% !important;
+  border:0 !important; display:block !important;
+}
+/* The app frame itself should not create an extra black band around the video. */
+#exerciseVideoModal .exercise-modal-video .cloud75-modal,
+#exerciseVideoModal .exercise-modal-video .cloud75-media {position:absolute;inset:0;width:100%;height:100%;background:transparent}
+#exerciseVideoModal .exercise-modal-video iframe {background:transparent}
+</style>
+<script id="v88-stop-background-exercise-videos">
+(function(){
+  let pausedDirectFrames=[];
+  function pauseExerciseCatalog(){
+    window.__EXERCISE_DETAIL_OPEN__=true;
+    pausedDirectFrames=[];
+    // Unload all lazy Cloud Video players in the exercise catalogue and favourites,
+    // including older cards that still use the original direct iframe markup.
+    document.querySelectorAll('#exercises iframe, #exerciseCards iframe, #favoritesList .fav-card.exercise iframe, #exercises .cloud75-lazy, #exerciseCards .cloud75-lazy, #favoritesList .fav-card.exercise .cloud75-lazy').forEach(function(el){
+      if(el.classList && el.classList.contains('cloud75-lazy')){
+        if(window.__cloudUnloadHolder) window.__cloudUnloadHolder(el);
+        else {el.innerHTML='';el.dataset.loaded='0';}
+      } else if(el.tagName==='IFRAME'){
+        if(!el.dataset.v88Paused){el.dataset.v88Paused=el.getAttribute('src')||'';}
+        if(el.getAttribute('src')!=='about:blank') el.setAttribute('src','about:blank');
+        pausedDirectFrames.push(el);
+      }
+    });
+  }
+  function resumeExerciseCatalog(){
+    window.__EXERCISE_DETAIL_OPEN__=false;
+    pausedDirectFrames.forEach(function(frame){
+      const src=frame.dataset.v88Paused;
+      if(src){frame.setAttribute('src',src);}
+      delete frame.dataset.v88Paused;
+    });
+    pausedDirectFrames=[];
+    // Re-create only players in or very near the viewport; the lazy observer handles the rest.
+    requestAnimationFrame(function(){
+      document.querySelectorAll('#exercises .cloud75-lazy, #exerciseCards .cloud75-lazy, #favoritesList .fav-card.exercise .cloud75-lazy').forEach(function(holder){
+        const r=holder.getBoundingClientRect();
+        if(r.bottom>=-120 && r.top<=window.innerHeight+120 && window.__cloudLoadHolder) window.__cloudLoadHolder(holder);
+      });
+    });
+  }
+  const baseOpen=window.openExercise;
+  if(typeof baseOpen==='function') window.openExercise=function(id){
+    pauseExerciseCatalog();
+    const result=baseOpen(id);
+    const modal=document.getElementById('exerciseVideoModal');
+    const sheet=modal&&modal.querySelector('.sheet');
+    if(sheet) sheet.scrollTop=0;
+    requestAnimationFrame(function(){if(sheet)sheet.scrollTop=0;});
+    return result;
+  };
+  const baseClose=window.closeExerciseModal;
+  if(typeof baseClose==='function') window.closeExerciseModal=function(){
+    const result=baseClose();
+    resumeExerciseCatalog();
+    return result;
+  };
+  // Also restore catalogue playback when a modal is dismissed via backdrop or Escape.
+  document.addEventListener('click',function(e){
+    if(e.target && e.target.id==='exerciseVideoModal' && !e.target.classList.contains('open')) resumeExerciseCatalog();
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape' && window.__EXERCISE_DETAIL_OPEN__){
+      setTimeout(function(){if(!document.getElementById('exerciseVideoModal')?.classList.contains('open'))resumeExerciseCatalog();},0);
+    }
+  });
+})();
+</script>
